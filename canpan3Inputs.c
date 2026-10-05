@@ -125,10 +125,6 @@ void inputScan(void) {
     uint8_t switchMode;
     uint8_t onOff;
     uint8_t buttonNo;
-    Word producedEventNN;
-    Word producedEventEN;
-    uint8_t opc;
-
     
     // read the row
     row = (uint8_t)((PORTC & 0x03) << 2);
@@ -259,21 +255,6 @@ void saveSwitchState(uint8_t buttonNo, uint8_t onOff) {
     }
 }
 
-
-/**
- * Used at initialisation if NV1 = ALLOFF. Turns off (or on if inverted) all 
- * the switch output states.
- */
-void canpanSetAllSwitchOff(void) {
-    uint8_t buttonNo;
-    uint8_t tableIndex;
-    
-    for (buttonNo=0; buttonNo<NUM_BUTTONS; buttonNo++) {
-        tableIndex = findEventForSwitch(buttonNo);
-        getEVs(tableIndex);
-        outputState[buttonNo] = (evs[EV_SWITCHSV]&SV_POLARITY) ? 1:0;
-    }
-}
 
 void canpanSendProducedEvent(uint8_t tableIndex, uint8_t onOff) {
     uint8_t opc;

@@ -37,7 +37,6 @@
  * 
  */ 
 
-extern uint8_t APP_isProducedEvent(uint8_t tableIndex);
 extern void rebuildLookupTable(void);
 extern void initEvents(void);
 

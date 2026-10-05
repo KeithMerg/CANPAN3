@@ -42,7 +42,6 @@
 extern void initInputs(void);
 extern void inputScan(void);
 extern void doSoD(void);
-extern void canpanSetAllSwitchOff(void);
 extern void loadInputs(void);
 extern void doFlash(void);
 extern void canpanSendProducedEvent(uint8_t tableIndex, uint8_t onOff);
