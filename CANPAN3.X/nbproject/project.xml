@@ -24,6 +24,14 @@
                     <name>PIC18F26K80</name>
                     <type>2</type>
                 </confElem>
+                <confElem>
+                    <name>PIC18F27Q83_CANDISP</name>
+                    <type>2</type>
+                </confElem>
+                <confElem>
+                    <name>PIC18F27Q83_CANSCAN</name>
+                    <type>2</type>
+                </confElem>
             </confList>
             <formatting>
                 <project-formatting-style>false</project-formatting-style>
