@@ -43,3 +43,4 @@ extern void pollOutputs(void);
 extern void setLed(uint8_t no);
 extern void clearLed(uint8_t no);
 extern uint8_t testLed(uint8_t no);
+extern void updateLedBrightness(uint8_t ledNo, uint8_t value);   // KeithB b40

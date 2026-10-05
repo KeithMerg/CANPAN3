@@ -4,24 +4,33 @@
     <configuration>
         <data xmlns="http://www.netbeans.org/ns/make-project/1">
             <name>CANPAN3</name>
-            <creation-uuid>192c0c28-9726-4eee-b3fe-5f1b800f96ea</creation-uuid>
+            <creation-uuid>0e01f713-c57e-46b4-8223-def06e908133</creation-uuid>
             <make-project-type>0</make-project-type>
             <sourceEncoding>ISO-8859-1</sourceEncoding>
             <make-dep-projects>
-                <make-dep-project>../../../MPLABworkspace/CBUS_PIC_Bootloader.X</make-dep-project>
+                <make-dep-project>../../../MPLABXProjects/CBUS_PIC_Bootloader.X</make-dep-project>
             </make-dep-projects>
             <sourceRootList>
+                <sourceRootElem>..</sourceRootElem>
                 <sourceRootElem>../../VLCB-defs</sourceRootElem>
                 <sourceRootElem>../../VLCBlib_PIC</sourceRootElem>
-                <sourceRootElem>..</sourceRootElem>
+                <sourceRootElem>.</sourceRootElem>
             </sourceRootList>
             <confList>
                 <confElem>
-                    <name>PIC18F27Q83</name>
+                    <name>PIC18F27Q83_canpan</name>
                     <type>2</type>
                 </confElem>
                 <confElem>
-                    <name>PIC18F26K80</name>
+                    <name>PIC18F27Q83_candisp</name>
+                    <type>2</type>
+                </confElem>
+                <confElem>
+                    <name>PIC18F27Q83_canscan</name>
+                    <type>2</type>
+                </confElem>
+                <confElem>
+                    <name>PIC18F26K80_canscan</name>
                     <type>2</type>
                 </confElem>
             </confList>

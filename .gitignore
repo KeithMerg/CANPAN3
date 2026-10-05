@@ -50,3 +50,37 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# MPLAB X build output
+**/build/
+**/dist/
+**/debug/
+**/disassembly/
+**/.generated_files/
+**/.ca/
+
+# MPLAB X machine-specific and generated project files
+**/nbproject/private/
+**/nbproject/Makefile-*
+**/nbproject/Package-*.bash
+
+# Compiler intermediate and output files
+*.i
+*.p1
+*.d
+*.pre
+*.lst
+*.sym
+*.cmf
+*.hxl
+*.sdb
+*.rlf
+*.obj
+*.elf
+*.map
+*.hex
+
+# Editor / OS clutter
+*.bak
+*~
+Thumbs.db

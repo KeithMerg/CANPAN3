@@ -40,6 +40,7 @@
 #include <xc.h>
 #include "module.h"
 #include "canpan3Nv.h"
+#include "canpan3Outputs.h"   // KeithB b40
 #include "nv.h"
         
 /**
@@ -50,12 +51,18 @@ uint8_t APP_nvDefault(uint8_t index) {
         // Global NVs
         if (index == NV_STARTUP)
                 return 0; // Restore switches
+#if HARDWARE==HW_CANPAN3 || HARDWARE==HW_CANDISP   // KeithB b14-25
         if (index == NV_FLASHRATE)
                 return HALF_SECOND/1000;
-        if (index < (NV_BRIGHTNESS + NUM_LEDS))
+#endif
+#if HARDWARE==HW_CANPAN3 || HARDWARE==HW_CANDISP   // KeithB b14-25
+        if (index < (NV_BRIGHTNESS + NUM_LEDS) )
                 return 16;
+#endif
+#if HARDWARE==HW_CANSCAN || HARDWARE==HW_CANPAN3   // KeithB b14-25
         if (index <= (NV_SWITCHMODE + NUM_BUTTONS))
                 return 0x00;
+#endif
         if (index == NV_STARTUP_EVENT_DELAY)
             return 0;
     }
@@ -77,4 +84,10 @@ NvValidation APP_nvValidate(uint8_t index, uint8_t value)  {
  * We perform the necessary action when an NV changes value.
  */
 void APP_nvValueChanged(uint8_t index, uint8_t value, uint8_t oldValue) {
+#if HARDWARE==HW_CANPAN3 || HARDWARE==HW_CANDISP
+    // KeithB b40: keep the LED driver's brightness cache in step with the NVs
+    if ((index >= NV_BRIGHTNESS) && (index < NV_BRIGHTNESS + NUM_LEDS)) {
+        updateLedBrightness((uint8_t)(index - NV_BRIGHTNESS), value);
+    }
+#endif
 }

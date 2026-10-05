@@ -37,17 +37,18 @@
  * 
  */ 
 
-#import <xc.h>
-#import "nvm.h"
-#import "module.h"
+#include <xc.h>
+#include "nvm.h"
+#include "module.h"
 /**
  * Maintains a list of EEPROM changes required and will submit these to the NVM 
  * peripheral so that the CPU does not need to wait. A wait would occurr if 
  * overlapping writes to the NVM are requested so this code waits until the NVM
- * is available, buffering requets. 
+ * is available, buffering requests. 
  */
 
 static uint8_t writeNeeded[NUMBER_EEPROM];
+static uint8_t atLeastOneWriteNeeded;   // KeithB b14-25: skip the scan when idle
 static uint8_t eeValue[NUMBER_EEPROM];
 static uint8_t currentMemory;
 
@@ -60,6 +61,7 @@ void initEEPROMwriter(void) {
         eeValue[currentMemory] = (uint8_t)readNVM(EEPROM_NVM_TYPE, EEPROM_BASE_ADDRESS+currentMemory);
     }
     currentMemory = 0;
+    atLeastOneWriteNeeded = 0;
 }
 
 /**
@@ -72,9 +74,11 @@ void initEEPROMwriter(void) {
  * @param value the value to be written
  */
 void writeEEvalue(uint8_t address, uint8_t value) {
+    if (address >= NUMBER_EEPROM) return;    // KeithB b33: bounds check
     if (eeValue[address] != value) {
         eeValue[address] = value;
         writeNeeded[address] = 1;
+        atLeastOneWriteNeeded = 1;
     }
 }
 
@@ -84,6 +88,7 @@ void writeEEvalue(uint8_t address, uint8_t value) {
  * @return 
  */
 uint8_t readEEvalue(uint8_t address) {
+    if (address >= NUMBER_EEPROM) return 0;  // KeithB b33: bounds check
     return eeValue[address];
 }
 
@@ -92,22 +97,39 @@ uint8_t readEEvalue(uint8_t address) {
  * EEPROM byte to be written and writes it to EEPROM.
  */
 void pollEEPROMwriter(void) {
-    uint8_t i;
+    static uint8_t isWriteCheckNeeded;   // KeithB b14-25: write then verify on the next poll
     
     // Is the NVM available to be used?
-    if (NVMCON0 == 0) {
-        // write the next
-        for (i=0; i < NUMBER_EEPROM; i++) {
-            currentMemory ++;
-            if (currentMemory >= NUMBER_EEPROM) {
-                currentMemory = 0;
+    if (NVMCON0 == 0 && atLeastOneWriteNeeded) {
+        // Keith Bruce - fix occasional failure to write value e.g. LED not lit
+        // on reset or power up, when it should be.
+        // Writes do not always succeed. When they fail, it did not seem to
+        // recover. Also once set, the writeNeeded flag was never cleared.
+
+        // Alternate between the write and verify/clear writeNeeded flag.
+        if(isWriteCheckNeeded) {
+            if (EEPROM_Read(EEPROM_BASE_ADDRESS + currentMemory) == eeValue[currentMemory]) {
+                    writeNeeded[currentMemory] = 0;
             }
-            if (writeNeeded[currentMemory] == 1) {
-                // start the write to EEPROM
-                EEPROM_WriteNoVerify(EEPROM_BASE_ADDRESS + currentMemory, eeValue[currentMemory]);
-                return;
+                // Make sure the write runs next. If any writeNeeded flags,
+                // we will get another chance to verify and clear.
+            isWriteCheckNeeded = 0;
+        } else {
+            // write the next
+            for (uint8_t i=0; i < NUMBER_EEPROM; i++) {
+                currentMemory ++;
+                // Wrap to zero at NUMBER_EEPROM
+                currentMemory &= NUMBER_EEPROM-1;   // Wrap at NUMBER_EEPROM-1
+                if (writeNeeded[currentMemory] == 1) {
+                    // start the write to EEPROM
+                    EEPROM_WriteNoVerify(EEPROM_BASE_ADDRESS + currentMemory, eeValue[currentMemory]);
+                    // Added to clear writeNeeded if the write succeeded. 
+                    // Cleared on next function call, provided the write succeeded.
+                    isWriteCheckNeeded = 1;
+                    return;
+                }
             }
+            atLeastOneWriteNeeded = 0;
         }
-        // No writes needed
     }
 }

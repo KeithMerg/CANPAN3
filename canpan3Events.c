@@ -48,13 +48,16 @@
 void rebuildLookupTable(void);
 
 extern void clearAllEvents(void);
+extern uint8_t removeEvent(uint16_t nodeNumber, uint16_t eventNumber);   // KeithB b35
 uint8_t APP_isProducedEvent(uint8_t tableIndex);
+#if HARDWARE==HW_CANSCAN || HARDWARE==HW_CANPAN3   // KeithB b14-25
 uint8_t switch2Event[NUM_PRODUCED_EVENTS]; // Quick access from a switch number to an event
-
+#endif
 void factoryResetGlobalEvents(void) {
     uint8_t sw;
     // No default switch/button events
     clearAllEvents();
+#if HARDWARE==HW_CANPAN3   // KeithB b14-25
     // Now add default Long switch events
     for (sw=1; sw <= NUM_BUTTONS; sw++) {
         addEvent(nn.word, sw, EV_TYPE, CANPAN_PRODUCED, TRUE);
@@ -71,6 +74,7 @@ void factoryResetGlobalEvents(void) {
         addEvent(nn.word, sw, EV_LEDPOLARITY3, 0, TRUE);
         addEvent(nn.word, sw, EV_LEDPOLARITY4, 0, TRUE);
     }
+#endif
 }
 
 /***************************** copied from event_teach_simple.c ***************/
@@ -104,20 +108,31 @@ void initEvents(void) {
  * @return event table index
  */
 uint8_t addTestEvent(uint8_t sw) {
+    
+#if HARDWARE==HW_CANSCAN || HARDWARE==HW_CANPAN3   // KeithB b14-25
     addEvent(nn.word, sw, EV_TYPE, CANPAN_PRODUCED, TRUE);
     addEvent(nn.word, sw, EV_SWITCHNO, sw, TRUE);
     addEvent(nn.word, sw, EV_SWITCHSV, SV_TOGGLE | SV_COE, TRUE);
-    // write the EVs so that these default events also turn on an LED for testing
-    addEvent(nn.word, sw, EV_LEDFLAGS1, ((uint16_t)1<<(sw-1))&0xFF, TRUE);
-    addEvent(nn.word, sw, EV_LEDFLAGS2, ((uint16_t)1<<(sw-9))&0xFF, TRUE);
-    addEvent(nn.word, sw, EV_LEDFLAGS3, ((uint16_t)1<<(sw-17))&0xFF, TRUE);
-    addEvent(nn.word, sw, EV_LEDFLAGS4, ((uint16_t)1<<(sw-25))&0xFF, TRUE);
+#endif
+#if HARDWARE==HW_CANPAN3   // KeithB b14-25
+    // write the EVs so that these default events also turn on an LED for testing.
+    // KeithB b33: avoid negative shift counts.
+    {
+        uint8_t ledByte = (uint8_t)((sw - 1) / 8);
+        uint8_t ledBit  = (uint8_t)(1U << ((sw - 1) % 8));
+        addEvent(nn.word, sw, EV_LEDFLAGS1, (ledByte == 0) ? ledBit : 0, TRUE);
+        addEvent(nn.word, sw, EV_LEDFLAGS2, (ledByte == 1) ? ledBit : 0, TRUE);
+        addEvent(nn.word, sw, EV_LEDFLAGS3, (ledByte == 2) ? ledBit : 0, TRUE);
+        addEvent(nn.word, sw, EV_LEDFLAGS4, (ledByte == 3) ? ledBit : 0, TRUE);
+    }
     // The following settings to 0 are probably not required as 0 should be the default.
     addEvent(nn.word, sw, EV_LEDPOLARITY1, 0, TRUE);
     addEvent(nn.word, sw, EV_LEDPOLARITY2, 0, TRUE);
     addEvent(nn.word, sw, EV_LEDPOLARITY3, 0, TRUE);
     addEvent(nn.word, sw, EV_LEDPOLARITY4, 0, TRUE);
     return addEvent(nn.word, sw, EV_LEDMODE, LM_ONOFF, TRUE);
+#endif
+    return 0;
 }
 
 /**
@@ -125,6 +140,7 @@ uint8_t addTestEvent(uint8_t sw) {
  * Also update the quick access lookup table.
  */
 void rebuildLookupTable(void) {
+#if HARDWARE==HW_CANSCAN || HARDWARE==HW_CANPAN3   // KeithB b14-25
     uint8_t sw;
     int16_t swNo;
     uint8_t i;
@@ -140,6 +156,7 @@ void rebuildLookupTable(void) {
             switch2Event[swNo-1] = i;
         }
     }
+#endif
 }
 
 /**
@@ -150,25 +167,27 @@ void rebuildLookupTable(void) {
  * @return 
  */
 uint8_t APP_isConsumedEvent(uint8_t tableIndex) {
-    int16_t ev;
-    
-    ev = getEv(tableIndex, EV_TYPE);
-    if (ev < 0) {
+    // KeithB b40: one row read (getEVs) instead of up to nine getEv() calls, each of which
+    // rebuilt the flash address and made its own readNVM() call.
+    if (getEVs(tableIndex)) {
         // error
         return 0;
     }
-
-    if ((ev & CANPAN_SOD) == CANPAN_SOD) {    // SoD consumed event
+    if ((evs[EV_TYPE] & CANPAN_SOD) == CANPAN_SOD) {    // SoD consumed event
         return 1;
     }
-    ev = getEv(tableIndex, EV_LEDFLAGS1);
-    if (ev) return 1;
-    ev = getEv(tableIndex, EV_LEDFLAGS2);
-    if (ev) return 1;
-    ev = getEv(tableIndex, EV_LEDFLAGS3);
-    if (ev) return 1;
-    ev = getEv(tableIndex, EV_LEDFLAGS4);
-    return ev != 0;
+#if HARDWARE==HW_CANPAN3 || HARDWARE==HW_CANDISP   // KeithB b14-25
+    {
+        uint8_t i;
+        uint8_t leds = 0;
+        for (i=0; i<NUM_LED_BYTES; i++) {
+            leds |= evs[EV_LEDFLAGS1 + i];
+        }
+        return leds != 0;
+    }
+#else
+    return 0;
+#endif
 }
 
 /**
@@ -178,12 +197,14 @@ uint8_t APP_isConsumedEvent(uint8_t tableIndex) {
  * @return 
  */
 uint8_t APP_isProducedEvent(uint8_t tableIndex) {
+#if HARDWARE==HW_CANSCAN || HARDWARE==HW_CANPAN3   // KeithB b14-25
     int16_t ev;
     
     ev = getEv(tableIndex, EV_SWITCHNO);
     if ((ev > 0) && (ev <= NUM_PRODUCED_EVENTS)) {
         return 1;
     }
+#endif
     return 0;
 }
 
@@ -257,6 +278,7 @@ Processed APP_preProcessMessage(Message * m) {
     // events only here
     tableIndex = findEvent(enn, ((uint16_t)m->bytes[2])*256+m->bytes[3]);
     if (tableIndex == NO_INDEX) return NOT_PROCESSED;
+#if HARDWARE==HW_CANSCAN || HARDWARE==HW_CANPAN3   // KeithB b14-25
     if (APP_isProducedEvent(tableIndex)) { // can we produce this event?
         // If receive an event for a Toggle switch then update our outputState[]
         ev = (uint8_t)getEv(tableIndex, EV_SWITCHSV);
@@ -268,17 +290,18 @@ Processed APP_preProcessMessage(Message * m) {
             return NOT_PROCESSED;   // Not processed as we want service to handle the event
         }
     }
+#endif
     return NOT_PROCESSED;
 }
 
 
 uint8_t APP_addEvent(uint16_t nodeNumber, uint16_t eventNumber, uint8_t evNum, uint8_t evVal, Boolean forceOwnNN) {
+#if HARDWARE==HW_CANSCAN || HARDWARE==HW_CANPAN3   // KeithB b14-25
     uint8_t tableIndex;
     uint8_t oti;
     uint8_t switchNo;
     uint8_t prevSwitchNo;
     uint8_t leds;
-    
     if (evNum == EV_SWITCHNO) {
         switchNo = evVal;
         tableIndex = findEvent(nodeNumber, eventNumber);
@@ -292,12 +315,16 @@ uint8_t APP_addEvent(uint16_t nodeNumber, uint16_t eventNumber, uint8_t evNum, u
                 getEVs(oti);
                 
                 // Any LEDs associated with this event?
+#if HARDWARE==HW_CANPAN3   // KeithB b14-25
                 leds = evs[EV_LEDFLAGS1] | evs[EV_LEDFLAGS2] | evs[EV_LEDFLAGS3] | evs[EV_LEDFLAGS4];
                 if (leds == 0) {
+#else
+                {
+#endif
                     // this is an invalid event with no switches and no LEDs
                     // remove it
-                    writeNVM(EVENT_TABLE_NVM_TYPE, EVENT_TABLE_ADDRESS + EVENTTABLE_WIDTH*oti+EVENTTABLE_OFFSET_ENL, 0);
-                    writeNVM(EVENT_TABLE_NVM_TYPE, EVENT_TABLE_ADDRESS + EVENTTABLE_WIDTH*oti+EVENTTABLE_OFFSET_ENH, 0);
+                    // KeithB b35: through the library so the hash table stays valid
+                    removeEvent(getNN(oti), getEN(oti));
                 }
             }
             switch2Event[switchNo-1] = tableIndex;
@@ -308,6 +335,7 @@ uint8_t APP_addEvent(uint16_t nodeNumber, uint16_t eventNumber, uint8_t evNum, u
             evVal = 0;
         }
     }
+#endif
     return addEvent(nodeNumber, eventNumber, evNum, evVal, forceOwnNN);
 }
 
@@ -323,6 +351,7 @@ Processed APP_processConsumedEvent(uint8_t tableIndex, Message *m) {
     uint8_t onOff;
     uint8_t ledMode;
     uint8_t ledNo;
+    uint8_t byteNo;   // KeithB b40
     uint8_t flags;
     uint8_t polarity;
     
@@ -331,72 +360,87 @@ Processed APP_processConsumedEvent(uint8_t tableIndex, Message *m) {
         // something went wrong
         return PROCESSED;
     }
+#if HARDWARE==HW_CANSCAN || HARDWARE==HW_CANPAN3   // KeithB b14-25
     if (onOff && ((evs[EV_TYPE] & CANPAN_SOD) == CANPAN_SOD)) {
         doSoD();
     }
+#endif
+#if HARDWARE==HW_CANPAN3 || HARDWARE==HW_CANDISP   // KeithB b14-25
     // using the EVs and the event on/off state we work out the new LED state
+    // KeithB b40: walk the flag/polarity bytes with a rolling mask instead of rebuilding
+    // evs[] indices and a variable shift for every LED; a flags byte that cannot affect
+    // anything is skipped whole (most events touch one or two LEDs).
     ledMode = evs[EV_LEDMODE];
-    for (ledNo=0; ledNo<NUM_LEDS; ledNo++) {
-        flags = evs[EV_LEDFLAGS1 + ledNo/8] & (1 << (ledNo%8));
-        if (flags) {
-            // this LED is impacted
-            polarity = evs[EV_LEDPOLARITY1 + ledNo/8]& (1 << (ledNo%8));
-            switch(ledMode) {
-                case LM_ONOFF:
-                    if (polarity) {
-                        // inverted
+    for (byteNo=0; byteNo<NUM_LED_BYTES; byteNo++) {
+        uint8_t f = evs[EV_LEDFLAGS1 + byteNo];
+        uint8_t p = evs[EV_LEDPOLARITY1 + byteNo];
+        uint8_t mask;
+        if ((f == 0) && !((LM_FLASH == ledMode) && onOff && p)) {
+            continue;   // nothing in this byte can change an LED
+        }
+        ledNo = (uint8_t)(byteNo * 8);
+        for (mask = 1; mask != 0; mask <<= 1, ledNo++) {
+            flags = f & mask;
+            polarity = p & mask;
+            if (flags) {
+                // this LED is impacted
+                switch(ledMode) {
+                    case LM_ONOFF:
+                        if (polarity) {
+                            // inverted
+                            if (onOff) {
+                                setLedState(ledNo, CANPANLED_OFF);
+                            } else {
+                                setLedState(ledNo, CANPANLED_ON);
+                            }
+                        } else {
+                            // normal
+                            if (onOff) {
+                                setLedState(ledNo, CANPANLED_ON);
+                            } else {
+                                setLedState(ledNo, CANPANLED_OFF);
+                            }
+                        }
+                        break;
+                    case LM_ONONLY:
                         if (onOff) {
-                            setLedState(ledNo, CANPANLED_OFF);
-                        } else {
-                            setLedState(ledNo, CANPANLED_ON);
+                            if (polarity) {
+                                setLedState(ledNo, CANPANLED_OFF);
+                            } else {
+                                setLedState(ledNo, CANPANLED_ON);
+                            }
                         }
-                        
-                    } else {
-                        // normal
+                        break;
+                    case LM_OFFONLY:
+                        if (!onOff) {
+                            if (polarity) {
+                                setLedState(ledNo, CANPANLED_ON);
+                            } else {
+                                setLedState(ledNo, CANPANLED_OFF);
+                            }
+                        }
+                        break;
+                    case LM_FLASH:
                         if (onOff) {
-                            setLedState(ledNo, CANPANLED_ON);
+                            if (polarity) {
+                                setLedState(ledNo, CANPANLED_ANTIFLASH);
+                            } else {
+                                setLedState(ledNo, CANPANLED_FLASH);
+                            }
                         } else {
                             setLedState(ledNo, CANPANLED_OFF);
                         }
-                    }
-                    break;
-                case LM_ONONLY:
-                    if (onOff) {
-                        if (polarity) {
-                            setLedState(ledNo, CANPANLED_OFF);
-                        } else {
-                            setLedState(ledNo, CANPANLED_ON);
-                        }
-                    }
-                    break;
-                case LM_OFFONLY:
-                    if (!onOff) {
-                        if (polarity) {
-                            setLedState(ledNo, CANPANLED_ON);
-                        } else {
-                            setLedState(ledNo, CANPANLED_OFF);
-                        }
-                    }
-                    break;
-                case LM_FLASH:
-                    if (onOff) {
-                        if (polarity) {
-                            setLedState(ledNo, CANPANLED_ANTIFLASH);
-                        } else {
-                            setLedState(ledNo, CANPANLED_FLASH);
-                        }
-                    } else {
-                        setLedState(ledNo, CANPANLED_OFF);
-                    }
-                    break;
+                        doFlashEnabled = 1;   // KeithB b14-25: re-arm doFlash()
+                        break;
+                }
+            } else if ((LM_FLASH == ledMode) && onOff && polarity) {
+                // Keith Bruce 22 May 2026 - Allow flash to turn off other LEDs for use with signalling.
+                // Active false (unchecked), Flash On event and Invert is true (checked).
+                setLedState(ledNo, CANPANLED_OFF);
             }
-        } else if (LM_FLASH == ledMode && onOff && (polarity = evs[EV_LEDPOLARITY1 + ledNo/8]& (1 << (ledNo%8)))) {
-            // Keith Bruce 22 May 2026 - Allow flash to turn off other LEDs for use with signalling.
-            // Added else clause.
-            // Active false (unchecked), Flash On event and Invert is true (checked). 
-            setLedState(ledNo, CANPANLED_OFF);
         }
     }
+#endif
     return PROCESSED;
 }
 
@@ -407,6 +451,7 @@ Processed APP_processConsumedEvent(uint8_t tableIndex, Message *m) {
  * @return 
  */
 EventState APP_GetEventIndexState(uint8_t tableIndex) {
+#if HARDWARE==HW_CANSCAN || HARDWARE==HW_CANPAN3   // KeithB b14-25
     uint8_t switchNo;
     
     // check this is a produced event
@@ -421,4 +466,6 @@ EventState APP_GetEventIndexState(uint8_t tableIndex) {
     }
     // look at the state
     return outputState[switchNo-1] ? EVENT_ON : EVENT_OFF;
+#endif						 
+    return EVENT_UNKNOWN;   // KeithB b14-25: CANDISP has no produced events
 }

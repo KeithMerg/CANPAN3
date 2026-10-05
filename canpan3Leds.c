@@ -48,27 +48,25 @@
 //forward references
 void setLedStateNoSave(uint8_t ledNo, enum canpan3LedState state);
 
-static enum canpan3LedState ledStates[NUM_LEDS];
+static enum canpan3LedState ledStates[NUM_LEDS ? NUM_LEDS : 1];   // KeithB b14-25: size guarded for hardware with no LEDs
 static uint8_t flashToggle;
+uint8_t doFlashEnabled;   // KeithB b14-25: doFlash() only runs while something is flashing
 static uint8_t startupNv;
 
 /**
  * Initialise the LEDs.
  */
 void initLeds(void) {
-    uint8_t ledNo;
-    
-    startupNv = (uint8_t)getNV(NV_STARTUP);
-    
-    for (ledNo=0; ledNo<NUM_LEDS; ledNo++) {
-        if (startupNv & NV_STARTUP_RESTORELEDS) {
-            uint8_t state = readEEvalue(EE_ADDR_LEDS+ledNo);
-            setLedStateNoSave(ledNo, (enum canpan3LedState)state);
+
+    for (uint8_t ledNo=0; ledNo<NUM_LEDS; ledNo++) {   // KeithB b14-25
+        if ((startupNv = (uint8_t) getNV(NV_STARTUP)) & NV_STARTUP_RESTORELEDS) {
+            setLedStateNoSave(ledNo, (enum canpan3LedState)readEEvalue(EE_ADDR_LEDS+ledNo));
         } else {
             ledStates[ledNo] = CANPANLED_OFF;
         }
     }
     flashToggle = 0;
+    doFlashEnabled = 1;
 }
 
 /**
@@ -77,8 +75,7 @@ void initLeds(void) {
  * @param state
  */
 void setLedStateNoSave(uint8_t ledNo, enum canpan3LedState state) {
-    ledStates[ledNo] = state;
-    switch (ledStates[ledNo]) {
+    switch (ledStates[ledNo] = state) {
         case CANPANLED_ON:
             setLed(ledNo);
             break;
@@ -107,30 +104,36 @@ void setLedState(uint8_t ledNo, enum canpan3LedState state) {
 /**
  * Call regularly at required flash rate.
  */
-void doFlash(void) {
+// KeithB b14-25: returns doFlashEnabled
+uint8_t doFlash(void) {
     uint8_t ledNo;
-    
-    for (ledNo=0; ledNo<NUM_LEDS; ledNo++) {
-        switch (ledStates[ledNo]) {
-            case CANPANLED_FLASH:
-                if (flashToggle) {
-                    setLed(ledNo);
-                } else {
-                    clearLed(ledNo);
-                }
-                break;
-            case CANPANLED_ANTIFLASH:
-                if (flashToggle) {
-                    clearLed(ledNo);
-                } else {
-                    setLed(ledNo);
-                }
-                break;
-            case CANPANLED_ON:
-            case CANPANLED_OFF:
-                // these have already been handled in the setter above
-                break;
+    if (doFlashEnabled) {
+        doFlashEnabled = 0;
+        for (ledNo=0; ledNo<NUM_LEDS; ledNo++) {
+            switch (ledStates[ledNo]) {
+                case CANPANLED_FLASH:
+                    if (flashToggle) {
+                        setLed(ledNo);
+                    } else {
+                        clearLed(ledNo);
+                    }
+                    doFlashEnabled = 1;
+                    break;
+                case CANPANLED_ANTIFLASH:
+                    if (flashToggle) {
+                        clearLed(ledNo);
+                    } else {
+                        setLed(ledNo);
+                    }
+                    doFlashEnabled = 1;
+                    break;
+                case CANPANLED_ON:
+                case CANPANLED_OFF:
+                    // these have already been handled in the setter above
+                    break;
+            }
         }
+        flashToggle = !flashToggle;
     }
-    flashToggle = !flashToggle;
+    return doFlashEnabled;
 }

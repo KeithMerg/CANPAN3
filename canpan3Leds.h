@@ -44,10 +44,10 @@ enum canpan3LedState {
     CANPANLED_FLASH,
     CANPANLED_ANTIFLASH
 };
+extern uint8_t doFlashEnabled;   // KeithB b14-25
 
-#define EE_ADDR_LEDS    (EEPROM_BASE_ADDRESS+0x20)
+#define EE_ADDR_LEDS    (EEPROM_BASE_ADDRESS+NUM_BUTTONS)   // KeithB b14-25: was +0x20
 
 extern void setLedState(uint8_t led, enum canpan3LedState state);
 extern void restoreLeds(void);
-
-extern uint8_t outputState[NUM_LEDS];
+extern uint8_t doFlash(void);   // KeithB b14-25: was void, moved from canpan3Inputs.h

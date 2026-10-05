@@ -41,14 +41,18 @@
 #define NV_STARTUP              1
 #define NV_FLASHRATE            2
 #define NV_BRIGHTNESS           3                             // 32 entries 3..34
-#define NV_SWITCHMODE           (NV_BRIGHTNESS+NUM_BUTTONS)   // 32 entries 35..66
+#define NV_SWITCHMODE           (NV_BRIGHTNESS + NUM_LEDS)   // 32 entries 35..66   // KeithB b14-25: offset by NUM_LEDS (same value on CANPAN3)
 #define NV_STARTUP_EVENT_DELAY  (NV_SWITCHMODE + NUM_BUTTONS) // 67
 
 // The possible NV_STARTUP values
-//#define NV_STARTUP_RESTORE  0
-//#define NV_STARTUP_NOTHING  1
-//#define NV_STARTUP_SCAN     2
-//#define NV_STARTUP_ALLOFF   3
+// KeithB b14-25: NV1 bit meanings
+//~NV_STARTUP  1111 1111      (NV_STARTUP = 0 - Restore switch states)
+//~NV_STARTUP  1111 1110      (NV_STARTUP = 1 - Do nothing)
+//~NV_STARTUP  1111 1101      (NV_STARTUP = 2 - Restore switch states and LED states)
+//~NV_STARTUP  1111 1100      (NV_STARTUP = 3 - Restore LED states)
+//(NV_STARTUP_RESTORESWITCHES & ~NV_STARTUP) == 1 when switch restore required, 0 when switch no restore
+//(NV_STARTUP_RESTORELEDS & NV_STARTUP) == 2 when led restore required, 0 when led no restore
+
 // Startup value bit fields
 #define NV_STARTUP_RESTORESWITCHES  0x01
 #define NV_STARTUP_RESTORELEDS      0x02

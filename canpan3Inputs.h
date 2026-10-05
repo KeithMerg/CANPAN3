@@ -42,10 +42,9 @@
 extern void initInputs(void);
 extern void inputScan(void);
 extern void doSoD(void);
-extern void canpanSetAllSwitchOff(void);
 extern void loadInputs(void);
-extern void doFlash(void);
+//extern void doFlash(void);   // KeithB b14-25: now in canpan3Leds.h
 extern void canpanSendProducedEvent(uint8_t tableIndex, uint8_t onOff);
 
-extern uint8_t outputState[NUM_BUTTONS];
+extern uint8_t outputState[NUM_BUTTONS ? NUM_BUTTONS : 1];   // KeithB b14-25
 extern uint8_t canpanScanReady;

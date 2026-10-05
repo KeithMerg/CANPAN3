@@ -36,8 +36,6 @@
  * @date October 2024
  * 
  */ 
-
-extern uint8_t APP_isProducedEvent(uint8_t tableIndex);
 extern void rebuildLookupTable(void);
 extern void initEvents(void);
 
@@ -54,16 +52,33 @@ extern uint8_t switch2Event[NUM_PRODUCED_EVENTS];
 #define EV_SWITCHNO     1
 #define EV_SWITCHSV     2
 #define EV_UNUSED       3
+#if HARDWARE==HW_CANPAN3 || HARDWARE==HW_CANDISP   // KeithB b14-25
 // LED output EVs
 #define EV_LEDFLAGS1    4
 #define EV_LEDFLAGS2    5
 #define EV_LEDFLAGS3    6
 #define EV_LEDFLAGS4    7
-#define EV_LEDPOLARITY1 8
-#define EV_LEDPOLARITY2 9
-#define EV_LEDPOLARITY3 10
-#define EV_LEDPOLARITY4 11
-#define EV_LEDMODE      12
+#endif
+#if HARDWARE==HW_CANDISP   // KeithB b14-25
+#define EV_LEDFLAGS5    8
+#define EV_LEDFLAGS6    9
+#define EV_LEDFLAGS7    10
+#define EV_LEDFLAGS8    11
+#endif
+#if HARDWARE==HW_CANPAN3 || HARDWARE==HW_CANDISP   // KeithB b14-25
+// KeithB b14-25: EV numbers derived from NUM_LED_BYTES (unchanged on CANPAN3)
+#define EV_LEDPOLARITY1 (EV_LEDFLAGS1 + NUM_LED_BYTES)
+#define EV_LEDPOLARITY2 (EV_LEDPOLARITY1 + 1)
+#define EV_LEDPOLARITY3 (EV_LEDPOLARITY1 + 2)
+#define EV_LEDPOLARITY4 (EV_LEDPOLARITY1 + 3)
+#endif
+#if HARDWARE==HW_CANDISP   // KeithB b14-25
+#define EV_LEDPOLARITY5 (EV_LEDPOLARITY1 + 4)
+#define EV_LEDPOLARITY6 (EV_LEDPOLARITY1 + 5)
+#define EV_LEDPOLARITY7 (EV_LEDPOLARITY1 + 6)
+#define EV_LEDPOLARITY8 (EV_LEDPOLARITY1 + 7)
+#endif
+#define EV_LEDMODE      (EV_LEDPOLARITY1 + NUM_LED_BYTES)   // KeithB b14-25
 
 // EV_SWITCHSV (switch mode) values
 #define SV_NONE     0

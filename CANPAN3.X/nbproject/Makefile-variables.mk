@@ -4,11 +4,19 @@
 # NOCDDL
 #
 CND_BASEDIR=`pwd`
-# PIC18F27Q83 configuration
-CND_ARTIFACT_DIR_PIC18F27Q83=dist/PIC18F27Q83/production
-CND_ARTIFACT_NAME_PIC18F27Q83=CANPAN3.X.production.hex
-CND_ARTIFACT_PATH_PIC18F27Q83=dist/PIC18F27Q83/production/CANPAN3.X.production.hex
-# PIC18F26K80 configuration
-CND_ARTIFACT_DIR_PIC18F26K80=dist/PIC18F26K80/production
-CND_ARTIFACT_NAME_PIC18F26K80=CANPAN3.X.production.hex
-CND_ARTIFACT_PATH_PIC18F26K80=dist/PIC18F26K80/production/CANPAN3.X.production.hex
+# PIC18F27Q83_canpan configuration
+CND_ARTIFACT_DIR_PIC18F27Q83_canpan=dist/PIC18F27Q83_canpan/production
+CND_ARTIFACT_NAME_PIC18F27Q83_canpan=CANPAN3.X.production.hex
+CND_ARTIFACT_PATH_PIC18F27Q83_canpan=dist/PIC18F27Q83_canpan/production/CANPAN3.X.production.hex
+# PIC18F27Q83_candisp configuration
+CND_ARTIFACT_DIR_PIC18F27Q83_candisp=dist/PIC18F27Q83_candisp/production
+CND_ARTIFACT_NAME_PIC18F27Q83_candisp=CANPAN3.X.production.hex
+CND_ARTIFACT_PATH_PIC18F27Q83_candisp=dist/PIC18F27Q83_candisp/production/CANPAN3.X.production.hex
+# PIC18F27Q83_canscan configuration
+CND_ARTIFACT_DIR_PIC18F27Q83_canscan=dist/PIC18F27Q83_canscan/production
+CND_ARTIFACT_NAME_PIC18F27Q83_canscan=CANPAN3.X.production.hex
+CND_ARTIFACT_PATH_PIC18F27Q83_canscan=dist/PIC18F27Q83_canscan/production/CANPAN3.X.production.hex
+# PIC18F26K80_canscan configuration
+CND_ARTIFACT_DIR_PIC18F26K80_canscan=dist/PIC18F26K80_canscan/production
+CND_ARTIFACT_NAME_PIC18F26K80_canscan=CANPAN3.X.production.hex
+CND_ARTIFACT_PATH_PIC18F26K80_canscan=dist/PIC18F26K80_canscan/production/CANPAN3.X.production.hex

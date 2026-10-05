@@ -35,6 +35,13 @@ It may become a feature :)
 #include "timedResponse.h"
 // module specific
 #include "canpan3Nv.h"
+// KeithB b55: the library no longer sets the configuration words. CANPAN3 takes the templates,
+// which match the bootloader's hwsettings.c. Included here and nowhere else.
+#if defined(_18FXXQ83_FAMILY_)
+#include "vlcb_config_q83.h"
+#elif defined(_18F66K80_FAMILY_)
+#include "vlcb_config_k80.h"
+#endif
 #include "canpan3Inputs.h"
 #include "canpan3Events.h"
 #include "canpan3Outputs.h"
@@ -127,18 +134,25 @@ static TickValue   startTime;
 static uint8_t     started;
 static TickValue   lastInputScanTime;
 static TickValue   flashTime;
+#ifndef LED_MATRIX_ISR   // KeithB b26
 static TickValue   outputPollTime;
+#endif
 static TickValue   eepromWriterTime;
-
+static uint8_t     flashRateNV;   // KeithB b14-25: flash rate NV cached
+static uint32_t    flashPeriod;    // KeithB b33: flash period in ticks
+            
 const Service * const services[] = {
     &canService,
     &mnsService,
     &nvService,
-    &bootService,
     &eventTeachService,
     &eventConsumerService,
+#if HARDWARE==HW_CANSCAN || HARDWARE==HW_CANPAN3   // KeithB b14-25
     &eventProducerService,
-    &eventCoeService
+    // KeithB b14-25: producer/COE only on switch hardware; boot service last
+    &eventCoeService,
+#endif
+    &bootService
 };
 
 
@@ -154,10 +168,18 @@ void APP_factoryReset(void) {
 
     flushFlashBlock();
     
+#if HARDWARE==HW_CANSCAN || HARDWARE==HW_CANPAN3   // KeithB b14-25
     // Write the EEPROM for the toggle switch inputs
     for (sw=0; sw < NUM_BUTTONS; sw++) {
         writeNVM(EEPROM_NVM_TYPE, EE_ADDR_SWITCHES+sw, 0);
     }
+#endif
+#if HARDWARE==HW_CANPAN3 || HARDWARE==HW_CANDISP
+    // KeithB b35: clear the saved LED states as well
+    for (sw=0; sw < NUM_LEDS; sw++) {
+        writeNVM(EEPROM_NVM_TYPE, EE_ADDR_LEDS+sw, 0);
+    }
+#endif
 }
 
 /**
@@ -172,9 +194,11 @@ void APP_testMode(void) {
     
     clearAllEvents();
     
+#if HARDWARE==HW_CANSCAN || HARDWARE==HW_CANPAN3   // KeithB b14-25
     for (sw=0; sw<NUM_BUTTONS; sw++) {
         addTestEvent(sw+1);
     }
+#endif
 }
 
 /**
@@ -184,7 +208,7 @@ void setup(void) {
 #if defined(_18FXXQ83_FAMILY_)
     uint8_t pu;
 #endif
-    uint8_t nv;
+//    uint8_t nv;   // KeithB b14-25: unused
     
     // use CAN as the module's transport
     transport = &canTransport;
@@ -199,20 +223,38 @@ void setup(void) {
     ANCON1 = 0x00;
 #endif
 #if defined(_18FXXQ83_FAMILY_)
-    WPUA = 0b00001000;  // ensure the pushbutton pullup is still enabled
+    // KeithB b43: pull-ups and RA5 per hardware. Upstream 5a13 is CANPAN3-only;
+    // merged unconditionally (b34) it made the CANSCAN push button (RA5) an
+    // output driven low, so it always read "pressed" and never released, and
+    // removed the CANDISP button (RA2) pull-up.
+#if HARDWARE==HW_CANSCAN
+    WPUA = 0b00100000;  // ensure the pushbutton (RA5) pullup is still enabled
+#elif HARDWARE==HW_CANDISP
+    WPUA = 0b00100100;  // pushbutton RA2, and RA5, as APP_setPortDirections
+#else
+    WPUA = 0b00001000;  // ensure the pushbutton (RA3) pullup is still enabled
+#endif
     WPUB = 0;
     WPUC = 0;
     ANSELA = 0x00;
     ANSELB = 0x00;
     ANSELC = 0x00;
     
-    TRISAbits.TRISA4 = 0; LATAbits.LATA4 = 0;   // Unused
+    LATAbits.LATA4 = 0; TRISAbits.TRISA4 = 0;   // Unused on all three boards (pin 6: VCAP on a K80). KeithB b43: latch first
+#if HARDWARE==HW_CANPAN3
+    LATAbits.LATA5 = 0; TRISAbits.TRISA5 = 0;   // Unused. KeithB b34: as upstream 5a13
 #endif
-    
+#endif
     initEEPROMwriter();
+#if HARDWARE==HW_CANPAN3 || HARDWARE==HW_CANDISP   // KeithB b14-25
     initOutputs();
     initLeds();
+    flashRateNV = (uint8_t)getNV(NV_FLASHRATE);
+    flashPeriod = ((uint32_t)flashRateNV + 1) * 1000;
+#endif
+#if HARDWARE==HW_CANSCAN || HARDWARE==HW_CANPAN3   // KeithB b14-25
     initInputs();
+#endif
     initEvents();
     
     // Lock the PPS
@@ -226,49 +268,110 @@ void setup(void) {
     startTime.val = tickGet();
     lastInputScanTime.val = startTime.val;
     flashTime.val = startTime.val;
+#ifndef LED_MATRIX_ISR   // KeithB b26
     outputPollTime.val = startTime.val;
+#endif
     eepromWriterTime.val = startTime.val;
 
     started = FALSE;
     canpanScanReady = 0;
     
-    nv = (uint8_t)getNV(NV_STARTUP);
+//    nv = (uint8_t)getNV(NV_STARTUP);
 }
 
 /**
  * The loop code call repeatedly from VLCB.
  */
-void loop(void) {
+void loop(void) {   // KeithB b40: tick value read once per pass (tickNowGet / tickTimeSinceNow)
     uint8_t tableIndex;
     
     // Startup delay for CBUS about 2 seconds to let other modules get powered up - ISR will be running so incoming packets processed
     if (started == FALSE) {
-        if (tickTimeSince(startTime) >  (TWO_SECOND+getNV(NV_STARTUP_EVENT_DELAY)*ONE_SECOND)) {
+        if (tickTimeSinceNow(startTime) >  (TWO_SECOND+getNV(NV_STARTUP_EVENT_DELAY)*ONE_SECOND)) {
             started = TRUE;
+#if HARDWARE==HW_CANSCAN || HARDWARE==HW_CANPAN3   // KeithB b14-25
             tableIndex = switch2Event[SOD_PSEUDO_SWITCH-1];
             if (tableIndex != NO_INDEX) canpanSendProducedEvent(tableIndex, TRUE);
         }
     } else {
-        if (tickTimeSince(lastInputScanTime) > 2*ONE_MILI_SECOND) {
+        // KeithB b14-25: scan period from NUM_BUTTON_ROWS
+        // 8/NUM_BUTTON_ROWS = 1 or 2 ms
+        if (tickTimeSinceNow(lastInputScanTime) > 8/NUM_BUTTON_ROWS*ONE_MILI_SECOND) {
+//        if (tickTimeSince(lastInputScanTime) > 2*ONE_MILI_SECOND) {
             inputScan();    // Strobe inputs for changes
-            lastInputScanTime.val = tickGet();
+            lastInputScanTime.val = tickNowGet();
+#endif
         }
     }
-    if (tickTimeSince(flashTime)/1000 > getNV(NV_FLASHRATE)) {
-        doFlash();    // update flashing LEDs
-        flashTime.val = tickGet();
+#if HARDWARE==HW_CANPAN3 || HARDWARE==HW_CANDISP   // KeithB b14-25
+    // KeithB b33: precomputed period, no divide per loop.
+    if (tickTimeSinceNow(flashTime) >= flashPeriod) {
+           // update flashing LEDs
+        if(doFlash()) {
+                // If we have any flashing, refresh the cached value
+            flashRateNV = (uint8_t)getNV(NV_FLASHRATE);
+            flashPeriod = ((uint32_t)flashRateNV + 1) * 1000;
+        }
+        flashTime.val = tickNowGet();
     }
+#ifndef LED_MATRIX_ISR   // KeithB b26
     // poll the LED display quickly.
-    if (tickTimeSince(outputPollTime) > HUNDRED_MICRO_SECOND) {
+    if (tickTimeSinceNow(outputPollTime) > HUNDRED_MICRO_SECOND) {
         pollOutputs();
-        outputPollTime.val = tickGet();
+        outputPollTime.val = tickNowGet();
     }
+#endif
+#endif
     // Check to see if there are any EEPROM writes waiting to be done. 
     // A write takes max 11 ms but CPU isn't blocked unless there is already 
     // a write in progress. 
-    if (tickTimeSince(eepromWriterTime) > ONE_MILI_SECOND) {
+    if (tickTimeSinceNow(eepromWriterTime) > ONE_MILI_SECOND) {
         pollEEPROMwriter();
+        // KeithB b14-25: EEPROM writer throttled to 1ms
+        // Keith Bruce - Added to reinstate the intended throttling.
+        eepromWriterTime.val = tickNowGet();
     }
+
+// KeithB b14-25: alternative loop structure, kept for reference
+//    // Startup delay for CBUS about 2 seconds to let other modules get powered up - ISR will be running so incoming packets processed
+//    if (started == FALSE) {
+//        if (tickTimeSince(startTime) >  (TWO_SECOND+getNV(NV_STARTUP_EVENT_DELAY)*ONE_SECOND)) {
+//            started = TRUE;
+//#if HARDWARE==HW_CANSCAN || HARDWARE==HW_CANPAN3
+//            tableIndex = switch2Event[SOD_PSEUDO_SWITCH-1];
+//            if (tableIndex != NO_INDEX) canpanSendProducedEvent(tableIndex, TRUE);
+//#endif
+//        }
+//#if HARDWARE==HW_CANPAN3 || HARDWARE==HW_CANDISP
+//    // poll the LED display quickly.
+//    } else if (tickTimeSince(outputPollTime) > HUNDRED_MICRO_SECOND) {
+//        pollOutputs();
+//        outputPollTime.val = tickGet();
+//#endif
+//#if HARDWARE==HW_CANSCAN || HARDWARE==HW_CANPAN3
+//    } else if (tickTimeSince(lastInputScanTime) > 8/NUM_BUTTON_ROWS*ONE_MILI_SECOND) {
+//        // 8/NUM_BUTTON_ROWS = 1 or 2 ms
+////        if (tickTimeSince(lastInputScanTime) > 2*ONE_MILI_SECOND) {
+//            inputScan();    // Strobe inputs for changes
+//            lastInputScanTime.val = tickGet();
+//#endif
+//#if HARDWARE==HW_CANPAN3 || HARDWARE==HW_CANDISP
+//    } else if (tickTimeSince(flashTime)/1000 > flashRateNV) {
+//           // update flashing LEDs
+//        if(doFlash()) {
+//                // If we have any flashing, refresh the cached value
+//            flashRateNV = (uint8_t)getNV(NV_FLASHRATE);
+//        }
+//        flashTime.val = tickGet();
+//#endif
+//    // Check to see if there are any EEPROM writes waiting to be done. 
+//    // A write takes max 11 ms but CPU isn't blocked unless there is already 
+//    // a write in progress. 
+//    } else if (tickTimeSince(eepromWriterTime) > ONE_MILI_SECOND) {
+//        pollEEPROMwriter();
+//        // Keith Bruce - Added to reinstate the intended throttling.
+//        eepromWriterTime.val = tickGet();
+//    }
 }
 
 // Application functions required by MERGLCB library

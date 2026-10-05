@@ -48,8 +48,11 @@
 #include "nv.h"
 #include "EEPROMbuffer.h"
 
-static uint8_t buttonState[NUM_BUTTON_COLUMNS];
-uint8_t outputState[NUM_BUTTONS];
+// KeithB b14-25: sizes guarded for hardware with no buttons
+static uint8_t buttonState[NUM_BUTTON_COLUMNS ? NUM_BUTTON_COLUMNS : 1];
+uint8_t outputState[NUM_BUTTONS ? NUM_BUTTONS : 1];
+static uint8_t startupNv;   // KeithB b14-25: NV cached
+static uint8_t rawState[NUM_BUTTON_COLUMNS ? NUM_BUTTON_COLUMNS : 1];   // KeithB b35: last raw read, for debounce
 
 static uint8_t column;  // Column number
 uint8_t canpanScanReady;   /// indicates if the code has had chance to read all the buttons
@@ -74,33 +77,44 @@ void saveSwitchState(uint8_t buttonNo, uint8_t onOff);
  */
 void initInputs(void) {
     uint8_t i;
-    uint8_t startNv;
     
     canpanScanReady = 0;
     // Column drivers
-    TRISAbits.TRISA0=0;
-    TRISAbits.TRISA1=0;
-    TRISAbits.TRISA2=0;
+    // KeithB b14-25: pins via module.h macros
+    TRIS_74HC238_1=0;
+    TRIS_74HC238_2=0;
+    TRIS_74HC238_3=0;
+#if HARDWARE==HW_CANSCAN   // KeithB b14-25
+    TRIS_74HC238_4_6=0;
+#endif
     // Row inputs
-    TRISBbits.TRISB0=1;
-    TRISBbits.TRISB1=1;
-    TRISCbits.TRISC0=1;
-    TRISCbits.TRISC1=1;
+    TRIS_Srow_1=1;
+    TRIS_Srow_2=1;
+    TRIS_Srow_3=1;
+    TRIS_Srow_4=1;
     
 #if defined(_18F66K80_FAMILY_)
     INTCON2.RPBU = 0x0; // enable pull-ups
     WPUB = 0xFF;
 #endif
+    // enable pull-ups
 #if defined(_18FXXQ83_FAMILY_)
-    WPUB = 0b00000011;    // enable pull-ups
-    WPUC = 0b00000011;
+#if HARDWARE==HW_CANPAN3   // KeithB b14-25
+    // KeithB b33: rows have external pull-downs, no internal pull-ups.
+    WPUB = 0;
+    WPUC = 0;
+#elif HARDWARE==HW_CANSCAN   // KeithB b14-25
+    WPUC = 0b11111111;
 #endif
+#endif
+    
     // start the column outputs
     column = 0;
     driveColumn();
-    startNv = (uint8_t)getNV(NV_STARTUP);
+    startupNv = (uint8_t)getNV(NV_STARTUP);
     for (i=0; i<NUM_BUTTONS; i++) {
-        if (!(startNv & NV_STARTUP_RESTORESWITCHES)) {
+        // KeithB b33: test the NV value, not its index.
+        if (NV_STARTUP_RESTORESWITCHES & ~startupNv) {
             outputState[i] = readEEvalue(EE_ADDR_SWITCHES+i);
         } else {
             outputState[i] = 0;     // default 0 but maybe loaded from EEPROM later
@@ -108,13 +122,17 @@ void initInputs(void) {
     }
     for (i=0; i<NUM_BUTTON_COLUMNS; i++) {
         buttonState[i] = 0;
+        rawState[i] = 0;
     }
 }
 
 /**
- * Scan the input buttons. Gets called every 2ms from the main loop. Each scan handles 1 row of 4 switches.
- * 8 scans are needed for a scan of all buttons taking 16ms.
- * For switches/buttons EV#1 must be set to 1. EV#2 is switch number. EV#3 is the switch mode
+ * Scan the input buttons. Gets called every 2ms (for CANPAN or 1ms for CANSCAN)
+ * from the main loop. Each scan handles 1 row of 4 (for CANPAN, 8 for CANSCAN)
+ * switches. 8 (for CANPAN, 16 for CANSCAN) scans are needed for a scan of all
+ * buttons taking 16ms.
+ * For switches/buttons EV#1 must be set to 1. EV#2 is switch number.
+ * EV#3 is the switch mode
  */
 void inputScan(void) {
     uint8_t row;
@@ -125,109 +143,124 @@ void inputScan(void) {
     uint8_t switchMode;
     uint8_t onOff;
     uint8_t buttonNo;
-    Word producedEventNN;
-    Word producedEventEN;
-    uint8_t opc;
+// KeithB b14-25: moved to canpanSendProducedEvent()
+//    Word producedEventNN;
+//    Word producedEventEN;
+//    uint8_t opc;
 
-    
     // read the row
+#if HARDWARE==HW_CANPAN3   // KeithB b14-25
     row = (uint8_t)((PORTC & 0x03) << 2);
     row |= (PORTB & 0x03);  // get the row value
+#endif
+#if HARDWARE==HW_CANSCAN   // KeithB b14-25
+    row = (uint8_t)(PORTC);
+#endif
+    // KeithB b35: debounce - a change must be seen on two consecutive scans of
+    // the column (16ms apart) before it is acted on.
+    if (row != rawState[column]) {
+        rawState[column] = row;
+        row = buttonState[column];      // not yet confirmed, treat as unchanged
+    }
     diff = row ^ buttonState[column];   // has the row changed since last read?
-    
-    // work out what has changed since last read.
-    // Go through the bits of the row
-    for (i=0; i<NUM_BUTTON_ROWS; i++) {
-        if (diff & (1 << i)) {
-            // has this particular switch changed?
-            onOff = !!(row & (1 << i));
-            buttonNo = column*NUM_BUTTON_ROWS + i;  // 0 .. 31
-            if (mode_flags & FLAG_MODE_LEARN) {
-                // when in teach mode we actually send a ARON1 instead of the event
-                sendMessage5(OPC_ARON1, nn.bytes.hi, nn.bytes.lo, 0, 0, buttonNo+1);
-            } else {
-                switchMode = MODE_UNKNOWN;
-                tableIndex = findEventForSwitch(buttonNo & 0xFE);
-                if (tableIndex != NO_INDEX) {
-                    sv = (uint8_t)getNV(NV_SWITCHMODE + (buttonNo & 0xFE));
-                    if (sv & NV_SWITCHMODE_PAIRED) {
-                        switchMode = (buttonNo & 1) ? MODE_PAIRED : MODE_PAIR;
+    // KeithB b14-25: skip the scan when nothing changed
+    // Most likely no change.
+    if (diff) {
+        startupNv = (uint8_t)getNV(NV_STARTUP);
+        // work out what has changed since last read.
+        // Go through the bits of the row
+        for (i=0; i<NUM_BUTTON_ROWS; i++) {
+            if (diff & (1 << i)) {
+                // has this particular switch changed?
+                onOff = !!(row & (1 << i));
+                buttonNo = column*NUM_BUTTON_ROWS + i;  // 0 .. 31
+                if (mode_flags & FLAG_MODE_LEARN) {
+                    // when in teach mode we actually send a ARON1 instead of the event
+                    sendMessage5(OPC_ARON1, nn.bytes.hi, nn.bytes.lo, 0, 0, buttonNo+1);
+                } else {
+                    switchMode = MODE_UNKNOWN;
+                    tableIndex = findEventForSwitch(buttonNo & 0xFE);
+                    if (tableIndex != NO_INDEX) {
+                        sv = (uint8_t)getNV(NV_SWITCHMODE + (buttonNo & 0xFE));
+                        if (sv & NV_SWITCHMODE_PAIRED) {
+                            switchMode = (buttonNo & 1) ? MODE_PAIRED : MODE_PAIR;
+                        } else {
+                            tableIndex = findEventForSwitch(buttonNo);
+                        }
                     } else {
                         tableIndex = findEventForSwitch(buttonNo);
                     }
-                } else {
-                    tableIndex = findEventForSwitch(buttonNo);
-                }
-                
-                if (tableIndex != NO_INDEX) {
-                    getEVs(tableIndex);
-                    sv = evs[EV_SWITCHSV];
-                    if (switchMode == MODE_UNKNOWN) {
-                        // determine the switch mode using the SV event variable
-                        switchMode = MODE_UNKNOWN;
-                        if (sv & SV_ON_OFF) {
-                            switchMode = MODE_ON_OFF;
-                        } else if (sv & SV_ON_ONLY) {
-                            switchMode = MODE_ONOFF_ONLY;
-                        } else if (sv & SV_TOGGLE) {
-                            switchMode = MODE_TOGGLE;
-                        }
-                    }
-                    // When in learn mode we'll act as if it is ON/OFF mode to send an ARON1
-                    if (mode_flags & FLAG_MODE_LEARN) {
-                        switchMode = MODE_ON_OFF;
-                    }
-                    if (switchMode != MODE_UNKNOWN){
 
-                        switch(switchMode) {
-                            case MODE_ON_OFF:
-                                if (sv & SV_POLARITY) {   // invert
-                                    onOff = !onOff;
-                                }
-                                outputState[buttonNo] = onOff;
-                                break;
-                            case MODE_ONOFF_ONLY:
-                                if (sv & SV_POLARITY) {   // OFF ONLY
-                                    if (! onOff) {    // don't send OFF event
+                    if (tableIndex != NO_INDEX) {
+                        getEVs(tableIndex);
+                        sv = evs[EV_SWITCHSV];
+                        if (switchMode == MODE_UNKNOWN) {
+                            // determine the switch mode using the SV event variable
+                            switchMode = MODE_UNKNOWN;
+                            if (sv & SV_ON_OFF) {
+                                switchMode = MODE_ON_OFF;
+                            } else if (sv & SV_ON_ONLY) {
+                                switchMode = MODE_ONOFF_ONLY;
+                            } else if (sv & SV_TOGGLE) {
+                                switchMode = MODE_TOGGLE;
+                            }
+                        }
+                        // When in learn mode we'll act as if it is ON/OFF mode to send an ARON1
+                        if (mode_flags & FLAG_MODE_LEARN) {
+                            switchMode = MODE_ON_OFF;
+                        }
+                        if (switchMode != MODE_UNKNOWN){
+
+                            switch(switchMode) {
+                                case MODE_ON_OFF:
+                                    if (sv & SV_POLARITY) {   // invert
+                                        onOff = !onOff;
+                                    }
+                                    outputState[buttonNo] = onOff;
+                                    break;
+                                case MODE_ONOFF_ONLY:
+                                    if (sv & SV_POLARITY) {   // OFF ONLY
+                                        if (! onOff) {    // don't send OFF event
+                                            continue;
+                                        }
+                                        onOff = 0;      // make it an OFF event
+                                    } else {                // ON ONLY
+                                        if (! onOff) {
+                                            continue;   // don't send OFF event
+                                        }
+                                    }
+                                    outputState[buttonNo] = onOff;
+                                    break;
+                                case MODE_TOGGLE:
+                                    if (onOff) {
+                                        outputState[buttonNo] = ! outputState[buttonNo];
+                                    } else {
+                                        continue;   // don't react when button is released
+                                    }
+                                    onOff = outputState[buttonNo];
+                                    saveSwitchState(buttonNo, onOff);
+                                    break;
+                                case MODE_PAIR:
+                                    if (! onOff) {
                                         continue;
                                     }
-                                    onOff = 0;      // make it an OFF event
-                                } else {                // ON ONLY
+                                    outputState[buttonNo] = 1;
+                                    saveSwitchState(buttonNo, 1);
+                                    break;
+                                case MODE_PAIRED:
                                     if (! onOff) {
-                                        continue;   // don't send OFF event
+                                        continue;
                                     }
-                                }
-                                outputState[buttonNo] = onOff;
-                                break;
-                            case MODE_TOGGLE:
-                                if (onOff) {
-                                    outputState[buttonNo] = ! outputState[buttonNo];
-                                } else {
-                                    continue;   // don't react when button is released
-                                }
-                                onOff = outputState[buttonNo];
-                                saveSwitchState(buttonNo, onOff);
-                                break;
-                            case MODE_PAIR:
-                                if (! onOff) {
-                                    continue;
-                                }
-                                outputState[buttonNo] = 1;
-                                saveSwitchState(buttonNo, 1);
-                                break;
-                            case MODE_PAIRED:
-                                if (! onOff) {
-                                    continue;
-                                }
-                                onOff = 0;  // force off
-                                outputState[buttonNo&0xFE] = 0;
-                                saveSwitchState(buttonNo, 0);
-                                break;
-                        }
-                        
-                        if (canpanScanReady) {
-                            // send the event.
-                            canpanSendProducedEvent(tableIndex, onOff);
+                                    onOff = 0;  // force off
+                                    outputState[buttonNo&0xFE] = 0;
+                                    saveSwitchState(buttonNo&0xFE, 0);  // KeithB b33: pair state is in the even slot
+                                    break;
+                            }
+
+                            if (canpanScanReady) {
+                                // send the event.
+                                canpanSendProducedEvent(tableIndex, onOff);
+                            }
                         }
                     }
                 }
@@ -254,26 +287,14 @@ void inputScan(void) {
  * @param onOff state
  */
 void saveSwitchState(uint8_t buttonNo, uint8_t onOff) {
-    if ((getNV(NV_STARTUP) & NV_STARTUP_RESTORESWITCHES) == 0) {
-        writeEEvalue(buttonNo, onOff);
+    if (NV_STARTUP_RESTORESWITCHES & ~startupNv) {   // KeithB b14-25: cached NV
+//    if ((getNV(NV_STARTUP) & NV_STARTUP_RESTORESWITCHES) == 0) {
+        writeEEvalue(EE_ADDR_SWITCHES + buttonNo, onOff);
     }
 }
 
 
-/**
- * Used at initialisation if NV1 = ALLOFF. Turns off (or on if inverted) all 
- * the switch output states.
- */
-void canpanSetAllSwitchOff(void) {
-    uint8_t buttonNo;
-    uint8_t tableIndex;
-    
-    for (buttonNo=0; buttonNo<NUM_BUTTONS; buttonNo++) {
-        tableIndex = findEventForSwitch(buttonNo);
-        getEVs(tableIndex);
-        outputState[buttonNo] = (evs[EV_SWITCHSV]&SV_POLARITY) ? 1:0;
-    }
-}
+// KeithB b35: canpanSetAllSwitchOff() removed, never called
 
 void canpanSendProducedEvent(uint8_t tableIndex, uint8_t onOff) {
     uint8_t opc;
@@ -306,9 +327,14 @@ void canpanSendProducedEvent(uint8_t tableIndex, uint8_t onOff) {
 }
 
 void driveColumn(void) {
-    LATAbits.LATA0 = (column & 0x01)?1:0;
-    LATAbits.LATA1 = (column & 0x02)?1:0;
-    LATAbits.LATA2 = (column & 0x04)?1:0;
+    // KeithB b14-25: pins via module.h macros
+    LAT_74HC238_1   = (column & 0x01)?1:0;
+    LAT_74HC238_2   = (column & 0x02)?1:0;
+    LAT_74HC238_3   = (column & 0x04)?1:0;
+#if HARDWARE==HW_CANSCAN   // KeithB b14-25
+//    // Switch between column 1-8 (low) and 9-16 (high).
+    LAT_74HC238_4_6 = (column & 0x08)?1:0;
+#endif
 }
 
 /**
@@ -318,9 +344,11 @@ void driveColumn(void) {
  * @return 
  */
 uint8_t findEventForSwitch(uint8_t switchNo) {
+#if HARDWARE==HW_CANSCAN || HARDWARE==HW_CANPAN3   // KeithB b14-25
     if (switchNo < NUM_PRODUCED_EVENTS) {
         return switch2Event[switchNo];
     }
+#endif
     return NO_INDEX;
 }
 
