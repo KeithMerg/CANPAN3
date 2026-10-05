@@ -47,6 +47,8 @@
 #include "canpan3Nv.h"
 #include "nv.h"
 
+#if NUM_BUTTONS > 0     // the whole file: CANDISP has no switches
+
 static uint8_t buttonState[NUM_BUTTON_COLUMNS];
 static uint8_t rawState[NUM_BUTTON_COLUMNS];    // last raw read of each column, for debounce
 uint8_t outputState[NUM_BUTTONS];
@@ -81,21 +83,34 @@ void initInputs(void) {
     TRIS_74HC238_1=0;
     TRIS_74HC238_2=0;
     TRIS_74HC238_3=0;
+#if HARDWARE==HW_CANSCAN
+    TRIS_74HC238_4_6=0;
+#endif
     // Row inputs
     TRIS_Srow_1=1;
     TRIS_Srow_2=1;
     TRIS_Srow_3=1;
     TRIS_Srow_4=1;
+#if HARDWARE==HW_CANSCAN
+    TRIS_Srow_5=1;
+    TRIS_Srow_6=1;
+    TRIS_Srow_7=1;
+    TRIS_Srow_8=1;
+#endif
     
 #if defined(_18F66K80_FAMILY_)
     INTCON2.RPBU = 0x0; // enable pull-ups
     WPUB = 0xFF;
 #endif
 #if defined(_18FXXQ83_FAMILY_)
+#if HARDWARE==HW_CANSCAN
+    WPUC = 0b11111111;  // row inputs (port C) pulled up
+#else
     // No internal pull-ups on the row inputs: the board has external
     // pull-downs (RN1) and a row goes high when its button is pressed.
     WPUB = 0;
     WPUC = 0;
+#endif
 #endif
     // start the column outputs
     column = 0;
@@ -115,8 +130,10 @@ void initInputs(void) {
 }
 
 /**
- * Scan the input buttons. Gets called every 2ms from the main loop. Each scan handles 1 row of 4 switches.
- * 8 scans are needed for a scan of all buttons taking 16ms.
+ * Scan the input buttons. Gets called from the main loop every 2ms on CANPAN3
+ * (each scan handles one column of 4 switches, 8 scans for all the buttons) or
+ * every 1ms on CANSCAN (one column of 8 switches, 16 scans), taking 16ms for a
+ * scan of all buttons either way.
  * A change is only acted on once it has been read the same on two consecutive
  * scans of the column (16ms apart), which filters out contact bounce.
  * For switches/buttons EV#1 must be set to 1. EV#2 is switch number. EV#3 is the switch mode
@@ -132,8 +149,12 @@ void inputScan(void) {
     uint8_t buttonNo;
     
     // read the row
+#if HARDWARE==HW_CANSCAN
+    row = PORTC;            // 8 rows on port C
+#else
     row = (uint8_t)((PORTC & 0x03) << 2);
     row |= (PORTB & 0x03);  // get the row value
+#endif
     // debounce: a change must be seen on two consecutive scans of this column
     // (except on the first scan after power-up, which only records the state)
     if (row != rawState[column]) {
@@ -150,7 +171,7 @@ void inputScan(void) {
         if (diff & (1 << i)) {
             // has this particular switch changed?
             onOff = !!(row & (1 << i));
-            buttonNo = column*NUM_BUTTON_ROWS + i;  // 0 .. 31
+            buttonNo = column*NUM_BUTTON_ROWS + i;  // 0 .. NUM_BUTTONS-1
             if (mode_flags & FLAG_MODE_LEARN) {
                 // when in teach mode we actually send a ARON1 instead of the event
                 sendMessage5(OPC_ARON1, nn.bytes.hi, nn.bytes.lo, 0, 0, buttonNo+1);
@@ -303,6 +324,9 @@ void driveColumn(void) {
     LAT_74HC238_1 = (column & 0x01)?1:0;
     LAT_74HC238_2 = (column & 0x02)?1:0;
     LAT_74HC238_3 = (column & 0x04)?1:0;
+#if HARDWARE==HW_CANSCAN
+    LAT_74HC238_4_6 = (column & 0x08)?1:0;    // columns 9-16
+#endif
 }
 
 /**
@@ -359,3 +383,5 @@ TimedResponseResult sodTRCallback(uint8_t type, uint8_t serviceIndex, uint8_t ta
     }
     return TIMED_RESPONSE_RESULT_NEXT;
 }
+
+#endif  // NUM_BUTTONS > 0

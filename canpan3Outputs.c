@@ -45,6 +45,8 @@
 #include "canpan3Nv.h"
 #include "nv.h"
 
+#if NUM_LEDS > 0    // the whole file: CANSCAN has no LEDs
+
 /* METHOD 1 uses software to loop through all the anodes, sending a byte of
  * cathode data to SPI. Software also used to turn off the cathode when brightness
  * value reached.
@@ -55,11 +57,17 @@
  */
 
 // LAT_LED_ROW_1..4 drive the LED anodes
-// MSSP SSI Master is used to provide 8 bits for cathodes
+// MSSP SSI Master is used to provide 8 bits for cathodes for each TLC5917:
+// one on CANPAN3, two cascaded on CANDISP (the second for columns 9-16).
+#define NUM_TLC5917     (NUM_LED_COLUMNS/8)
 
-unsigned char ledMatrix[NUM_LED_ROWS];
+// ledMatrix[tlc*NUM_LED_ROWS + row] holds the cathode bits of one TLC5917 for one row
+unsigned char ledMatrix[NUM_LED_ROWS*NUM_TLC5917];
 static unsigned char current_row = 0;
 static uint8_t cathodes;
+#if NUM_TLC5917 > 1
+static uint8_t cathodes1;       // the second TLC5917
+#endif
 #define MAX_BRIGHTNESS  32  // must be a power of 2
 static uint8_t brightness = 0;
 // The brightness NVs, cached so that pollOutputs() (an interrupt) never calls
@@ -71,7 +79,7 @@ static const uint8_t bitMask[8] = {0x01,0x02,0x04,0x08,0x10,0x20,0x40,0x80};
 
 /**
  * Update the cached brightness of one LED.
- * @param ledNo the LED 0-31
+ * @param ledNo the LED 0..NUM_LEDS-1
  * @param value the brightness NV value
  */
 void updateLedBrightness(uint8_t ledNo, uint8_t value) {
@@ -83,7 +91,7 @@ void updateLedBrightness(uint8_t ledNo, uint8_t value) {
 void initOutputs(void) {
     uint8_t i;
     
-    for (i=0; i< NUM_LED_ROWS; i++) {
+    for (i=0; i< NUM_LED_ROWS*NUM_TLC5917; i++) {
         ledMatrix[i] = 0;
     }
     for (i=0; i<NUM_LEDS; i++) {
@@ -162,18 +170,22 @@ void __interrupt(irq(TMR2), base(IVT_BASE), low_priority) TMR2_ISR(void) {
 #endif
 
 /**
- * Send one byte of cathode data to the TLC5917.
+ * Send the cathode data to the TLC5917(s) and wait for it to be latched.
  * The transfer count is reloaded for every transfer: SS (the TLC5917 LE) is
  * driven by the SPI from that count, so a byte sent with the count left at 0
- * does not latch cleanly. After the byte has gone, wait a few cycles for the
+ * does not latch cleanly. After the data has gone, wait a few cycles for the
  * TLC5917 outputs to settle (LE to OUT is up to 365ns) before the caller turns
  * OE back on.
+ * @param c bits for the (first) TLC5917; on CANDISP cathodes1 goes to the second
  */
 static void latchCathodes(uint8_t c) {
     SPI1TCNTH = 0;
-    SPI1TCNTL = 1;      // 1 byte
-    SPI1TWIDTH = 0;     // 8 bits
+    SPI1TCNTL = NUM_TLC5917;    // 1 byte per TLC5917, so SS (LE) spans them all
+    SPI1TWIDTH = 0;             // 8 bits
     SPI1TXB = c;
+#if NUM_TLC5917 > 1
+    SPI1TXB = cathodes1;
+#endif
     while (! SPI1STATUSbits.TXBE)
         ;
     // 9 cycles, the same delay as the tested CANPAN3 5a58 build
@@ -225,6 +237,9 @@ void pollOutputs(void)
         rowBright = ledBright + current_row * NUM_LED_COLUMNS;
         // send the row's cathode data and wait for it to be latched before
         // turning the anode on, otherwise we don't get a clean display
+#if NUM_TLC5917 > 1
+        cathodes1 = ledMatrix[NUM_LED_ROWS + current_row];
+#endif
         latchCathodes(cathodes);
 
         // turn the relevant anode driver on
@@ -254,39 +269,66 @@ void pollOutputs(void)
         uint8_t newCathodes = cathodes;
         uint8_t mask = 1;
         uint8_t *rb = rowBright;
+#if NUM_TLC5917 > 1
+        uint8_t newCathodes1 = cathodes1;
+        uint8_t *rb1 = rowBright + 8;
+#endif
         for (i=0; i<8; i++) {
             if (brightness > *rb++) {
                 newCathodes &= (uint8_t)~mask;
             }
+#if NUM_TLC5917 > 1
+            if (brightness > *rb1++) {
+                newCathodes1 &= (uint8_t)~mask;
+            }
+#endif
             mask <<= 1;
         }
+#if NUM_TLC5917 > 1
+        if ((newCathodes != cathodes) || (newCathodes1 != cathodes1)) {
+            cathodes = newCathodes;
+            cathodes1 = newCathodes1;
+            LAT_TLC5917_13 = 1; // disable the cathode driver (OE) while the new data is latched
+            latchCathodes(cathodes);
+            LAT_TLC5917_13 = 0; // enable the cathode driver (OE)
+        }
+#else
         if (newCathodes != cathodes) {
             cathodes = newCathodes;
-            // disable the cathode driver while the new data is latched
-            LAT_TLC5917_13 = 1; // OE
+            LAT_TLC5917_13 = 1; // disable the cathode driver (OE) while the new data is latched
             latchCathodes(cathodes);
-            // enable the cathode driver
-            LAT_TLC5917_13 = 0; //OE
+            LAT_TLC5917_13 = 0; // enable the cathode driver (OE)
         }
+#endif
     }
     brightness += 2;
     brightness &= MAX_BRIGHTNESS-1;     // wrap to 0 at MAX_BRIGHTNESS
 }
 
 
+/*
+ * The ledMatrix[] byte holding LED no (0..NUM_LEDS-1): row no/NUM_LED_COLUMNS,
+ * and on CANDISP the second TLC5917 for columns 9-16.
+ */
+#if NUM_TLC5917 > 1
+#define LED_BYTE(no)    ledMatrix[(((no) & 0x08) ? NUM_LED_ROWS : 0) + (no)/NUM_LED_COLUMNS]
+#else
+#define LED_BYTE(no)    ledMatrix[(no)/NUM_LED_COLUMNS]
+#endif
+
 /**
- * Turn on an LED. No is 0-31.
+ * Turn on an LED. No is 0..NUM_LEDS-1.
  * @param no
  */
 void setLed(uint8_t no) {
-    ledMatrix[no/8] |= bitMask[no & 7];
+    LED_BYTE(no) |= bitMask[no & 7];
 }
 
 /**
- * Turn an LED off. No is 0-31
+ * Turn an LED off. No is 0..NUM_LEDS-1.
  */
 void clearLed(uint8_t no) {
-    ledMatrix[no/8] &= (uint8_t)~bitMask[no & 7];
+    LED_BYTE(no) &= (uint8_t)~bitMask[no & 7];
 }
 
 /**
@@ -295,6 +337,8 @@ void clearLed(uint8_t no) {
  * @return 0 if OFF or non zero if ON
  */
 uint8_t testLed(uint8_t no) {
-    return ledMatrix[no/8] & bitMask[no & 7];
+    return LED_BYTE(no) & bitMask[no & 7];
 }
 
+
+#endif  // NUM_LEDS > 0

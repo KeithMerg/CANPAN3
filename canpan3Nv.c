@@ -79,8 +79,10 @@ NvValidation APP_nvValidate(uint8_t index, uint8_t value)  {
  * We perform the necessary action when an NV changes value.
  */
 void APP_nvValueChanged(uint8_t index, uint8_t value, uint8_t oldValue) {
+#if NUM_LEDS > 0
     // keep the LED driver's copy of the brightness NVs up to date
     if ((index >= NV_BRIGHTNESS) && (index < NV_BRIGHTNESS + NUM_LEDS)) {
         updateLedBrightness((uint8_t)(index - NV_BRIGHTNESS), value);
     }
+#endif
 }

@@ -49,3 +49,4 @@ enum canpan3LedState {
 
 extern void setLedState(uint8_t led, enum canpan3LedState state);
 extern void restoreLeds(void);
+extern void doFlash(void);
