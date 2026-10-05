@@ -126,7 +126,9 @@ static TickValue   startTime;
 static uint8_t     started;
 static TickValue   lastInputScanTime;
 static TickValue   flashTime;
+#ifndef LED_MATRIX_ISR
 static TickValue   outputPollTime;
+#endif
 
 const Service * const services[] = {
     &canService,
@@ -230,7 +232,9 @@ void setup(void) {
     startTime.val = tickGet();
     lastInputScanTime.val = startTime.val;
     flashTime.val = startTime.val;
+#ifndef LED_MATRIX_ISR
     outputPollTime.val = startTime.val;
+#endif
 
     started = FALSE;
     canpanScanReady = 0;
@@ -259,11 +263,13 @@ void loop(void) {
         doFlash();    // update flashing LEDs
         flashTime.val = tickGet();
     }
+#ifndef LED_MATRIX_ISR
     // poll the LED display quickly.
     if (tickTimeSince(outputPollTime) > HUNDRED_MICRO_SECOND) {
         pollOutputs();
         outputPollTime.val = tickGet();
     }
+#endif
     // EEPROM writes are done by the library: vlcb.c calls pollAsyncEEPROM()
     // on every pass of the main loop.
 }

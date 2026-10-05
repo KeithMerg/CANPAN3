@@ -111,7 +111,34 @@ void initOutputs(void) {
 
     // ready
     SPI1CON0bits.EN = 1;
+
+#ifdef LED_MATRIX_ISR
+    // TMR2 calls pollOutputs() at a fixed rate.
+    // Clock Fosc/4 = clkMHz/4 MHz, prescaler 1:16 -> clkMHz/64 MHz.
+    // Period = LED_MATRIX_ISR_PERIOD_US * clkMHz/64 - 1 (64MHz: 100us -> 99)
+    _Static_assert((LED_MATRIX_ISR_PERIOD_US * clkMHz / 64) - 1 <= 255, "LED_MATRIX_ISR_PERIOD_US too large for TMR2");
+    T2CONbits.ON = 0;
+    T2CLKCON = 0x01;        // clock source Fosc/4
+    T2HLT = 0x00;           // free running, software gate
+    T2PR = (uint8_t)((LED_MATRIX_ISR_PERIOD_US * clkMHz / 64) - 1);
+    T2TMR = 0;
+    T2CON = 0x40;           // prescaler 1:16, postscaler 1:1
+    TMR2IP = 0;             // low priority
+    TMR2IF = 0;
+    TMR2IE = 1;
+    T2CONbits.ON = 1;
+#endif
 }
+
+#ifdef LED_MATRIX_ISR
+/**
+ * TMR2 interrupt: one LED matrix brightness step per period.
+ */
+void __interrupt(irq(TMR2), base(IVT_BASE), low_priority) TMR2_ISR(void) {
+    TMR2IF = 0;
+    pollOutputs();
+}
+#endif
 
 /**
  * Each time this is called we increase the global brightness value. When brightness 
@@ -123,9 +150,11 @@ void initOutputs(void) {
  * calls of this function.
  * To get a 50Hz refresh rate this function must be called at least every 156us.
  *  
- * Originally this was set up to be called by Timer 2 every 78us to give a 50Hz
- * refresh but this complexity is unnecessary and it is now just called from the 
- * poll loop.
+ * It is called from the TMR2 interrupt every LED_MATRIX_ISR_PERIOD_US. When it
+ * was called from the poll loop the length of each step, and so the LED duty
+ * cycle, depended on how long the loop took: while MMC was backing the module
+ * up every message handled stretched a step and the LEDs dimmed and pulsed.
+ * Without LED_MATRIX_ISR it is called from the poll loop as before.
  */
 void pollOutputs(void)
 {
