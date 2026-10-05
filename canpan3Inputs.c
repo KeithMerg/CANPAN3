@@ -78,14 +78,14 @@ void initInputs(void) {
     
     canpanScanReady = 0;
     // Column drivers
-    TRISAbits.TRISA0=0;
-    TRISAbits.TRISA1=0;
-    TRISAbits.TRISA2=0;
+    TRIS_74HC238_1=0;
+    TRIS_74HC238_2=0;
+    TRIS_74HC238_3=0;
     // Row inputs
-    TRISBbits.TRISB0=1;
-    TRISBbits.TRISB1=1;
-    TRISCbits.TRISC0=1;
-    TRISCbits.TRISC1=1;
+    TRIS_Srow_1=1;
+    TRIS_Srow_2=1;
+    TRIS_Srow_3=1;
+    TRIS_Srow_4=1;
     
 #if defined(_18F66K80_FAMILY_)
     INTCON2.RPBU = 0x0; // enable pull-ups
@@ -300,9 +300,9 @@ void canpanSendProducedEvent(uint8_t tableIndex, uint8_t onOff) {
 }
 
 void driveColumn(void) {
-    LATAbits.LATA0 = (column & 0x01)?1:0;
-    LATAbits.LATA1 = (column & 0x02)?1:0;
-    LATAbits.LATA2 = (column & 0x04)?1:0;
+    LAT_74HC238_1 = (column & 0x01)?1:0;
+    LAT_74HC238_2 = (column & 0x02)?1:0;
+    LAT_74HC238_3 = (column & 0x04)?1:0;
 }
 
 /**

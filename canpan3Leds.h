@@ -45,7 +45,7 @@ enum canpan3LedState {
     CANPANLED_ANTIFLASH
 };
 
-#define EE_ADDR_LEDS    (EEPROM_BASE_ADDRESS+0x20)
+#define EE_ADDR_LEDS    (EEPROM_BASE_ADDRESS+NUM_BUTTONS)
 
 extern void setLedState(uint8_t led, enum canpan3LedState state);
 extern void restoreLeds(void);

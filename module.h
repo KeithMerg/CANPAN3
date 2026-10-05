@@ -157,6 +157,38 @@
 #define NUM_LEDS            (NUM_LED_ROWS*NUM_LED_COLUMNS)
 #define NUM_LED_BYTES       (NUM_LEDS/8)
 
+// Pin assignments
+// LED row (anode) drivers
+#define TRIS_LED_ROW_1      TRISBbits.TRISB4
+#define TRIS_LED_ROW_2      TRISBbits.TRISB5
+#define TRIS_LED_ROW_3      TRISCbits.TRISC6
+#define TRIS_LED_ROW_4      TRISCbits.TRISC7
+#define LAT_LED_ROW_1       LATBbits.LATB4
+#define LAT_LED_ROW_2       LATBbits.LATB5
+#define LAT_LED_ROW_3       LATCbits.LATC6
+#define LAT_LED_ROW_4       LATCbits.LATC7
+// TLC5917 cathode driver, named by its pin numbers: 2 SDI, 3 CLK, 4 LE, 13 OE
+#define TRIS_TLC5917__2     TRISCbits.TRISC5
+#define TRIS_TLC5917__3     TRISCbits.TRISC3
+#define TRIS_TLC5917__4     TRISCbits.TRISC4
+#define TRIS_TLC5917_13     TRISCbits.TRISC2
+#define LAT_TLC5917__2      LATCbits.LATC5
+#define LAT_TLC5917__3      LATCbits.LATC3
+#define LAT_TLC5917__4      LATCbits.LATC4
+#define LAT_TLC5917_13      LATCbits.LATC2
+// 74HC238 switch column decoder address inputs
+#define TRIS_74HC238_1      TRISAbits.TRISA0
+#define TRIS_74HC238_2      TRISAbits.TRISA1
+#define TRIS_74HC238_3      TRISAbits.TRISA2
+#define LAT_74HC238_1       LATAbits.LATA0
+#define LAT_74HC238_2       LATAbits.LATA1
+#define LAT_74HC238_3       LATAbits.LATA2
+// switch row inputs
+#define TRIS_Srow_1         TRISBbits.TRISB0
+#define TRIS_Srow_2         TRISBbits.TRISB1
+#define TRIS_Srow_3         TRISCbits.TRISC0
+#define TRIS_Srow_4         TRISCbits.TRISC1
+
 #if defined(_18FXXQ83_FAMILY_)
 // Drive pollOutputs() from a TMR2 interrupt every LED_MATRIX_ISR_PERIOD_US
 // microseconds, so the LED PWM step time does not depend on how long each pass
@@ -165,7 +197,7 @@
 #define LED_MATRIX_ISR_PERIOD_US    100
 #endif
 
-// Store the Switches at 0x0000 followed by the LEDs at 0x00020
+// Store the Switches at 0x0000 followed by the LEDs at 0x0000+NUM_BUTTONS
 #define EEPROM_BASE_ADDRESS 0x0000
 #define NUMBER_EEPROM       (NUM_BUTTONS + NUM_LEDS)
 #endif

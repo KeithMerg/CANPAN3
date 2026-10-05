@@ -54,7 +54,7 @@
  * drive the anodes.  
  */
 
-// RB4 - RB7 are used to drive the LED Anodes
+// LAT_LED_ROW_1..4 drive the LED anodes
 // MSSP SSI Master is used to provide 8 bits for cathodes
 
 unsigned char ledMatrix[NUM_LED_ROWS];
@@ -90,29 +90,29 @@ void initOutputs(void) {
         ledBright[i] = (uint8_t)getNV(NV_BRIGHTNESS + i);
     }
     rowBright = ledBright;
-    TRISCbits.TRISC6 = 0;   // anode driver output
-    TRISCbits.TRISC7 = 0;   // anode driver output
-    TRISBbits.TRISB4 = 0;   // anode driver output
-    TRISBbits.TRISB5 = 0;   // anode driver output
+    TRIS_LED_ROW_3 = 0;   // anode driver output
+    TRIS_LED_ROW_4 = 0;   // anode driver output
+    TRIS_LED_ROW_1 = 0;   // anode driver output
+    TRIS_LED_ROW_2 = 0;   // anode driver output
     
-    LATBbits.LATB4 = 0;    // LED anode drivers off
-    LATBbits.LATB5 = 0;
-    LATCbits.LATC6 = 0;
-    LATCbits.LATC7 = 0;
+    LAT_LED_ROW_1 = 0;    // LED anode drivers off
+    LAT_LED_ROW_2 = 0;
+    LAT_LED_ROW_3 = 0;
+    LAT_LED_ROW_4 = 0;
     
     // Cathode driver output enable
-    TRISCbits.TRISC2 = 0;
-    LATCbits.LATC2 = 0;     // disabled.
+    TRIS_TLC5917_13 = 0;
+    LAT_TLC5917_13 = 0;     // disabled.
     
     // latch
-    TRISCbits.TRISC4 = 0;
-    LATCbits.LATC4 = 0;     // unlatch
+    TRIS_TLC5917__4 = 0;
+    LAT_TLC5917__4 = 0;     // unlatch
     
     //Set up the MSSP to drive the switch matrix
-    TRISCbits.TRISC3 = 0;   //clock
-    LATCbits.LATC3 = 0;
-    TRISCbits.TRISC5 = 0;   // data
-    LATCbits.LATC5 = 0;
+    TRIS_TLC5917__3 = 0;   //clock
+    LAT_TLC5917__3 = 0;
+    TRIS_TLC5917__2 = 0;   // data
+    LAT_TLC5917__2 = 0;
     
     SPI1CON0 = 0x03; // MSb first, host mode, Total bit count Mode=1, transmit only
     SPI1CON1 = 0x44; // clock edge, SSP=0 for active low and latches when it goes low
@@ -184,15 +184,15 @@ void pollOutputs(void)
     if (brightness == 0) {
         // move to next row
         current_row++;
-        current_row &= 0x3;
+        current_row &= NUM_LED_ROWS-1;     // NUM_LED_ROWS is a power of 2
 
         // disable the cathode driver
-        LATCbits.LATC2 = 1; // OE
+        LAT_TLC5917_13 = 1; // OE
         // also turn the anodes off
-        LATBbits.LATB4 = 0;
-        LATBbits.LATB5 = 0;
-        LATCbits.LATC6 = 0;
-        LATCbits.LATC7 = 0;
+        LAT_LED_ROW_1 = 0;
+        LAT_LED_ROW_2 = 0;
+        LAT_LED_ROW_3 = 0;
+        LAT_LED_ROW_4 = 0;
 
         cathodes = ledMatrix[current_row];
         rowBright = ledBright + current_row * NUM_LED_COLUMNS;
@@ -214,21 +214,21 @@ void pollOutputs(void)
         // turn the relevant anode driver on
         switch (current_row) {
             case 0:
-                LATBbits.LATB4 = 1;
+                LAT_LED_ROW_1 = 1;
                 break;
             case 1:
-                LATBbits.LATB5 = 1;
+                LAT_LED_ROW_2 = 1;
                 break;
             case 2:
-                LATCbits.LATC6 = 1;
+                LAT_LED_ROW_3 = 1;
                 break;
             case 3:
-                LATCbits.LATC7 = 1;
+                LAT_LED_ROW_4 = 1;
                 break;
         }
 
         // enable the cathode driver
-        LATCbits.LATC2 = 0; //OE 
+        LAT_TLC5917_13 = 0; //OE 
     } else {
         // Same row but turn off any LEDs that have their brightness setting
         // less than the current brightness. We do NOT change the anodes here.
@@ -247,14 +247,14 @@ void pollOutputs(void)
         if (newCathodes != cathodes) {
             cathodes = newCathodes;
             // disable the cathode driver
-            LATCbits.LATC2 = 1; // OE
+            LAT_TLC5917_13 = 1; // OE
             SPI1TXB = cathodes; // do the write and send the data
             // This takes quite a few cycles but we have to ensure the cathodes have the
             // right data before latching cathodes.
             while (! SPI1STATUSbits.TXBE)
                 ;
             // enable the cathode driver
-            LATCbits.LATC2 = 0; //OE
+            LAT_TLC5917_13 = 0; //OE
         }
     }
     brightness += 2;
