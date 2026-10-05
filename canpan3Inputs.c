@@ -46,7 +46,6 @@
 #include "canpan3Inputs.h"
 #include "canpan3Nv.h"
 #include "nv.h"
-#include "EEPROMbuffer.h"
 
 static uint8_t buttonState[NUM_BUTTON_COLUMNS];
 uint8_t outputState[NUM_BUTTONS];
