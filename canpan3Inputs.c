@@ -92,8 +92,10 @@ void initInputs(void) {
     WPUB = 0xFF;
 #endif
 #if defined(_18FXXQ83_FAMILY_)
-    WPUB = 0b00000011;    // enable pull-ups
-    WPUC = 0b00000011;
+    // No internal pull-ups on the row inputs: the board has external
+    // pull-downs (RN1) and a row goes high when its button is pressed.
+    WPUB = 0;
+    WPUC = 0;
 #endif
     // start the column outputs
     column = 0;
