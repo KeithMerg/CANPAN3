@@ -1,8 +1,8 @@
 Version 4.0 HI-TECH Software Intermediate Code
-"69 ../canpan3Nv.c
-[; ;../canpan3Nv.c: 69: NvValidation APP_nvValidate(uint8_t index, uint8_t value) {
-[c E23469 0 1 .. ]
-[n E23469 NvValidation INVALID VALID  ]
+"70 ../canpan3Nv.c
+[; ;../canpan3Nv.c: 70: NvValidation APP_nvValidate(uint8_t index, uint8_t value) {
+[c E23495 0 1 .. ]
+[n E23495 NvValidation INVALID VALID  ]
 "306 C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-Q_DFP/1.28.451/xc8\pic\include\proc/pic18f27q83.h
 [; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-Q_DFP/1.28.451/xc8\pic\include\proc/pic18f27q83.h: 306: __asm("BOOTREG equ 038h");
 [; <" BOOTREG equ 038h ;# ">
@@ -3522,99 +3522,99 @@ Version 4.0 HI-TECH Software Intermediate Code
 "69598
 [; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-Q_DFP/1.28.451/xc8\pic\include\proc/pic18f27q83.h: 69598: __asm("TOSU equ 04FFh");
 [; <" TOSU equ 04FFh ;# ">
-"48 ../canpan3Nv.c
-[; ;../canpan3Nv.c: 48: uint8_t APP_nvDefault(uint8_t index) {
+"49 ../canpan3Nv.c
+[; ;../canpan3Nv.c: 49: uint8_t APP_nvDefault(uint8_t index) {
 [v _APP_nvDefault `(uc ~T0 @X0 1 ef1`uc ]
 {
 [e :U _APP_nvDefault ]
 [v _index `uc ~T0 @X0 1 r1 ]
 [f ]
-"49
-[; ;../canpan3Nv.c: 49:     if (index < 67) {
+"50
+[; ;../canpan3Nv.c: 50:     if (index < 67) {
 [e $ ! < -> _index `i -> 67 `i 3302  ]
 {
-"51
-[; ;../canpan3Nv.c: 51:         if (index == 1)
-[e $ ! == -> _index `i -> 1 `i 3303  ]
 "52
-[; ;../canpan3Nv.c: 52:                 return 0;
+[; ;../canpan3Nv.c: 52:         if (index == 1)
+[e $ ! == -> _index `i -> 1 `i 3303  ]
+"53
+[; ;../canpan3Nv.c: 53:                 return 0;
 [e ) -> -> 0 `i `uc ]
 [e $UE 3301  ]
 [e :U 3303 ]
-"53
-[; ;../canpan3Nv.c: 53:         if (index == 2)
-[e $ ! == -> _index `i -> 2 `i 3304  ]
 "54
-[; ;../canpan3Nv.c: 54:                 return (62500/2)/1000;
+[; ;../canpan3Nv.c: 54:         if (index == 2)
+[e $ ! == -> _index `i -> 2 `i 3304  ]
+"55
+[; ;../canpan3Nv.c: 55:                 return (62500/2)/1000;
 [e ) -> / / -> 62500 `l -> -> 2 `i `l -> -> 1000 `i `l `uc ]
 [e $UE 3301  ]
 [e :U 3304 ]
-"55
-[; ;../canpan3Nv.c: 55:         if (index < (3 + (4*8)))
-[e $ ! < -> _index `i + -> 3 `i * -> 4 `i -> 8 `i 3305  ]
 "56
-[; ;../canpan3Nv.c: 56:                 return 16;
+[; ;../canpan3Nv.c: 56:         if (index < (3 + (4*8)))
+[e $ ! < -> _index `i + -> 3 `i * -> 4 `i -> 8 `i 3305  ]
+"57
+[; ;../canpan3Nv.c: 57:                 return 16;
 [e ) -> -> 16 `i `uc ]
 [e $UE 3301  ]
 [e :U 3305 ]
-"57
-[; ;../canpan3Nv.c: 57:         if (index <= ((3 +(8*4)) + (8*4)))
-[e $ ! <= -> _index `i + + -> 3 `i * -> 8 `i -> 4 `i * -> 8 `i -> 4 `i 3306  ]
 "58
-[; ;../canpan3Nv.c: 58:                 return 0x00;
+[; ;../canpan3Nv.c: 58:         if (index <= ((3 +(8*4)) + (8*4)))
+[e $ ! <= -> _index `i + + -> 3 `i * -> 8 `i -> 4 `i * -> 8 `i -> 4 `i 3306  ]
+"59
+[; ;../canpan3Nv.c: 59:                 return 0x00;
 [e ) -> -> 0 `i `uc ]
 [e $UE 3301  ]
 [e :U 3306 ]
-"59
-[; ;../canpan3Nv.c: 59:         if (index == ((3 +(8*4)) + (8*4)))
-[e $ ! == -> _index `i + + -> 3 `i * -> 8 `i -> 4 `i * -> 8 `i -> 4 `i 3307  ]
 "60
-[; ;../canpan3Nv.c: 60:             return 0;
+[; ;../canpan3Nv.c: 60:         if (index == ((3 +(8*4)) + (8*4)))
+[e $ ! == -> _index `i + + -> 3 `i * -> 8 `i -> 4 `i * -> 8 `i -> 4 `i 3307  ]
+"61
+[; ;../canpan3Nv.c: 61:             return 0;
 [e ) -> -> 0 `i `uc ]
 [e $UE 3301  ]
 [e :U 3307 ]
-"61
-[; ;../canpan3Nv.c: 61:     }
+"62
+[; ;../canpan3Nv.c: 62:     }
 }
 [e :U 3302 ]
-"62
-[; ;../canpan3Nv.c: 62:     return 0;
+"63
+[; ;../canpan3Nv.c: 63:     return 0;
 [e ) -> -> 0 `i `uc ]
 [e $UE 3301  ]
-"63
-[; ;../canpan3Nv.c: 63: }
+"64
+[; ;../canpan3Nv.c: 64: }
 [e :UE 3301 ]
 }
-"69
-[; ;../canpan3Nv.c: 69: NvValidation APP_nvValidate(uint8_t index, uint8_t value) {
-[v _APP_nvValidate `(E23469 ~T0 @X0 1 ef2`uc`uc ]
+"70
+[; ;../canpan3Nv.c: 70: NvValidation APP_nvValidate(uint8_t index, uint8_t value) {
+[v _APP_nvValidate `(E23495 ~T0 @X0 1 ef2`uc`uc ]
 {
 [e :U _APP_nvValidate ]
 [v _index `uc ~T0 @X0 1 r1 ]
 [v _value `uc ~T0 @X0 1 r2 ]
 [f ]
-"70
-[; ;../canpan3Nv.c: 70:     if ((index == 1) &&(value > 3)) {
+"71
+[; ;../canpan3Nv.c: 71:     if ((index == 1) &&(value > 3)) {
 [e $ ! && == -> _index `i -> 1 `i > -> _value `i -> 3 `i 3309  ]
 {
-"71
-[; ;../canpan3Nv.c: 71:         return INVALID;
-[e ) . `E23469 0 ]
-[e $UE 3308  ]
 "72
-[; ;../canpan3Nv.c: 72:     }
+[; ;../canpan3Nv.c: 72:         return INVALID;
+[e ) . `E23495 0 ]
+[e $UE 3308  ]
+"73
+[; ;../canpan3Nv.c: 73:     }
 }
 [e :U 3309 ]
-"73
-[; ;../canpan3Nv.c: 73:     return VALID;
-[e ) . `E23469 1 ]
-[e $UE 3308  ]
 "74
-[; ;../canpan3Nv.c: 74: }
+[; ;../canpan3Nv.c: 74:     return VALID;
+[e ) . `E23495 1 ]
+[e $UE 3308  ]
+"75
+[; ;../canpan3Nv.c: 75: }
 [e :UE 3308 ]
 }
-"79
-[; ;../canpan3Nv.c: 79: void APP_nvValueChanged(uint8_t index, uint8_t value, uint8_t oldValue) {
+"80
+[; ;../canpan3Nv.c: 80: void APP_nvValueChanged(uint8_t index, uint8_t value, uint8_t oldValue) {
 [v _APP_nvValueChanged `(v ~T0 @X0 1 ef3`uc`uc`uc ]
 {
 [e :U _APP_nvValueChanged ]
@@ -3622,7 +3622,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 [v _value `uc ~T0 @X0 1 r2 ]
 [v _oldValue `uc ~T0 @X0 1 r3 ]
 [f ]
-"80
-[; ;../canpan3Nv.c: 80: }
+"81
+[; ;../canpan3Nv.c: 81: }
 [e :UE 3310 ]
 }

@@ -1,48 +1,60 @@
-# 1 "../EEPROMbuffer.c"
+# 1 "../../VLCBlib_PIC/asyncEEPROM_buffer.c"
 # 1 "<built-in>" 1
 # 1 "<built-in>" 3
-# 285 "<built-in>" 3
+# 295 "<built-in>" 3
 # 1 "<command line>" 1
 # 1 "<built-in>" 2
-# 1 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include/language_support.h" 1 3
+# 1 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include/language_support.h" 1 3
+# 46 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include/language_support.h" 3
+extern char * __stack_lo;
+extern char * __stack_hi;
+
+
+
+
+
+extern char * __inthi_stack_lo;
+extern char * __inthi_stack_hi;
+extern char * __intlo_stack_lo;
+extern char * __intlo_stack_hi;
 # 2 "<built-in>" 2
-# 1 "../EEPROMbuffer.c" 2
-# 40 "../EEPROMbuffer.c"
-# 1 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include/xc.h" 1 3
-# 18 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include/xc.h" 3
+# 1 "../../VLCBlib_PIC/asyncEEPROM_buffer.c" 2
+# 32 "../../VLCBlib_PIC/asyncEEPROM_buffer.c"
+# 1 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include/xc.h" 1 3
+# 18 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include/xc.h" 3
 extern const char __xc8_OPTIM_SPEED;
 
 extern double __fpnormalize(double);
 
 
-# 1 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/xc8debug.h" 1 3
+# 1 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/xc8debug.h" 1 3
 
 
 
-# 1 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/stdlib.h" 1 3
+# 1 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/stdlib.h" 1 3
 
 
 
-# 1 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/musl_xc8.h" 1 3
-# 5 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/stdlib.h" 2 3
+# 1 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/musl_xc8.h" 1 3
+# 5 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/stdlib.h" 2 3
 
 
 
 
 
-# 1 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/features.h" 1 3
-# 11 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/stdlib.h" 2 3
-# 21 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/stdlib.h" 3
-# 1 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/bits/alltypes.h" 1 3
-# 24 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/bits/alltypes.h" 3
+# 1 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/features.h" 1 3
+# 11 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/stdlib.h" 2 3
+# 21 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/stdlib.h" 3
+# 1 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/bits/alltypes.h" 1 3
+# 24 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/bits/alltypes.h" 3
 typedef long int wchar_t;
-# 128 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/bits/alltypes.h" 3
+# 128 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/bits/alltypes.h" 3
 typedef unsigned size_t;
-# 174 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/bits/alltypes.h" 3
+# 174 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/bits/alltypes.h" 3
 typedef __int24 int24_t;
-# 210 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/bits/alltypes.h" 3
+# 210 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/bits/alltypes.h" 3
 typedef __uint24 uint24_t;
-# 22 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/stdlib.h" 2 3
+# 22 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/stdlib.h" 2 3
 
 int atoi (const char *);
 long atol (const char *);
@@ -68,7 +80,7 @@ unsigned long long strtoull (const char *restrict, char **restrict, int);
 unsigned long __strtoxl(const char * s, char ** endptr, int base, char is_signed);
 
 unsigned long long __strtoxll(const char * s, char ** endptr, int base, char is_signed);
-# 55 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/stdlib.h" 3
+# 55 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/stdlib.h" 3
 int rand (void);
 void srand (unsigned);
 
@@ -114,7 +126,7 @@ typedef struct { unsigned int quot, rem; } udiv_t;
 typedef struct { unsigned long quot, rem; } uldiv_t;
 udiv_t udiv (unsigned int, unsigned int);
 uldiv_t uldiv (unsigned long, unsigned long);
-# 5 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/xc8debug.h" 2 3
+# 5 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/xc8debug.h" 2 3
 
 
 
@@ -124,26 +136,26 @@ uldiv_t uldiv (unsigned long, unsigned long);
 
 #pragma intrinsic(__builtin_software_breakpoint)
 extern void __builtin_software_breakpoint(void);
-# 24 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include/xc.h" 2 3
-# 1 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include/builtins.h" 1 3
+# 24 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include/xc.h" 2 3
+# 1 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include/builtins.h" 1 3
 
 
 
-# 1 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/stdint.h" 1 3
-# 26 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/stdint.h" 3
-# 1 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/bits/alltypes.h" 1 3
-# 133 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/bits/alltypes.h" 3
+# 1 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/stdint.h" 1 3
+# 26 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/stdint.h" 3
+# 1 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/bits/alltypes.h" 1 3
+# 133 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/bits/alltypes.h" 3
 typedef unsigned __int24 uintptr_t;
-# 148 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/bits/alltypes.h" 3
+# 148 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/bits/alltypes.h" 3
 typedef __int24 intptr_t;
-# 164 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/bits/alltypes.h" 3
+# 164 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/bits/alltypes.h" 3
 typedef signed char int8_t;
 
 
 
 
 typedef short int16_t;
-# 179 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/bits/alltypes.h" 3
+# 179 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/bits/alltypes.h" 3
 typedef long int32_t;
 
 
@@ -151,7 +163,7 @@ typedef long int32_t;
 
 
 typedef long long int64_t;
-# 194 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/bits/alltypes.h" 3
+# 194 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/bits/alltypes.h" 3
 typedef long long intmax_t;
 
 
@@ -164,7 +176,7 @@ typedef unsigned char uint8_t;
 
 
 typedef unsigned short uint16_t;
-# 215 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/bits/alltypes.h" 3
+# 215 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/bits/alltypes.h" 3
 typedef unsigned long uint32_t;
 
 
@@ -172,9 +184,9 @@ typedef unsigned long uint32_t;
 
 
 typedef unsigned long long uint64_t;
-# 235 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/bits/alltypes.h" 3
+# 235 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/bits/alltypes.h" 3
 typedef unsigned long long uintmax_t;
-# 27 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/stdint.h" 2 3
+# 27 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/stdint.h" 2 3
 
 typedef int8_t int_fast8_t;
 
@@ -206,14 +218,14 @@ typedef uint24_t uint_fast24_t;
 typedef uint32_t uint_least32_t;
 
 typedef uint64_t uint_least64_t;
-# 148 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/stdint.h" 3
-# 1 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/bits/stdint.h" 1 3
+# 148 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/stdint.h" 3
+# 1 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/bits/stdint.h" 1 3
 typedef int16_t int_fast16_t;
 typedef int32_t int_fast32_t;
 typedef uint16_t uint_fast16_t;
 typedef uint32_t uint_fast32_t;
-# 149 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/stdint.h" 2 3
-# 5 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include/builtins.h" 2 3
+# 149 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/stdint.h" 2 3
+# 5 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include/builtins.h" 2 3
 
 
 #pragma intrinsic(__nop)
@@ -235,7 +247,7 @@ extern __attribute__((nonreentrant)) void _delaywdt(uint32_t);
 
 #pragma intrinsic(_delay3)
 extern __attribute__((nonreentrant)) void _delay3(uint8_t);
-# 25 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include/xc.h" 2 3
+# 25 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include/xc.h" 2 3
 
 
 
@@ -248,7 +260,8 @@ extern __attribute__((nonreentrant)) void _delay3(uint8_t);
 
 
 
-
+# 1 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include/xc.h" 1 3
+# 5 "C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-Q_DFP/1.28.451/xc8\\pic\\include/pic18.h" 2 3
 # 1 "C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-Q_DFP/1.28.451/xc8\\pic\\include/pic18_chip_select.h" 1 3
 # 204 "C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-Q_DFP/1.28.451/xc8\\pic\\include/pic18_chip_select.h" 3
 # 1 "C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-Q_DFP/1.28.451/xc8\\pic\\include\\proc/pic18f27q83.h" 1 3
@@ -38247,7 +38260,7 @@ __attribute__((__unsupported__("The " "EraseFlash" " routine is no longer suppor
 
 
 
-# 1 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include/errata.h" 1 3
+# 1 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include/errata.h" 1 3
 # 24 "C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-Q_DFP/1.28.451/xc8\\pic\\include/pic18.h" 2 3
 # 139 "C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-Q_DFP/1.28.451/xc8\\pic\\include/pic18.h" 3
 __attribute__((__unsupported__("The " "Read_b_eep" " routine is no longer supported. Please use the MPLAB X MCC."))) unsigned char Read_b_eep(unsigned int badd);
@@ -38258,8 +38271,8 @@ __attribute__((__unsupported__("The READTIMER" "0" "() macro is not available wi
 # 175 "C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-Q_DFP/1.28.451/xc8\\pic\\include/pic18.h" 3
 unsigned char __t1rd16on(void);
 unsigned char __t3rd16on(void);
-# 34 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include/xc.h" 2 3
-# 41 "../EEPROMbuffer.c" 2
+# 34 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include/xc.h" 2 3
+# 33 "../../VLCBlib_PIC/asyncEEPROM_buffer.c" 2
 # 1 "../../VLCBlib_PIC/nvm.h" 1
 # 68 "../../VLCBlib_PIC/nvm.h"
 typedef enum {
@@ -38297,7 +38310,12 @@ typedef uint8_t eeprom_data_t;
 
 
 typedef uint24_t eeprom_address_t;
-# 147 "../../VLCBlib_PIC/nvm.h"
+# 151 "../../VLCBlib_PIC/nvm.h"
+extern void flushNVM(void);
+
+
+
+
 extern void flushFlashBlock(void);
 
 
@@ -38312,17 +38330,29 @@ extern void initRomOps(void);
 
 
 extern int16_t readNVM(NVMtype type, uint24_t index);
-# 171 "../../VLCBlib_PIC/nvm.h"
-extern uint8_t writeNVM(NVMtype type, uint24_t index, uint8_t value);
 # 180 "../../VLCBlib_PIC/nvm.h"
+extern uint8_t writeNVM(NVMtype type, uint24_t index, uint8_t value);
+# 189 "../../VLCBlib_PIC/nvm.h"
 extern uint8_t EEPROM_WriteNoVerify(eeprom_address_t index, eeprom_data_t value);
+
+
+
+
+extern void flushNVM(void);
 
 
 
 
 
 extern ValidTime APP_isSuitableTimeToWriteFlash(void);
-# 42 "../EEPROMbuffer.c" 2
+
+
+
+
+
+
+eeprom_data_t EEPROM_Read(eeprom_address_t index);
+# 34 "../../VLCBlib_PIC/asyncEEPROM_buffer.c" 2
 # 1 "../module.h" 1
 
 
@@ -38333,983 +38363,7 @@ extern ValidTime APP_isSuitableTimeToWriteFlash(void);
 
 
 # 1 "../../VLCBlib_PIC/statusLeds.h" 1
-# 42 "../../VLCBlib_PIC/statusLeds.h"
-# 1 "../../VLCBlib_PIC/vlcb.h" 1
-# 39 "../../VLCBlib_PIC/vlcb.h"
-# 1 "../../VLCB-defs/vlcbdefs_enums.h" 1
-# 15 "../../VLCB-defs/vlcbdefs_enums.h"
-typedef enum VlcbManufacturer
-{
-
-
-
-  MANU_DEV = 13,
-  MANU_MERG = 165,
-  MANU_SPROG = 44,
-  MANU_ROCRAIL = 70,
-  MANU_SPECTRUM = 80,
-  MANU_SYSPIXIE = 249,
-  MANU_RME = 248,
-} VlcbManufacturer;
-
-typedef enum VlcbMergModuleTypes
-{
-
-
-
-
-
-
-
-  MTYP_SLIM = 0,
-  MTYP_CANACC4 = 1,
-  MTYP_CANACC5 = 2,
-  MTYP_CANACC8 = 3,
-  MTYP_CANACE3 = 4,
-  MTYP_CANACE8C = 5,
-  MTYP_CANLED = 6,
-  MTYP_CANLED64 = 7,
-  MTYP_CANACC4_2 = 8,
-  MTYP_CANCAB = 9,
-  MTYP_CANCMD = 10,
-  MTYP_CANSERVO = 11,
-  MTYP_CANBC = 12,
-  MTYP_CANRPI = 13,
-  MTYP_CANTTCA = 14,
-  MTYP_CANTTCB = 15,
-  MTYP_CANHS = 16,
-  MTYP_CANTOTI = 17,
-  MTYP_CAN8I8O = 18,
-  MTYP_CANSERVO8C = 19,
-  MTYP_CANRFID = 20,
-  MTYP_CANTC4 = 21,
-  MTYP_CANACE16C = 22,
-  MTYP_CANIO8 = 23,
-  MTYP_CANSNDX = 24,
-  MTYP_CANEther = 25,
-  MTYP_CANSIG64 = 26,
-  MTYP_CANSIG8 = 27,
-  MTYP_CANCOND8C = 28,
-  MTYP_CANPAN = 29,
-  MTYP_CANACE3C = 30,
-  MTYP_CANPanel = 31,
-  MTYP_CANMIO = 32,
-  MTYP_CANACE8MIO = 33,
-  MTYP_CANSOL = 34,
-  MTYP_CANBIP = 35,
-  MTYP_CANCDU = 36,
-  MTYP_CANACC4CDU = 37,
-  MTYP_CANWiBase = 38,
-  MTYP_WiCAB = 39,
-  MTYP_CANWiFi = 40,
-  MTYP_CANFTT = 41,
-  MTYP_CANHNDST = 42,
-  MTYP_CANTCHNDST = 43,
-  MTYP_CANRFID8 = 44,
-  MTYP_CANmchRFID = 45,
-  MTYP_CANPiWi = 46,
-  MTYP_CAN4DC = 47,
-  MTYP_CANELEV = 48,
-  MTYP_CANSCAN = 49,
-  MTYP_CANMIO_SVO = 50,
-  MTYP_CANMIO_INP = 51,
-  MTYP_CANMIO_OUT = 52,
-  MTYP_CANBIP_OUT = 53,
-  MTYP_CANASTOP = 54,
-  MTYP_CANCSB = 55,
-  MTYP_CANMAG = 56,
-  MTYP_CANACE16CMIO = 57,
-  MTYP_CANPiNODE = 58,
-  MTYP_CANDISP = 59,
-  MTYP_CANCOMPUTE = 60,
-  MTYP_CANRC522 = 61,
-  MTYP_CANINP = 62,
-  MTYP_CANOUT = 63,
-  MTYP_CANXIO = 64,
-  MTYP_CANCABDC = 65,
-  MTYP_CANRCOM = 66,
-  MTYP_CANMP3 = 67,
-  MTYP_CANXMAS = 68,
-  MTYP_CANSVOSET = 69,
-  MTYP_CANCMDDC = 70,
-  MTYP_CANTEXT = 71,
-  MTYP_CANASIGNAL = 72,
-  MTYP_CANSLIDER = 73,
-  MTYP_CANDCATC = 74,
-  MTYP_CANGATE = 75,
-  MTYP_CANSINP = 76,
-  MTYP_CANSOUT = 77,
-  MTYP_CANSBIP = 78,
-  MTYP_CANBUFFER = 79,
-  MTYP_CANLEVER = 80,
-  MTYP_CANSHIELD = 81,
-  MTYP_CAN4IN4OUT = 82,
-  MTYP_CANCMDB = 83,
-  MTYP_CANPIXEL = 84,
-  MTYP_CANCABPE = 85,
-  MTYP_CANSMARTTD = 86,
-  MTYP_CANARGB = 87,
-  MTYP_CANCDU_U = 88,
-  MTYP_VLCB = 0xFC,
-
-
-
-
-
-  MTYP_CAN_SW = 0xFF,
-  MTYP_EMPTY = 0xFE,
-  MTYP_CANUSB = 0xFD,
-  MTYP_CANDEV = 0xFC,
-} VlcbMergModuleTypes;
-
-typedef enum VlcbSprogModuleTypes
-{
-
-
-
-  MTYP_CANPiSPRG3 = 1,
-  MTYP_CANSPROG3P = 2,
-  MTYP_CANSPROG = 3,
-  MTYP_CANSBOOST = 4,
-  MTYP_CANPiSPRGP = 5,
-  MTYP_CANSOLNOID = 8,
-  MTYP_CANSERVOIO = 50,
-  MTYP_CANISB = 100,
-  MTYP_CANSOLIO = 101,
-} VlcbSprogModuleTypes;
-
-typedef enum VlcbRocRailModuleTypes
-{
-
-
-
-  MTYP_CANGC1 = 1,
-  MTYP_CANGC2 = 2,
-  MTYP_CANGC3 = 3,
-  MTYP_CANGC4 = 4,
-  MTYP_CANGC5 = 5,
-  MTYP_CANGC6 = 6,
-  MTYP_CANGC7 = 7,
-  MTYP_CANGC1e = 11,
-} VlcbRocRailModuleTypes;
-
-typedef enum VlcbSpectrumModuleTypes
-{
-
-
-
-  MTYP_AMCTRLR = 1,
-  MTYP_DUALCAB = 2,
-} VlcbSpectrumModuleTypes;
-
-typedef enum VlcbSysPixieModuleTypes
-{
-
-
-
-  MTYP_CANPMSense = 1,
-} VlcbSysPixieModuleTypes;
-
-typedef enum VlcbOpCodes
-{
-
-
-
-
-
-
-  OPC_ACK = 0x00,
-  OPC_NAK = 0x01,
-  OPC_HLT = 0x02,
-  OPC_BON = 0x03,
-  OPC_TOF = 0x04,
-  OPC_TON = 0x05,
-  OPC_ESTOP = 0x06,
-  OPC_ARST = 0x07,
-  OPC_RTOF = 0x08,
-  OPC_RTON = 0x09,
-  OPC_RESTP = 0x0a,
-  OPC_RSTAT = 0x0c,
-  OPC_QNN = 0x0d,
-
-  OPC_RQNP = 0x10,
-  OPC_RQMN = 0x11,
-
-
-
-  OPC_KLOC = 0x21,
-  OPC_QLOC = 0x22,
-  OPC_DKEEP = 0x23,
-
-  OPC_DBG1 = 0x30,
-  OPC_EXTC = 0x3F,
-
-
-
-  OPC_RLOC = 0x40,
-  OPC_QCON = 0x41,
-  OPC_SNN = 0x42,
-  OPC_ALOC = 0X43,
-
-  OPC_STMOD = 0x44,
-  OPC_PCON = 0x45,
-  OPC_KCON = 0x46,
-  OPC_DSPD = 0x47,
-  OPC_DFLG = 0x48,
-  OPC_DFNON = 0x49,
-  OPC_DFNOF = 0x4A,
-  OPC_SSTAT = 0x4C,
-  OPC_NNRSM = 0x4F,
-
-  OPC_RQNN = 0x50,
-  OPC_NNREL = 0x51,
-  OPC_NNACK = 0x52,
-  OPC_NNLRN = 0x53,
-  OPC_NNULN = 0x54,
-  OPC_NNCLR = 0x55,
-  OPC_NNEVN = 0x56,
-  OPC_NERD = 0x57,
-  OPC_RQEVN = 0x58,
-  OPC_WRACK = 0x59,
-  OPC_RQDAT = 0x5A,
-  OPC_RQDDS = 0x5B,
-  OPC_BOOT = 0x5C,
-  OPC_ENUM = 0x5D,
-  OPC_NNRST = 0x5E,
-  OPC_EXTC1 = 0x5F,
-
-
-
-  OPC_DFUN = 0x60,
-  OPC_GLOC = 0x61,
-  OPC_ERR = 0x63,
-  OPC_CMDERR = 0x6F,
-
-  OPC_EVNLF = 0x70,
-  OPC_NVRD = 0x71,
-  OPC_NENRD = 0x72,
-  OPC_RQNPN = 0x73,
-  OPC_NUMEV = 0x74,
-  OPC_CANID = 0x75,
-  OPC_MODE = 0x76,
-  OPC_RQSD = 0x78,
-  OPC_EXTC2 = 0x7F,
-
-
-
-  OPC_RDCC3 = 0x80,
-  OPC_WCVO = 0x82,
-  OPC_WCVB = 0x83,
-  OPC_QCVS = 0x84,
-  OPC_PCVS = 0x85,
-  OPC_RDGN = 0x87,
-  OPC_NVSETRD = 0x8E,
-
-  OPC_ACON = 0x90,
-  OPC_ACOF = 0x91,
-  OPC_AREQ = 0x92,
-  OPC_ARON = 0x93,
-  OPC_AROF = 0x94,
-  OPC_EVULN = 0x95,
-  OPC_NVSET = 0x96,
-  OPC_NVANS = 0x97,
-  OPC_ASON = 0x98,
-  OPC_ASOF = 0x99,
-  OPC_ASRQ = 0x9A,
-  OPC_PARAN = 0x9B,
-  OPC_REVAL = 0x9C,
-  OPC_ARSON = 0x9D,
-  OPC_ARSOF = 0x9E,
-  OPC_EXTC3 = 0x9F,
-
-
-
-  OPC_RDCC4 = 0xA0,
-  OPC_WCVS = 0xA2,
-  OPC_HEARTB = 0xAB,
-  OPC_SD = 0xAC,
-  OPC_GRSP = 0xAF,
-
-  OPC_ACON1 = 0xB0,
-  OPC_ACOF1 = 0xB1,
-  OPC_REQEV = 0xB2,
-  OPC_ARON1 = 0xB3,
-  OPC_AROF1 = 0xB4,
-  OPC_NEVAL = 0xB5,
-  OPC_PNN = 0xB6,
-  OPC_ASON1 = 0xB8,
-  OPC_ASOF1 = 0xB9,
-  OPC_ARSON1 = 0xBD,
-  OPC_ARSOF1 = 0xBE,
-  OPC_EXTC4 = 0xBF,
-
-
-
-  OPC_RDCC5 = 0xC0,
-  OPC_WCVOA = 0xC1,
-  OPC_CABDAT = 0xC2,
-  OPC_DGN = 0xC7,
-  OPC_FCLK = 0xCF,
-
-  OPC_ACON2 = 0xD0,
-  OPC_ACOF2 = 0xD1,
-  OPC_EVLRN = 0xd2,
-  OPC_EVANS = 0xd3,
-  OPC_ARON2 = 0xD4,
-  OPC_AROF2 = 0xD5,
-  OPC_ASON2 = 0xD8,
-  OPC_ASOF2 = 0xD9,
-  OPC_ARSON2 = 0xDD,
-  OPC_ARSOF2 = 0xDE,
-  OPC_EXTC5 = 0xDF,
-
-
-
-  OPC_RDCC6 = 0xE0,
-  OPC_PLOC = 0xE1,
-  OPC_NAME = 0xE2,
-  OPC_STAT = 0xE3,
-  OPC_ENACK = 0xE6,
-  OPC_ESD = 0xE7,
-  OPC_DTXC = 0xE9,
-  OPC_PARAMS = 0xEF,
-
-  OPC_ACON3 = 0xF0,
-  OPC_ACOF3 = 0xF1,
-  OPC_ENRSP = 0xF2,
-  OPC_ARON3 = 0xF3,
-  OPC_AROF3 = 0xF4,
-  OPC_EVLRNI = 0xF5,
-  OPC_ACDAT = 0xF6,
-  OPC_ARDAT = 0xF7,
-  OPC_ASON3 = 0xF8,
-  OPC_ASOF3 = 0xF9,
-  OPC_DDES = 0xFA,
-  OPC_DDRS = 0xFB,
-  OPC_DDWS = 0xFC,
-  OPC_ARSON3 = 0xFD,
-  OPC_ARSOF3 = 0xFE,
-  OPC_EXTC6 = 0xFF,
-
-
-
-  OPC_VCVS = 0xA4,
-} VlcbOpCodes;
-
-typedef enum VlcbStmodModes
-{
-
-
-
-
-  TMOD_SPD_MASK = 3,
-  TMOD_SPD_128 = 0,
-  TMOD_SPD_14 = 1,
-  TMOD_SPD_28I = 2,
-  TMOD_SPD_28 = 3,
-} VlcbStmodModes;
-
-typedef enum VlcbErrs
-{
-
-
-
-  ERR_LOCO_STACK_FULL = 1,
-  ERR_LOCO_ADDR_TAKEN = 2,
-  ERR_SESSION_NOT_PRESENT = 3,
-  ERR_CONSIST_EMPTY = 4,
-  ERR_LOCO_NOT_FOUND = 5,
-  ERR_CMD_RX_BUF_OFLOW = 6,
-  ERR_INVALID_REQUEST = 7,
-  ERR_SESSION_CANCELLED = 8,
-} VlcbErrs;
-
-typedef enum VlcbSStats
-{
-
-
-
-  SSTAT_NO_ACK = 1,
-  SSTAT_OVLD = 2,
-  SSTAT_WR_ACK = 3,
-  SSTAT_BUSY = 4,
-  SSTAT_CV_ERROR = 5,
-} VlcbSStats;
-
-typedef enum VlcbCmdErrs
-{
-
-
-
-  CMDERR_INV_CMD = 1,
-  CMDERR_NOT_LRN = 2,
-  CMDERR_NOT_SETUP = 3,
-  CMDERR_TOO_MANY_EVENTS = 4,
-  CMDERR_NO_EV = 5,
-  CMDERR_INV_EV_IDX = 6,
-  CMDERR_INVALID_EVENT = 7,
-  CMDERR_INV_EN_IDX = 8,
-  CMDERR_INV_PARAM_IDX = 9,
-  CMDERR_INV_NV_IDX = 10,
-  CMDERR_INV_EV_VALUE = 11,
-  CMDERR_INV_NV_VALUE = 12,
-
-
-
-  CMDERR_LRN_OTHER = 13,
-
-} VlcbCmdErrs;
-
-typedef enum VlcbGrspCodes
-{
-
-
-
-  GRSP_OK = 0,
-  GRSP_UNKNOWN_NVM_TYPE = 254,
-  GRSP_INVALID_DIAGNOSTIC = 253,
-  GRSP_INVALID_SERVICE = 252,
-  GRSP_INVALID_COMMAND_PARAMETER = 251,
-  GRSP_INVALID_MODE = 250,
-} VlcbGrspCodes;
-
-typedef enum VlcbCabSigAspect0
-{
-
-
-
-  CDAT_CABSIG = 1,
-} VlcbCabSigAspect0;
-
-typedef enum VlcbCabSigAspect1
-{
-
-
-
-
-
-  SASP_DANGER = 0,
-  SASP_CAUTION = 1,
-  SASP_PRELIM_CAUTION = 2,
-  SASP_PROCEED = 3,
-  SASP_CALLON = 4,
-  SASP_THEATRE = 8,
-} VlcbCabSigAspect1;
-
-typedef enum VlcbCabSigAspect2
-{
-
-
-
-
-
-  SASP_LIT = 0,
-  SASP_LUNAR = 1,
-
-
-} VlcbCabSigAspect2;
-
-typedef enum VlcbServiceTypes
-{
-
-
-
-  SERVICE_ID_NONE = 0,
-  SERVICE_ID_MNS = 1,
-  SERVICE_ID_NV = 2,
-  SERVICE_ID_CAN = 3,
-  SERVICE_ID_OLD_TEACH = 4,
-  SERVICE_ID_PRODUCER = 5,
-  SERVICE_ID_CONSUMER = 6,
-  SERVICE_ID_TEACH = 7,
-  SERVICE_ID_CONSUME_OWN_EVENTS = 8,
-  SERVICE_ID_EVENTACK = 9,
-  SERVICE_ID_BOOT = 10,
-  SERVICE_ID_STREAMING = 17,
-
-} VlcbServiceTypes;
-
-typedef enum VlcbParams
-{
-
-
-
-
-
-
-  PAR_NUM = 0,
-  PAR_MANU = 1,
-  PAR_MINVER = 2,
-  PAR_MTYP = 3,
-  PAR_EVTNUM = 4,
-  PAR_EVNUM = 5,
-  PAR_NVNUM = 6,
-  PAR_MAJVER = 7,
-  PAR_FLAGS = 8,
-  PAR_CPUID = 9,
-  PAR_BUSTYPE = 10,
-  PAR_LOAD = 11,
-  PAR_CPUMID = 15,
-  PAR_CPUMAN = 19,
-  PAR_BETA = 20,
-} VlcbParams;
-
-typedef enum VlcbParamOffsetsPic
-{
-
-
-
-
-
-  PAR_COUNT = 0x18,
-  PAR_NAME = 0x1A,
-  PAR_CKSUM = 0x1E,
-} VlcbParamOffsetsPic;
-
-typedef enum VlcbParamFlags
-{
-
-
-
-  PF_NOEVENTS = 0,
-  PF_CONSUMER = 1,
-  PF_PRODUCER = 2,
-  PF_COMBI = 3,
-  PF_FLiM = 4,
-  PF_NORMAL = 4,
-  PF_BOOT = 8,
-  PF_COE = 16,
-  PF_LRN = 32,
-  PF_VLCB = 64,
-  PF_SD = 64,
-} VlcbParamFlags;
-
-typedef enum VlcbModeParams
-{
-
-
-
-
-  MODE_UNINITIALISED = 0xFF,
-  MODE_SETUP = 0,
-  MODE_NORMAL = 1,
-
-  MODE_LEARN_ON = 0x08,
-  MODE_LEARN_OFF = 0x09,
-
-  MODE_EVENT_ACK_ON = 0x0A,
-  MODE_EVENT_ACK_OFF = 0x0B,
-
-  MODE_HEARTBEAT_ON = 0x0C,
-  MODE_HEARTBEAT_OFF = 0x0D,
-
-  MODE_BOOT = 0x0E,
-  MODE_FCUCOMPAT_ON = 0x10,
-  MODE_FCUCOMPAT_OFF = 0x11,
-} VlcbModeParams;
-
-typedef enum VlcbBusTypes
-{
-
-
-
-  PB_CAN = 1,
-  PB_ETH = 2,
-  PB_MIWI = 3,
-  PB_USB = 4,
-} VlcbBusTypes;
-
-typedef enum VlcbProcessorManufacturers
-{
-
-
-
-  CPUM_MICROCHIP = 1,
-  CPUM_ATMEL = 2,
-  CPUM_ARM = 3,
-} VlcbProcessorManufacturers;
-
-typedef enum VlcbMicrochipProcessors
-{
-
-
-
-  P18F2480 = 1,
-  P18F4480 = 2,
-  P18F2580 = 3,
-  P18F4580 = 4,
-  P18F2585 = 5,
-  P18F4585 = 6,
-  P18F2680 = 7,
-  P18F4680 = 8,
-  P18F2682 = 9,
-  P18F4682 = 10,
-  P18F2685 = 11,
-  P18F4685 = 12,
-
-  P18F25K80 = 13,
-  P18F45K80 = 14,
-  P18F26K80 = 15,
-  P18F46K80 = 16,
-  P18F65K80 = 17,
-  P18F66K80 = 18,
-  P18F25K83 = 19,
-  P18F26K83 = 20,
-  P18F27Q84 = 21,
-  P18F47Q84 = 22,
-  P18F27Q83 = 23,
-  P18F14K22 = 25,
-
-  P32MX534F064 = 30,
-  P32MX564F064 = 31,
-  P32MX564F128 = 32,
-  P32MX575F256 = 33,
-  P32MX575F512 = 34,
-  P32MX764F128 = 35,
-  P32MX775F256 = 36,
-  P32MX775F512 = 37,
-  P32MX795F512 = 38,
-} VlcbMicrochipProcessors;
-
-typedef enum VlcbArmProcessors
-{
-
-
-
-  ARM1176JZF_S = 1,
-  ARMCortex_A7 = 2,
-  ARMCortex_A53 = 3,
-} VlcbArmProcessors;
-
-typedef enum VlcbCanHardware
-{
-
-
-
-  CAN_HW_NOT_SPECIFIED = 0x00,
-  CAN_HW_PIC_ECAN = 0x01,
-  CAN_HW_PIC_CAN_2_0 = 0x02,
-  CAN_HW_PIC_CAN_FD = 0x03,
-  CAN_HW_MCP2515 = 0x04,
-  CAN_HW_MCP2518 = 0x05,
-  CAN_HW_ESP32_TWAI = 0x06,
-  CAN_HW_SAM3X8E = 0x07,
-  CAN_HW_PICO_PIO = 0x08,
-} VlcbCanHardware;
-
-typedef enum VlcbProducerEvUsage
-{
-
-
-
-  PRODUCER_EV_NOT_SPECIFIED = 0x00,
-  PRODUCER_EV_HAPPENING = 0x01,
-  PRODUCER_EV_SLOTS = 0x02,
-} VlcbProducerEvUsage;
-
-typedef enum VlcbConsumerEvUsage
-{
-
-
-
-  CONSUMER_EV_NOT_SPECIFIED = 0x00,
-  CONSUMER_EV_ACTIONS = 0x01,
-  CONSUMER_EV_SLOTS = 0x02,
-} VlcbConsumerEvUsage;
-
-typedef enum VlcbBootloaderType
-{
-
-
-
-  BL_TYPE_Unknown = 0,
-  BL_TYPE_MikeBolton = 1,
-  BL_TYPE_KonradOrlowski = 2,
-  BL_TYPE_IanHogg = 3,
-} VlcbBootloaderType;
-# 40 "../../VLCBlib_PIC/vlcb.h" 2
-# 82 "../../VLCBlib_PIC/vlcb.h"
-typedef enum Priority {
-    pLOW=0,
-    pNORMAL=1,
-    pABOVE=2,
-    pHIGH=3,
-} Priority;
-
-
-
-
-typedef enum Boolean {
-    FALSE,
-    TRUE
-} Boolean;
-
-
-
-
-typedef enum Result {
-    RESULT_FAIL,
-    RESULT_SUCCESS
-} Result;
-
-
-
-
-
-
-typedef struct Message {
-    uint8_t len;
-    VlcbOpCodes opc;
-    uint8_t bytes[7];
-} Message;
-
-
-
-
-typedef union Word {
-    struct {
-        uint8_t lo;
-        uint8_t hi;
-    } bytes;
-    uint16_t word;
-} Word;
-
-
-
-
-
-typedef enum {
-    EVENT_UNKNOWN = 255,
-    EVENT_OFF=0,
-    EVENT_ON=1
-} EventState;
-# 147 "../../VLCBlib_PIC/vlcb.h"
-typedef union DiagnosticVal {
-    uint16_t asUint;
-    int16_t asInt;
-    struct {
-        uint8_t lo;
-        uint8_t hi;
-    } asBytes;
-} DiagnosticVal;
-
-
-
-
-
-
-typedef enum Processed {
-    NOT_PROCESSED=0,
-    PROCESSED=1
-} Processed;
-
-
-typedef enum Mode_state {
-    EMODE_UNITIALISED,
-    EMODE_SETUP,
-    EMODE_NORMAL
-} Mode_state;
-
-
-
-
-
-
-
-extern const Priority priorities[256];
-# 190 "../../VLCBlib_PIC/vlcb.h"
-extern Processed checkLen(Message * m, uint8_t needed, uint8_t service);
-
-
-
-
-
-extern Boolean isEvent(uint8_t opc);
-
-
-
-
-
-extern void setTimedResponseDelay(uint8_t delay);
-
-
-
-
-
-
-
-void sendMessage0(VlcbOpCodes opc);
-
-
-
-
-
-void sendMessage1(VlcbOpCodes opc, uint8_t data1);
-
-
-
-
-
-
-void sendMessage2(VlcbOpCodes opc, uint8_t data1, uint8_t data2);
-
-
-
-
-
-
-
-void sendMessage3(VlcbOpCodes opc, uint8_t data1, uint8_t data2, uint8_t data3);
-# 240 "../../VLCBlib_PIC/vlcb.h"
-void sendMessage4(VlcbOpCodes opc, uint8_t data1, uint8_t data2, uint8_t data3, uint8_t data4);
-# 250 "../../VLCBlib_PIC/vlcb.h"
-void sendMessage5(VlcbOpCodes opc, uint8_t data1, uint8_t data2, uint8_t data3, uint8_t data4, uint8_t data5);
-# 261 "../../VLCBlib_PIC/vlcb.h"
-void sendMessage6(VlcbOpCodes opc, uint8_t data1, uint8_t data2, uint8_t data3, uint8_t data4, uint8_t data5, uint8_t data6);
-# 273 "../../VLCBlib_PIC/vlcb.h"
-void sendMessage7(VlcbOpCodes opc, uint8_t data1, uint8_t data2, uint8_t data3, uint8_t data4, uint8_t data5, uint8_t data6, uint8_t data7);
-# 286 "../../VLCBlib_PIC/vlcb.h"
-void sendMessage(VlcbOpCodes opc, uint8_t len, uint8_t data1, uint8_t data2, uint8_t data3, uint8_t data4, uint8_t data5, uint8_t data6, uint8_t data7);
-# 299 "../../VLCBlib_PIC/vlcb.h"
-typedef struct Service {
-    uint8_t serviceNo;
-    uint8_t version;
-    void (* factoryReset)(void);
-    void (* powerUp)(void);
-    Processed (* processMessage)(Message * m);
-    void (* poll)(void);
-
-
-
-
-
-    uint8_t (* getESDdata)(uint8_t id);
-
-
-    DiagnosticVal * (* getDiagnostic)(uint8_t index);
-
-} Service;
-
-
-
-
-extern const Service * const services[];
-
-
-
-
-typedef enum ServicePresent {
-    NOT_PRESENT=0,
-    PRESENT=1
-}ServicePresent;
-
-
-
-
-
-
-extern const Service * findService(uint8_t id);
-
-
-
-
-
-
-extern ServicePresent have(uint8_t id);
-
-
-
-
-
-
-extern uint8_t findServiceIndex(uint8_t id);
-
-
-
-
-
-
-extern void factoryReset(void);
-# 389 "../../VLCBlib_PIC/vlcb.h"
-extern void APP_highIsr(void);
-# 399 "../../VLCBlib_PIC/vlcb.h"
-extern void APP_lowIsr(void);
-
-
-
-
-typedef enum MessageReceived {
-    NOT_RECEIVED=0,
-    RECEIVED=1
-} MessageReceived;
-
-
-
-
-typedef enum SendResult {
-    SEND_FAILED=0,
-    SEND_OK
-} SendResult;
-
-
-
-
-
-
-typedef struct Transport {
-    SendResult (* sendMessage)(Message * m);
-    MessageReceived (* receiveMessage)(Message * m);
-    void (*waitForTxQueueToDrain)(void);
-} Transport;
-# 435 "../../VLCBlib_PIC/vlcb.h"
-extern const Transport * transport;
-# 448 "../../VLCBlib_PIC/vlcb.h"
-extern ValidTime APP_isSuitableTimeToWriteFlash(void);
-# 43 "../../VLCBlib_PIC/statusLeds.h" 2
-# 1 "../../VLCBlib_PIC/ticktime.h" 1
-# 211 "../../VLCBlib_PIC/ticktime.h"
-typedef union _TickValue {
-
-    uint32_t val;
-
-    struct TickBytes
-    {
-        uint8_t b0;
-        uint8_t b1;
-        uint8_t b2;
-        uint8_t b3;
-    } byte;
-    uint8_t v[4];
-
-    struct TickWords
-    {
-        uint16_t w0;
-        uint16_t w1;
-    } word;
-} TickValue;
-# 238 "../../VLCBlib_PIC/ticktime.h"
-void initTicker(uint8_t priority);
-
-
-
-
-
-uint32_t tickGet(void);
-
-
-
-
-
-
-
-extern volatile uint8_t timerExtension1;
-
-
-
-
-extern volatile uint8_t timerExtension2;
-# 44 "../../VLCBlib_PIC/statusLeds.h" 2
-
+# 43 "../../VLCBlib_PIC/statusLeds.h"
 # 1 "../../VLCBlib_PIC/statusDisplay.h" 1
 # 55 "../../VLCBlib_PIC/statusDisplay.h"
 typedef enum StatusDisplay {
@@ -39327,8 +38381,15 @@ typedef enum StatusDisplay {
     STATUS_MEMORY_FAULT,
     STATUS_FATAL_ERROR
 } StatusDisplay;
-# 46 "../../VLCBlib_PIC/statusLeds.h" 2
-# 55 "../../VLCBlib_PIC/statusLeds.h"
+# 44 "../../VLCBlib_PIC/statusLeds.h" 2
+
+
+
+
+
+
+
+
 typedef enum {
     LED_OFF,
     LED_ON,
@@ -39347,33 +38408,25 @@ extern void leds_powerUp(void);
 extern void leds_poll(void);
 extern void showStatus(StatusDisplay s);
 # 10 "../module.h" 2
-# 43 "../EEPROMbuffer.c" 2
-
-
-
-
-
-
-
-static uint8_t writeNeeded[((8*4) + (4*8))];
+# 35 "../../VLCBlib_PIC/asyncEEPROM_buffer.c" 2
+# 46 "../../VLCBlib_PIC/asyncEEPROM_buffer.c"
+static uint8_t writeNeeded[(((8*4) + (4*8))/8) + 1];
 static uint8_t eeValue[((8*4) + (4*8))];
 static uint8_t currentMemory;
-
-
-
-
-void initEEPROMwriter(void) {
+# 57 "../../VLCBlib_PIC/asyncEEPROM_buffer.c"
+void initAsyncEEPROM(void) {
     for(currentMemory = 0; currentMemory < ((8*4) + (4*8)); currentMemory++) {
-        writeNeeded[currentMemory] = 0;
+        (writeNeeded[currentMemory/8] &= ~(1<<(currentMemory%8)));
         eeValue[currentMemory] = (uint8_t)readNVM(EEPROM_NVM_TYPE, 0x0000 +currentMemory);
     }
     currentMemory = 0;
 }
-# 74 "../EEPROMbuffer.c"
-void writeEEvalue(uint8_t address, uint8_t value) {
+# 74 "../../VLCBlib_PIC/asyncEEPROM_buffer.c"
+void writeAsyncEEPROM(eeprom_address_t address, uint8_t value) {
+    if (address >= ((8*4) + (4*8))) return;
     if (eeValue[address] != value) {
         eeValue[address] = value;
-        writeNeeded[address] = 1;
+        (writeNeeded[address/8] |= (1<<(address%8)));
     }
 }
 
@@ -39382,7 +38435,8 @@ void writeEEvalue(uint8_t address, uint8_t value) {
 
 
 
-uint8_t readEEvalue(uint8_t address) {
+uint8_t readAsyncEEPROM(eeprom_address_t address) {
+    if (address >= ((8*4) + (4*8))) return 0;
     return eeValue[address];
 }
 
@@ -39390,7 +38444,7 @@ uint8_t readEEvalue(uint8_t address) {
 
 
 
-void pollEEPROMwriter(void) {
+void pollAsyncEEPROM(void) {
     uint8_t i;
 
 
@@ -39401,12 +38455,26 @@ void pollEEPROMwriter(void) {
             if (currentMemory >= ((8*4) + (4*8))) {
                 currentMemory = 0;
             }
-            if (writeNeeded[currentMemory] == 1) {
+            if (((writeNeeded[currentMemory/8] & (1<<(currentMemory%8))) != 0)) {
 
                 EEPROM_WriteNoVerify(0x0000 + currentMemory, eeValue[currentMemory]);
                 return;
             }
         }
 
+    }
+}
+
+
+
+
+void flushAsyncEEPROM(void) {
+    uint8_t i;
+ for (i=0; i < ((8*4) + (4*8)); i++) {
+        if (((writeNeeded[i/8] & (1<<(i%8))) != 0)) {
+
+            EEPROM_WriteNoVerify(0x0000 + i, eeValue[i]);
+            return;
+        }
     }
 }

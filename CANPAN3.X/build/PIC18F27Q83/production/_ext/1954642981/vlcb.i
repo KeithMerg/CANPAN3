@@ -1,48 +1,60 @@
 # 1 "../../VLCBlib_PIC/vlcb.c"
 # 1 "<built-in>" 1
 # 1 "<built-in>" 3
-# 285 "<built-in>" 3
+# 295 "<built-in>" 3
 # 1 "<command line>" 1
 # 1 "<built-in>" 2
-# 1 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include/language_support.h" 1 3
+# 1 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include/language_support.h" 1 3
+# 46 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include/language_support.h" 3
+extern char * __stack_lo;
+extern char * __stack_hi;
+
+
+
+
+
+extern char * __inthi_stack_lo;
+extern char * __inthi_stack_hi;
+extern char * __intlo_stack_lo;
+extern char * __intlo_stack_hi;
 # 2 "<built-in>" 2
 # 1 "../../VLCBlib_PIC/vlcb.c" 2
 # 40 "../../VLCBlib_PIC/vlcb.c"
-# 1 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include/xc.h" 1 3
-# 18 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include/xc.h" 3
+# 1 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include/xc.h" 1 3
+# 18 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include/xc.h" 3
 extern const char __xc8_OPTIM_SPEED;
 
 extern double __fpnormalize(double);
 
 
-# 1 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/xc8debug.h" 1 3
+# 1 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/xc8debug.h" 1 3
 
 
 
-# 1 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/stdlib.h" 1 3
+# 1 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/stdlib.h" 1 3
 
 
 
-# 1 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/musl_xc8.h" 1 3
-# 5 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/stdlib.h" 2 3
+# 1 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/musl_xc8.h" 1 3
+# 5 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/stdlib.h" 2 3
 
 
 
 
 
-# 1 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/features.h" 1 3
-# 11 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/stdlib.h" 2 3
-# 21 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/stdlib.h" 3
-# 1 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/bits/alltypes.h" 1 3
-# 24 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/bits/alltypes.h" 3
+# 1 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/features.h" 1 3
+# 11 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/stdlib.h" 2 3
+# 21 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/stdlib.h" 3
+# 1 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/bits/alltypes.h" 1 3
+# 24 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/bits/alltypes.h" 3
 typedef long int wchar_t;
-# 128 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/bits/alltypes.h" 3
+# 128 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/bits/alltypes.h" 3
 typedef unsigned size_t;
-# 174 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/bits/alltypes.h" 3
+# 174 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/bits/alltypes.h" 3
 typedef __int24 int24_t;
-# 210 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/bits/alltypes.h" 3
+# 210 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/bits/alltypes.h" 3
 typedef __uint24 uint24_t;
-# 22 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/stdlib.h" 2 3
+# 22 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/stdlib.h" 2 3
 
 int atoi (const char *);
 long atol (const char *);
@@ -68,7 +80,7 @@ unsigned long long strtoull (const char *restrict, char **restrict, int);
 unsigned long __strtoxl(const char * s, char ** endptr, int base, char is_signed);
 
 unsigned long long __strtoxll(const char * s, char ** endptr, int base, char is_signed);
-# 55 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/stdlib.h" 3
+# 55 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/stdlib.h" 3
 int rand (void);
 void srand (unsigned);
 
@@ -114,7 +126,7 @@ typedef struct { unsigned int quot, rem; } udiv_t;
 typedef struct { unsigned long quot, rem; } uldiv_t;
 udiv_t udiv (unsigned int, unsigned int);
 uldiv_t uldiv (unsigned long, unsigned long);
-# 5 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/xc8debug.h" 2 3
+# 5 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/xc8debug.h" 2 3
 
 
 
@@ -124,26 +136,26 @@ uldiv_t uldiv (unsigned long, unsigned long);
 
 #pragma intrinsic(__builtin_software_breakpoint)
 extern void __builtin_software_breakpoint(void);
-# 24 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include/xc.h" 2 3
-# 1 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include/builtins.h" 1 3
+# 24 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include/xc.h" 2 3
+# 1 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include/builtins.h" 1 3
 
 
 
-# 1 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/stdint.h" 1 3
-# 26 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/stdint.h" 3
-# 1 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/bits/alltypes.h" 1 3
-# 133 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/bits/alltypes.h" 3
+# 1 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/stdint.h" 1 3
+# 26 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/stdint.h" 3
+# 1 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/bits/alltypes.h" 1 3
+# 133 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/bits/alltypes.h" 3
 typedef unsigned __int24 uintptr_t;
-# 148 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/bits/alltypes.h" 3
+# 148 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/bits/alltypes.h" 3
 typedef __int24 intptr_t;
-# 164 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/bits/alltypes.h" 3
+# 164 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/bits/alltypes.h" 3
 typedef signed char int8_t;
 
 
 
 
 typedef short int16_t;
-# 179 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/bits/alltypes.h" 3
+# 179 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/bits/alltypes.h" 3
 typedef long int32_t;
 
 
@@ -151,7 +163,7 @@ typedef long int32_t;
 
 
 typedef long long int64_t;
-# 194 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/bits/alltypes.h" 3
+# 194 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/bits/alltypes.h" 3
 typedef long long intmax_t;
 
 
@@ -164,7 +176,7 @@ typedef unsigned char uint8_t;
 
 
 typedef unsigned short uint16_t;
-# 215 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/bits/alltypes.h" 3
+# 215 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/bits/alltypes.h" 3
 typedef unsigned long uint32_t;
 
 
@@ -172,9 +184,9 @@ typedef unsigned long uint32_t;
 
 
 typedef unsigned long long uint64_t;
-# 235 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/bits/alltypes.h" 3
+# 235 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/bits/alltypes.h" 3
 typedef unsigned long long uintmax_t;
-# 27 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/stdint.h" 2 3
+# 27 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/stdint.h" 2 3
 
 typedef int8_t int_fast8_t;
 
@@ -206,14 +218,14 @@ typedef uint24_t uint_fast24_t;
 typedef uint32_t uint_least32_t;
 
 typedef uint64_t uint_least64_t;
-# 148 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/stdint.h" 3
-# 1 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/bits/stdint.h" 1 3
+# 148 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/stdint.h" 3
+# 1 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/bits/stdint.h" 1 3
 typedef int16_t int_fast16_t;
 typedef int32_t int_fast32_t;
 typedef uint16_t uint_fast16_t;
 typedef uint32_t uint_fast32_t;
-# 149 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/stdint.h" 2 3
-# 5 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include/builtins.h" 2 3
+# 149 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/stdint.h" 2 3
+# 5 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include/builtins.h" 2 3
 
 
 #pragma intrinsic(__nop)
@@ -235,7 +247,7 @@ extern __attribute__((nonreentrant)) void _delaywdt(uint32_t);
 
 #pragma intrinsic(_delay3)
 extern __attribute__((nonreentrant)) void _delay3(uint8_t);
-# 25 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include/xc.h" 2 3
+# 25 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include/xc.h" 2 3
 
 
 
@@ -248,7 +260,7 @@ extern __attribute__((nonreentrant)) void _delay3(uint8_t);
 
 
 
-# 1 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include/xc.h" 1 3
+# 1 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include/xc.h" 1 3
 # 5 "C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-Q_DFP/1.28.451/xc8\\pic\\include/pic18.h" 2 3
 # 1 "C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-Q_DFP/1.28.451/xc8\\pic\\include/pic18_chip_select.h" 1 3
 # 204 "C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-Q_DFP/1.28.451/xc8\\pic\\include/pic18_chip_select.h" 3
@@ -38248,7 +38260,7 @@ __attribute__((__unsupported__("The " "EraseFlash" " routine is no longer suppor
 
 
 
-# 1 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include/errata.h" 1 3
+# 1 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include/errata.h" 1 3
 # 24 "C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-Q_DFP/1.28.451/xc8\\pic\\include/pic18.h" 2 3
 # 139 "C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-Q_DFP/1.28.451/xc8\\pic\\include/pic18.h" 3
 __attribute__((__unsupported__("The " "Read_b_eep" " routine is no longer supported. Please use the MPLAB X MCC."))) unsigned char Read_b_eep(unsigned int badd);
@@ -38259,7 +38271,7 @@ __attribute__((__unsupported__("The READTIMER" "0" "() macro is not available wi
 # 175 "C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-Q_DFP/1.28.451/xc8\\pic\\include/pic18.h" 3
 unsigned char __t1rd16on(void);
 unsigned char __t3rd16on(void);
-# 34 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include/xc.h" 2 3
+# 34 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include/xc.h" 2 3
 # 41 "../../VLCBlib_PIC/vlcb.c" 2
 # 1 "../../VLCBlib_PIC/vlcb.h" 1
 # 38 "../../VLCBlib_PIC/vlcb.h"
@@ -38273,53 +38285,7 @@ unsigned char __t3rd16on(void);
 
 
 # 1 "../../VLCBlib_PIC/statusLeds.h" 1
-# 42 "../../VLCBlib_PIC/statusLeds.h"
-# 1 "../../VLCBlib_PIC/vlcb.h" 1
-# 43 "../../VLCBlib_PIC/statusLeds.h" 2
-# 1 "../../VLCBlib_PIC/ticktime.h" 1
-# 211 "../../VLCBlib_PIC/ticktime.h"
-typedef union _TickValue {
-
-    uint32_t val;
-
-    struct TickBytes
-    {
-        uint8_t b0;
-        uint8_t b1;
-        uint8_t b2;
-        uint8_t b3;
-    } byte;
-    uint8_t v[4];
-
-    struct TickWords
-    {
-        uint16_t w0;
-        uint16_t w1;
-    } word;
-} TickValue;
-# 238 "../../VLCBlib_PIC/ticktime.h"
-void initTicker(uint8_t priority);
-
-
-
-
-
-uint32_t tickGet(void);
-
-
-
-
-
-
-
-extern volatile uint8_t timerExtension1;
-
-
-
-
-extern volatile uint8_t timerExtension2;
-# 44 "../../VLCBlib_PIC/statusLeds.h" 2
-
+# 43 "../../VLCBlib_PIC/statusLeds.h"
 # 1 "../../VLCBlib_PIC/statusDisplay.h" 1
 # 55 "../../VLCBlib_PIC/statusDisplay.h"
 typedef enum StatusDisplay {
@@ -38337,8 +38303,15 @@ typedef enum StatusDisplay {
     STATUS_MEMORY_FAULT,
     STATUS_FATAL_ERROR
 } StatusDisplay;
-# 46 "../../VLCBlib_PIC/statusLeds.h" 2
-# 55 "../../VLCBlib_PIC/statusLeds.h"
+# 44 "../../VLCBlib_PIC/statusLeds.h" 2
+
+
+
+
+
+
+
+
 typedef enum {
     LED_OFF,
     LED_ON,
@@ -39087,7 +39060,45 @@ typedef uint8_t eeprom_data_t;
 
 
 typedef uint24_t eeprom_address_t;
-# 147 "../../VLCBlib_PIC/nvm.h"
+# 144 "../../VLCBlib_PIC/nvm.h"
+# 1 "../../VLCBlib_PIC/asyncEEPROM.h" 1
+# 42 "../../VLCBlib_PIC/asyncEEPROM.h"
+# 1 "../../VLCBlib_PIC/vlcb.h" 1
+# 43 "../../VLCBlib_PIC/asyncEEPROM.h" 2
+# 55 "../../VLCBlib_PIC/asyncEEPROM.h"
+extern void initAsyncEEPROM(void);
+
+
+
+
+extern void pollAsyncEEPROM(void);
+
+
+
+
+extern uint8_t readAsyncEEPROM(eeprom_address_t address);
+
+
+
+
+extern void writeAsyncEEPROM(eeprom_address_t address, uint8_t data);
+
+
+
+
+extern void flushAsyncEEPROM(void);
+# 145 "../../VLCBlib_PIC/nvm.h" 2
+
+
+
+
+
+
+extern void flushNVM(void);
+
+
+
+
 extern void flushFlashBlock(void);
 
 
@@ -39102,16 +39113,28 @@ extern void initRomOps(void);
 
 
 extern int16_t readNVM(NVMtype type, uint24_t index);
-# 171 "../../VLCBlib_PIC/nvm.h"
-extern uint8_t writeNVM(NVMtype type, uint24_t index, uint8_t value);
 # 180 "../../VLCBlib_PIC/nvm.h"
+extern uint8_t writeNVM(NVMtype type, uint24_t index, uint8_t value);
+# 189 "../../VLCBlib_PIC/nvm.h"
 extern uint8_t EEPROM_WriteNoVerify(eeprom_address_t index, eeprom_data_t value);
+
+
+
+
+extern void flushNVM(void);
 
 
 
 
 
 extern ValidTime APP_isSuitableTimeToWriteFlash(void);
+
+
+
+
+
+
+eeprom_data_t EEPROM_Read(eeprom_address_t index);
 # 41 "../../VLCBlib_PIC/vlcb.h" 2
 # 82 "../../VLCBlib_PIC/vlcb.h"
 typedef enum Priority {
@@ -39340,22 +39363,89 @@ typedef enum SendResult {
 
 
 
+typedef enum TxDrainResult {
+    DRAIN_OK,
+    OVERALL_TIMEOUT,
+    MESSAGE_TIMEOUT,
+    BUS_OFF_ERROR
+} TxDrainResult;
+
+
+
 
 typedef struct Transport {
     SendResult (* sendMessage)(Message * m);
     MessageReceived (* receiveMessage)(Message * m);
-    void (*waitForTxQueueToDrain)(void);
+    TxDrainResult (*waitForTxQueueToDrain)(void);
 } Transport;
-# 435 "../../VLCBlib_PIC/vlcb.h"
+# 444 "../../VLCBlib_PIC/vlcb.h"
 extern const Transport * transport;
-# 448 "../../VLCBlib_PIC/vlcb.h"
+# 457 "../../VLCBlib_PIC/vlcb.h"
 extern ValidTime APP_isSuitableTimeToWriteFlash(void);
+
+
+
+
+
+
+
+extern void APP_earlyInit(void);
 # 42 "../../VLCBlib_PIC/vlcb.c" 2
 
 
-# 1 "../../VLCBlib_PIC/hardware.h" 1
-# 45 "../../VLCBlib_PIC/vlcb.c" 2
 
+# 1 "../../VLCBlib_PIC/hardware.h" 1
+# 46 "../../VLCBlib_PIC/vlcb.c" 2
+# 1 "../../VLCBlib_PIC/ticktime.h" 1
+# 211 "../../VLCBlib_PIC/ticktime.h"
+typedef union _TickValue {
+
+    uint32_t val;
+
+    struct TickBytes
+    {
+        uint8_t b0;
+        uint8_t b1;
+        uint8_t b2;
+        uint8_t b3;
+    } byte;
+    uint8_t v[4];
+
+    struct TickWords
+    {
+        uint16_t w0;
+        uint16_t w1;
+    } word;
+} TickValue;
+
+
+
+
+
+
+extern TickValue tickNow;
+# 246 "../../VLCBlib_PIC/ticktime.h"
+void initTicker(uint8_t priority);
+
+
+
+
+
+uint32_t tickGet(void);
+
+
+
+
+
+
+
+extern volatile uint8_t timerExtension1;
+
+
+
+
+extern volatile uint8_t timerExtension2;
+# 47 "../../VLCBlib_PIC/vlcb.c" 2
 # 1 "../../VLCBlib_PIC/timedResponse.h" 1
 # 86 "../../VLCBlib_PIC/timedResponse.h"
 typedef enum {
@@ -39393,7 +39483,7 @@ extern void startTimedResponse(uint8_t type, uint8_t serviceIndex, TimedResponse
 
 
 extern void pollTimedResponse(void);
-# 47 "../../VLCBlib_PIC/vlcb.c" 2
+# 48 "../../VLCBlib_PIC/vlcb.c" 2
 
 # 1 "../../VLCBlib_PIC/mns.h" 1
 # 111 "../../VLCBlib_PIC/mns.h"
@@ -39419,8 +39509,10 @@ extern void updateModuleErrorStatus(void);
 
 
 extern TickValue pbTimer;
-# 49 "../../VLCBlib_PIC/vlcb.c" 2
-# 332 "../../VLCBlib_PIC/vlcb.c"
+# 50 "../../VLCBlib_PIC/vlcb.c" 2
+# 272 "../../VLCBlib_PIC/vlcb.c"
+# 1 "../../VLCBlib_PIC/vlcb_config_q83.h" 1
+# 83 "../../VLCBlib_PIC/vlcb_config_q83.h"
 #pragma config FEXTOSC = HS
 
 #pragma config RSTOSC = EXTOSC
@@ -39452,6 +39544,7 @@ extern TickValue pbTimer;
 
 
 #pragma config WDTCPS = WDTCPS_31
+
 #pragma config WDTE = OFF
 
 
@@ -39459,7 +39552,7 @@ extern TickValue pbTimer;
 #pragma config WDTCCS = SC
 
 
-#pragma config BBSIZE = BBSIZE_512
+#pragma config BBSIZE = BBSIZE_1024
 #pragma config BBEN = ON
 #pragma config SAFEN = OFF
 
@@ -39559,6 +39652,7 @@ extern TickValue pbTimer;
 
 
 #pragma config CRCERESL = hFF
+# 273 "../../VLCBlib_PIC/vlcb.c" 2
 
 
 
@@ -39577,41 +39671,14 @@ const Priority priorities[256] = {
     pABOVE,
     pABOVE,
     pHIGH,
+            pNORMAL,
     pNORMAL,
     pLOW,
+            pNORMAL,
+            pNORMAL,
     pLOW,
     pNORMAL,
             pNORMAL,
-            pNORMAL,
-            pNORMAL,
-            pNORMAL,
-            pNORMAL,
-            pNORMAL,
-            pNORMAL,
-            pNORMAL,
-            pNORMAL,
-            pNORMAL,
-            pNORMAL,
-            pNORMAL,
-            pNORMAL,
-            pNORMAL,
-            pNORMAL,
-    pNORMAL,
-    pNORMAL,
-    pNORMAL,
-            pNORMAL,
-            pNORMAL,
-            pNORMAL,
-            pNORMAL,
-            pNORMAL,
-            pNORMAL,
-            pNORMAL,
-            pNORMAL,
-            pNORMAL,
-            pNORMAL,
-            pNORMAL,
-            pNORMAL,
-    pNORMAL,
             pNORMAL,
             pNORMAL,
             pNORMAL,
@@ -39629,6 +39696,36 @@ const Priority priorities[256] = {
     pNORMAL,
     pNORMAL,
     pNORMAL,
+            pNORMAL,
+            pNORMAL,
+            pNORMAL,
+            pNORMAL,
+            pNORMAL,
+            pNORMAL,
+            pNORMAL,
+            pNORMAL,
+            pNORMAL,
+            pNORMAL,
+            pNORMAL,
+            pNORMAL,
+    pNORMAL,
+            pNORMAL,
+            pNORMAL,
+            pNORMAL,
+            pNORMAL,
+            pNORMAL,
+            pNORMAL,
+            pNORMAL,
+            pNORMAL,
+            pNORMAL,
+            pNORMAL,
+            pNORMAL,
+            pNORMAL,
+            pNORMAL,
+            pNORMAL,
+    pNORMAL,
+    pNORMAL,
+    pNORMAL,
     pLOW,
     pNORMAL,
     pNORMAL,
@@ -39661,6 +39758,7 @@ const Priority priorities[256] = {
     pLOW,
     pNORMAL,
     pNORMAL,
+            pNORMAL,
     pNORMAL,
             pNORMAL,
             pNORMAL,
@@ -39801,6 +39899,7 @@ const Priority priorities[256] = {
            pNORMAL,
            pNORMAL,
            pNORMAL,
+    pLOW,
     pLOW,
     pLOW,
     pLOW,
@@ -39823,12 +39922,7 @@ const Priority priorities[256] = {
 
 #pragma romdata BOOTFLAG
 uint8_t eeBootFlag = 0;
-
-
-
-
-
-
+# 590 "../../VLCBlib_PIC/vlcb.c"
 const Transport * transport;
 static Message tmpMessage;
 
@@ -39837,7 +39931,12 @@ static Message tmpMessage;
 
 static TickValue timedResponseTime;
 static uint8_t timedResponseDelay;
+static uint32_t timedResponseTicks;
 
+
+
+
+TickValue tickNow;
 
 
 
@@ -39886,18 +39985,13 @@ void setup(void);
 
 
 void loop(void);
-
-
-
-
-
-
+# 661 "../../VLCBlib_PIC/vlcb.c"
 __asm("PSECT eeprom_data,class=EEDATA");
 
 __asm("ORG " "0x3FA");
 
 __asm("db 0xFF");
-# 818 "../../VLCBlib_PIC/vlcb.c"
+# 676 "../../VLCBlib_PIC/vlcb.c"
 const Service * findService(uint8_t id) {
     uint8_t i;
     for (i=0; i<8; i++) {
@@ -39938,7 +40032,7 @@ ServicePresent have(uint8_t id) {
     }
     return NOT_PRESENT;
 }
-# 868 "../../VLCBlib_PIC/vlcb.c"
+# 726 "../../VLCBlib_PIC/vlcb.c"
 void factoryReset(void) {
     uint8_t i;
 
@@ -39960,13 +40054,13 @@ void factoryReset(void) {
 
 static void powerUp(void) {
     uint8_t i;
-    uint8_t divider;
 
 
     initTicker(0);
     initTimedResponse();
     leds_powerUp();
     timedResponseDelay = 5;
+    timedResponseTicks = (uint32_t)timedResponseDelay*(62500/1000);
 
     for (i=0; i<8; i++) {
         if ((services[i] != ((void*)0)) && (services[i]->powerUp != ((void*)0))) {
@@ -39974,18 +40068,20 @@ static void powerUp(void) {
         }
     }
 }
-# 912 "../../VLCBlib_PIC/vlcb.c"
+# 770 "../../VLCBlib_PIC/vlcb.c"
 void setTimedResponseDelay(uint8_t delay) {
     timedResponseDelay = delay;
+    timedResponseTicks = (uint32_t)delay*(62500/1000);
 }
-# 923 "../../VLCBlib_PIC/vlcb.c"
-uint8_t pbDownTimer(uint8_t timeout) {
+# 782 "../../VLCBlib_PIC/vlcb.c"
+static uint8_t pbDownTimer(uint8_t timeout) {
 
     pbTimer.val = tickGet();
     while ((!(PORTAbits.RA3))) {
+        (tickNow.val = tickGet());
         leds_poll();
         if ((tickGet() - pbTimer.val) > timeout*62500) {
-            return 0;
+            return 0xFF;
         }
     }
 
@@ -39998,19 +40094,20 @@ uint8_t pbDownTimer(uint8_t timeout) {
 
 
 
-uint8_t pbUpTimer(uint8_t timeout) {
+static uint8_t pbUpTimer(uint8_t timeout) {
 
     pbTimer.val = tickGet();
     while (! ((!(PORTAbits.RA3)))) {
+        (tickNow.val = tickGet());
         leds_poll();
         if ((tickGet() - pbTimer.val) > timeout*62500) {
-            return 0;
+            return 0xFF;
         }
     }
 
     return (uint8_t)((tickGet() - pbTimer.val)/62500);
 }
-# 967 "../../VLCBlib_PIC/vlcb.c"
+# 828 "../../VLCBlib_PIC/vlcb.c"
 static void checkPowerOnPb(void) {
     uint8_t i;
 
@@ -40021,37 +40118,85 @@ static void checkPowerOnPb(void) {
         if (i == 0) {
 
             return;
+        } else if (i == 0xFF) {
+
+
         } else if (i < 4) {
             APP_testMode();
         } else if (i >= 8) {
             showStatus(STATUS_RESET_WARNING);
 
             i = pbUpTimer(5);
-            if (i == 0) {
+             if (i == 0xFF) {
 
                 return;
             }
             i = pbDownTimer(5);
             if ((i>=2) && (i < 4)) {
                 factoryReset();
+                __asm("reset");
+            }
+        }
+
+
+
+        while ((!(PORTAbits.RA3))) {
+            (tickNow.val = tickGet());
+            leds_poll();
+        }
+        pbTimer.val = tickGet();
+    }
+}
+
+
+
+
+
+
+
+static uint8_t pollReceiveOne(void) {
+    uint8_t i;
+    Message m;
+    Processed handled = NOT_PROCESSED;
+    if ((transport == ((void*)0)) || (transport->receiveMessage == ((void*)0))) return 0;
+    if (!transport->receiveMessage(&m)) return 0;
+    if (m.len > 0) {
+        showStatus(STATUS_MESSAGE_RECEIVED);
+        handled = APP_preProcessMessage(&m);
+        if (handled == NOT_PROCESSED) {
+            for (i=0; i<8; i++) {
+                if ((services[i] != ((void*)0)) && (services[i]->processMessage != ((void*)0))) {
+                    if (services[i]->processMessage(&m) == PROCESSED) {
+                        handled = PROCESSED;
+                        break;
+                    }
+                }
+            }
+            if (handled == NOT_PROCESSED) {
+                handled = APP_postProcessMessage(&m);
             }
         }
     }
+    if (handled) {
+        mnsDiagnostics[0x06].asUint++;
+        showStatus(STATUS_MESSAGE_ACTED);
+    }
+    return 1;
 }
-# 1006 "../../VLCBlib_PIC/vlcb.c"
+# 915 "../../VLCBlib_PIC/vlcb.c"
 static void poll(void) {
     uint8_t i;
-    Message m;
-    Processed handled;
 
 
-    if ((tickGet() - timedResponseTime.val) > (long)timedResponseDelay*(62500/1000)) {
+
+    if (((tickNow.val) - (timedResponseTime).val) > timedResponseTicks) {
         pollTimedResponse();
-        timedResponseTime.val = tickGet();
+        timedResponseTime.val = (tickNow.val);
     }
-    if ((tickGet() - flashFlushTime.val) > 62500) {
+
+    if (((tickNow.val) - (flashFlushTime).val) > 62500) {
         flushFlashBlock();
-        flashFlushTime.val = tickGet();
+        flashFlushTime.val = (tickNow.val);
     }
 
     for (i=0; i<8; i++) {
@@ -40060,39 +40205,17 @@ static void poll(void) {
         }
     }
 
+
+    pollAsyncEEPROM();
+
+
+
     leds_poll();
+# 955 "../../VLCBlib_PIC/vlcb.c"
+    pollReceiveOne();
 
-
-    handled = NOT_PROCESSED;
-    if (transport != ((void*)0)) {
-        if (transport->receiveMessage != ((void*)0)) {
-            if (transport->receiveMessage(&m)) {
-                if (m.len > 0) {
-                    showStatus(STATUS_MESSAGE_RECEIVED);
-                    handled = APP_preProcessMessage(&m);
-                    if (handled == NOT_PROCESSED) {
-                        for (i=0; i<8; i++) {
-                            if ((services[i] != ((void*)0)) && (services[i]->processMessage != ((void*)0))) {
-                                if (services[i]->processMessage(&m) == PROCESSED) {
-                                    handled = PROCESSED;
-                                    break;
-                                }
-                            }
-                        }
-                        if (handled == NOT_PROCESSED) {
-                            handled = APP_postProcessMessage(&m);
-                        }
-                    }
-                }
-            }
-        }
-    }
-    if (handled) {
-        mnsDiagnostics[0x06].asUint++;
-        showStatus(STATUS_MESSAGE_ACTED);
-    }
 }
-# 1109 "../../VLCBlib_PIC/vlcb.c"
+# 1008 "../../VLCBlib_PIC/vlcb.c"
 Processed checkLen(Message * m, uint8_t needed, uint8_t service) {
     if (m->len < needed) {
 
@@ -40106,7 +40229,7 @@ Processed checkLen(Message * m, uint8_t needed, uint8_t service) {
     }
     return NOT_PROCESSED;
 }
-# 1131 "../../VLCBlib_PIC/vlcb.c"
+# 1030 "../../VLCBlib_PIC/vlcb.c"
 Boolean isEvent(uint8_t opc) {
     return (((opc & 0b10010000) == 0b10010000) && ((~opc & 0b00000110)== 0b00000110)) ? TRUE : FALSE;
 }
@@ -40137,27 +40260,27 @@ void sendMessage1(VlcbOpCodes opc, uint8_t data1){
 void sendMessage2(VlcbOpCodes opc, uint8_t data1, uint8_t data2){
     sendMessage(opc, 3, data1, data2, 0,0,0,0,0);
 }
-# 1169 "../../VLCBlib_PIC/vlcb.c"
+# 1068 "../../VLCBlib_PIC/vlcb.c"
 void sendMessage3(VlcbOpCodes opc, uint8_t data1, uint8_t data2, uint8_t data3) {
     sendMessage(opc, 4, data1, data2, data3, 0,0,0,0);
 }
-# 1181 "../../VLCBlib_PIC/vlcb.c"
+# 1080 "../../VLCBlib_PIC/vlcb.c"
 void sendMessage4(VlcbOpCodes opc, uint8_t data1, uint8_t data2, uint8_t data3, uint8_t data4){
     sendMessage(opc, 5, data1, data2, data3, data4, 0,0,0);
 }
-# 1194 "../../VLCBlib_PIC/vlcb.c"
+# 1093 "../../VLCBlib_PIC/vlcb.c"
 void sendMessage5(VlcbOpCodes opc, uint8_t data1, uint8_t data2, uint8_t data3, uint8_t data4, uint8_t data5) {
     sendMessage(opc, 6, data1, data2, data3, data4, data5, 0,0);
 }
-# 1208 "../../VLCBlib_PIC/vlcb.c"
+# 1107 "../../VLCBlib_PIC/vlcb.c"
 void sendMessage6(VlcbOpCodes opc, uint8_t data1, uint8_t data2, uint8_t data3, uint8_t data4, uint8_t data5, uint8_t data6) {
     sendMessage(opc, 7, data1, data2, data3, data4, data5, data6,0);
 }
-# 1223 "../../VLCBlib_PIC/vlcb.c"
+# 1122 "../../VLCBlib_PIC/vlcb.c"
 void sendMessage7(VlcbOpCodes opc, uint8_t data1, uint8_t data2, uint8_t data3, uint8_t data4, uint8_t data5, uint8_t data6, uint8_t data7) {
     sendMessage(opc, 8, data1, data2, data3, data4, data5, data6, data7);
 }
-# 1239 "../../VLCBlib_PIC/vlcb.c"
+# 1138 "../../VLCBlib_PIC/vlcb.c"
 void sendMessage(VlcbOpCodes opc, uint8_t len, uint8_t data1, uint8_t data2, uint8_t data3, uint8_t data4, uint8_t data5, uint8_t data6, uint8_t data7) {
     tmpMessage.opc = opc;
     tmpMessage.len = len;
@@ -40182,9 +40305,12 @@ void sendMessage(VlcbOpCodes opc, uint8_t len, uint8_t data1, uint8_t data2, uin
 
 
 void main(void) {
-    uint8_t i;
-    uint8_t t1,t2;
-# 1273 "../../VLCBlib_PIC/vlcb.c"
+
+
+
+
+    APP_earlyInit();
+# 1175 "../../VLCBlib_PIC/vlcb.c"
     OSCCON1bits.NOSC = 2;
     OSCCON1bits.NDIV = 0;
 
@@ -40202,15 +40328,36 @@ void main(void) {
 
 
 
-    for (t1=0; t1<64; t1++) {
-        for (t2=0; t2<255; t2++) {
-            for (i=0; i<255; i++) {
 
-                (LATBbits.LATB7=0);
+    {
+        uint16_t waited = 0, stable = 0;
+        uint8_t above;
+
+        HLVDCON1 = (uint8_t)(0x0B);
+        HLVDCON0 = 0x80;
+
+
+
+
+        while (waited < (uint16_t)2000) {
+            _delay((unsigned long)((1)*(((unsigned long)64 * 1000000UL)/4000.0)));
+            waited++;
+
+            above = HLVDCON0bits.RDY && !HLVDCON0bits.OUT;
+
+
+
+
+
+
+            if (above) {
+                if (++stable >= (uint16_t)50) break;
+            } else {
+                stable = 0;
             }
         }
     }
-# 1307 "../../VLCBlib_PIC/vlcb.c"
+# 1244 "../../VLCBlib_PIC/vlcb.c"
     IVTBASEU = 0x00;
     IVTBASEH = 0x09;
     IVTBASEL = 0x00;
@@ -40218,7 +40365,10 @@ void main(void) {
     IVTLOCK = 0x55;
     IVTLOCK = 0xAA;
     IVTLOCKbits.IVTLOCKED = 0x01;
-# 1325 "../../VLCBlib_PIC/vlcb.c"
+# 1261 "../../VLCBlib_PIC/vlcb.c"
+    INTCON0bits.IPEN = 1;
+    INTCON0bits.GIEL = 1;
+# 1275 "../../VLCBlib_PIC/vlcb.c"
     initRomOps();
 
     if (readNVM(EEPROM_NVM_TYPE, 0x3FA) != 1) {
@@ -40239,14 +40389,20 @@ void main(void) {
 
     {INTCON0bits.GIE = 1;};
     while(1) {
+        tickNow.val = tickGet();
+
+
+
+
 
 
         poll();
+
         loop();
     }
 }
-# 1370 "../../VLCBlib_PIC/vlcb.c"
+# 1326 "../../VLCBlib_PIC/vlcb.c"
 void __attribute__((picinterrupt(("irq(default), base(0x900)")))) DEFAULT_ISR(void)
 {
-
+# 1341 "../../VLCBlib_PIC/vlcb.c"
 }

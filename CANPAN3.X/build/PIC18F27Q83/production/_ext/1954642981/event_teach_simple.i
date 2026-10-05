@@ -1,48 +1,60 @@
 # 1 "../../VLCBlib_PIC/event_teach_simple.c"
 # 1 "<built-in>" 1
 # 1 "<built-in>" 3
-# 285 "<built-in>" 3
+# 295 "<built-in>" 3
 # 1 "<command line>" 1
 # 1 "<built-in>" 2
-# 1 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include/language_support.h" 1 3
+# 1 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include/language_support.h" 1 3
+# 46 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include/language_support.h" 3
+extern char * __stack_lo;
+extern char * __stack_hi;
+
+
+
+
+
+extern char * __inthi_stack_lo;
+extern char * __inthi_stack_hi;
+extern char * __intlo_stack_lo;
+extern char * __intlo_stack_hi;
 # 2 "<built-in>" 2
 # 1 "../../VLCBlib_PIC/event_teach_simple.c" 2
 # 52 "../../VLCBlib_PIC/event_teach_simple.c"
-# 1 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include/xc.h" 1 3
-# 18 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include/xc.h" 3
+# 1 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include/xc.h" 1 3
+# 18 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include/xc.h" 3
 extern const char __xc8_OPTIM_SPEED;
 
 extern double __fpnormalize(double);
 
 
-# 1 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/xc8debug.h" 1 3
+# 1 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/xc8debug.h" 1 3
 
 
 
-# 1 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/stdlib.h" 1 3
+# 1 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/stdlib.h" 1 3
 
 
 
-# 1 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/musl_xc8.h" 1 3
-# 5 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/stdlib.h" 2 3
+# 1 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/musl_xc8.h" 1 3
+# 5 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/stdlib.h" 2 3
 
 
 
 
 
-# 1 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/features.h" 1 3
-# 11 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/stdlib.h" 2 3
-# 21 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/stdlib.h" 3
-# 1 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/bits/alltypes.h" 1 3
-# 24 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/bits/alltypes.h" 3
+# 1 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/features.h" 1 3
+# 11 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/stdlib.h" 2 3
+# 21 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/stdlib.h" 3
+# 1 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/bits/alltypes.h" 1 3
+# 24 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/bits/alltypes.h" 3
 typedef long int wchar_t;
-# 128 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/bits/alltypes.h" 3
+# 128 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/bits/alltypes.h" 3
 typedef unsigned size_t;
-# 174 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/bits/alltypes.h" 3
+# 174 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/bits/alltypes.h" 3
 typedef __int24 int24_t;
-# 210 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/bits/alltypes.h" 3
+# 210 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/bits/alltypes.h" 3
 typedef __uint24 uint24_t;
-# 22 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/stdlib.h" 2 3
+# 22 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/stdlib.h" 2 3
 
 int atoi (const char *);
 long atol (const char *);
@@ -68,7 +80,7 @@ unsigned long long strtoull (const char *restrict, char **restrict, int);
 unsigned long __strtoxl(const char * s, char ** endptr, int base, char is_signed);
 
 unsigned long long __strtoxll(const char * s, char ** endptr, int base, char is_signed);
-# 55 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/stdlib.h" 3
+# 55 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/stdlib.h" 3
 int rand (void);
 void srand (unsigned);
 
@@ -114,7 +126,7 @@ typedef struct { unsigned int quot, rem; } udiv_t;
 typedef struct { unsigned long quot, rem; } uldiv_t;
 udiv_t udiv (unsigned int, unsigned int);
 uldiv_t uldiv (unsigned long, unsigned long);
-# 5 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/xc8debug.h" 2 3
+# 5 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/xc8debug.h" 2 3
 
 
 
@@ -124,26 +136,26 @@ uldiv_t uldiv (unsigned long, unsigned long);
 
 #pragma intrinsic(__builtin_software_breakpoint)
 extern void __builtin_software_breakpoint(void);
-# 24 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include/xc.h" 2 3
-# 1 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include/builtins.h" 1 3
+# 24 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include/xc.h" 2 3
+# 1 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include/builtins.h" 1 3
 
 
 
-# 1 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/stdint.h" 1 3
-# 26 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/stdint.h" 3
-# 1 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/bits/alltypes.h" 1 3
-# 133 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/bits/alltypes.h" 3
+# 1 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/stdint.h" 1 3
+# 26 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/stdint.h" 3
+# 1 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/bits/alltypes.h" 1 3
+# 133 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/bits/alltypes.h" 3
 typedef unsigned __int24 uintptr_t;
-# 148 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/bits/alltypes.h" 3
+# 148 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/bits/alltypes.h" 3
 typedef __int24 intptr_t;
-# 164 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/bits/alltypes.h" 3
+# 164 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/bits/alltypes.h" 3
 typedef signed char int8_t;
 
 
 
 
 typedef short int16_t;
-# 179 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/bits/alltypes.h" 3
+# 179 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/bits/alltypes.h" 3
 typedef long int32_t;
 
 
@@ -151,7 +163,7 @@ typedef long int32_t;
 
 
 typedef long long int64_t;
-# 194 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/bits/alltypes.h" 3
+# 194 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/bits/alltypes.h" 3
 typedef long long intmax_t;
 
 
@@ -164,7 +176,7 @@ typedef unsigned char uint8_t;
 
 
 typedef unsigned short uint16_t;
-# 215 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/bits/alltypes.h" 3
+# 215 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/bits/alltypes.h" 3
 typedef unsigned long uint32_t;
 
 
@@ -172,9 +184,9 @@ typedef unsigned long uint32_t;
 
 
 typedef unsigned long long uint64_t;
-# 235 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/bits/alltypes.h" 3
+# 235 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/bits/alltypes.h" 3
 typedef unsigned long long uintmax_t;
-# 27 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/stdint.h" 2 3
+# 27 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/stdint.h" 2 3
 
 typedef int8_t int_fast8_t;
 
@@ -206,14 +218,14 @@ typedef uint24_t uint_fast24_t;
 typedef uint32_t uint_least32_t;
 
 typedef uint64_t uint_least64_t;
-# 148 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/stdint.h" 3
-# 1 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/bits/stdint.h" 1 3
+# 148 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/stdint.h" 3
+# 1 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/bits/stdint.h" 1 3
 typedef int16_t int_fast16_t;
 typedef int32_t int_fast32_t;
 typedef uint16_t uint_fast16_t;
 typedef uint32_t uint_fast32_t;
-# 149 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include\\c99/stdint.h" 2 3
-# 5 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include/builtins.h" 2 3
+# 149 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include\\c99/stdint.h" 2 3
+# 5 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include/builtins.h" 2 3
 
 
 #pragma intrinsic(__nop)
@@ -235,7 +247,7 @@ extern __attribute__((nonreentrant)) void _delaywdt(uint32_t);
 
 #pragma intrinsic(_delay3)
 extern __attribute__((nonreentrant)) void _delay3(uint8_t);
-# 25 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include/xc.h" 2 3
+# 25 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include/xc.h" 2 3
 
 
 
@@ -248,7 +260,7 @@ extern __attribute__((nonreentrant)) void _delay3(uint8_t);
 
 
 
-# 1 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include/xc.h" 1 3
+# 1 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include/xc.h" 1 3
 # 5 "C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-Q_DFP/1.28.451/xc8\\pic\\include/pic18.h" 2 3
 # 1 "C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-Q_DFP/1.28.451/xc8\\pic\\include/pic18_chip_select.h" 1 3
 # 204 "C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-Q_DFP/1.28.451/xc8\\pic\\include/pic18_chip_select.h" 3
@@ -38248,7 +38260,7 @@ __attribute__((__unsupported__("The " "EraseFlash" " routine is no longer suppor
 
 
 
-# 1 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include/errata.h" 1 3
+# 1 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include/errata.h" 1 3
 # 24 "C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-Q_DFP/1.28.451/xc8\\pic\\include/pic18.h" 2 3
 # 139 "C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-Q_DFP/1.28.451/xc8\\pic\\include/pic18.h" 3
 __attribute__((__unsupported__("The " "Read_b_eep" " routine is no longer supported. Please use the MPLAB X MCC."))) unsigned char Read_b_eep(unsigned int badd);
@@ -38259,7 +38271,7 @@ __attribute__((__unsupported__("The READTIMER" "0" "() macro is not available wi
 # 175 "C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-Q_DFP/1.28.451/xc8\\pic\\include/pic18.h" 3
 unsigned char __t1rd16on(void);
 unsigned char __t3rd16on(void);
-# 34 "C:\\Program Files\\Microchip\\xc8\\v3.00\\pic\\include/xc.h" 2 3
+# 34 "C:\\Program Files\\Microchip\\xc8\\v3.10\\pic\\include/xc.h" 2 3
 # 53 "../../VLCBlib_PIC/event_teach_simple.c" 2
 # 1 "../../VLCBlib_PIC/vlcb.h" 1
 # 38 "../../VLCBlib_PIC/vlcb.h"
@@ -38273,53 +38285,7 @@ unsigned char __t3rd16on(void);
 
 
 # 1 "../../VLCBlib_PIC/statusLeds.h" 1
-# 42 "../../VLCBlib_PIC/statusLeds.h"
-# 1 "../../VLCBlib_PIC/vlcb.h" 1
-# 43 "../../VLCBlib_PIC/statusLeds.h" 2
-# 1 "../../VLCBlib_PIC/ticktime.h" 1
-# 211 "../../VLCBlib_PIC/ticktime.h"
-typedef union _TickValue {
-
-    uint32_t val;
-
-    struct TickBytes
-    {
-        uint8_t b0;
-        uint8_t b1;
-        uint8_t b2;
-        uint8_t b3;
-    } byte;
-    uint8_t v[4];
-
-    struct TickWords
-    {
-        uint16_t w0;
-        uint16_t w1;
-    } word;
-} TickValue;
-# 238 "../../VLCBlib_PIC/ticktime.h"
-void initTicker(uint8_t priority);
-
-
-
-
-
-uint32_t tickGet(void);
-
-
-
-
-
-
-
-extern volatile uint8_t timerExtension1;
-
-
-
-
-extern volatile uint8_t timerExtension2;
-# 44 "../../VLCBlib_PIC/statusLeds.h" 2
-
+# 43 "../../VLCBlib_PIC/statusLeds.h"
 # 1 "../../VLCBlib_PIC/statusDisplay.h" 1
 # 55 "../../VLCBlib_PIC/statusDisplay.h"
 typedef enum StatusDisplay {
@@ -38337,8 +38303,15 @@ typedef enum StatusDisplay {
     STATUS_MEMORY_FAULT,
     STATUS_FATAL_ERROR
 } StatusDisplay;
-# 46 "../../VLCBlib_PIC/statusLeds.h" 2
-# 55 "../../VLCBlib_PIC/statusLeds.h"
+# 44 "../../VLCBlib_PIC/statusLeds.h" 2
+
+
+
+
+
+
+
+
 typedef enum {
     LED_OFF,
     LED_ON,
@@ -39087,7 +39060,45 @@ typedef uint8_t eeprom_data_t;
 
 
 typedef uint24_t eeprom_address_t;
-# 147 "../../VLCBlib_PIC/nvm.h"
+# 144 "../../VLCBlib_PIC/nvm.h"
+# 1 "../../VLCBlib_PIC/asyncEEPROM.h" 1
+# 42 "../../VLCBlib_PIC/asyncEEPROM.h"
+# 1 "../../VLCBlib_PIC/vlcb.h" 1
+# 43 "../../VLCBlib_PIC/asyncEEPROM.h" 2
+# 55 "../../VLCBlib_PIC/asyncEEPROM.h"
+extern void initAsyncEEPROM(void);
+
+
+
+
+extern void pollAsyncEEPROM(void);
+
+
+
+
+extern uint8_t readAsyncEEPROM(eeprom_address_t address);
+
+
+
+
+extern void writeAsyncEEPROM(eeprom_address_t address, uint8_t data);
+
+
+
+
+extern void flushAsyncEEPROM(void);
+# 145 "../../VLCBlib_PIC/nvm.h" 2
+
+
+
+
+
+
+extern void flushNVM(void);
+
+
+
+
 extern void flushFlashBlock(void);
 
 
@@ -39102,16 +39113,28 @@ extern void initRomOps(void);
 
 
 extern int16_t readNVM(NVMtype type, uint24_t index);
-# 171 "../../VLCBlib_PIC/nvm.h"
-extern uint8_t writeNVM(NVMtype type, uint24_t index, uint8_t value);
 # 180 "../../VLCBlib_PIC/nvm.h"
+extern uint8_t writeNVM(NVMtype type, uint24_t index, uint8_t value);
+# 189 "../../VLCBlib_PIC/nvm.h"
 extern uint8_t EEPROM_WriteNoVerify(eeprom_address_t index, eeprom_data_t value);
+
+
+
+
+extern void flushNVM(void);
 
 
 
 
 
 extern ValidTime APP_isSuitableTimeToWriteFlash(void);
+
+
+
+
+
+
+eeprom_data_t EEPROM_Read(eeprom_address_t index);
 # 41 "../../VLCBlib_PIC/vlcb.h" 2
 # 82 "../../VLCBlib_PIC/vlcb.h"
 typedef enum Priority {
@@ -39340,19 +39363,87 @@ typedef enum SendResult {
 
 
 
+typedef enum TxDrainResult {
+    DRAIN_OK,
+    OVERALL_TIMEOUT,
+    MESSAGE_TIMEOUT,
+    BUS_OFF_ERROR
+} TxDrainResult;
+
+
+
 
 typedef struct Transport {
     SendResult (* sendMessage)(Message * m);
     MessageReceived (* receiveMessage)(Message * m);
-    void (*waitForTxQueueToDrain)(void);
+    TxDrainResult (*waitForTxQueueToDrain)(void);
 } Transport;
-# 435 "../../VLCBlib_PIC/vlcb.h"
+# 444 "../../VLCBlib_PIC/vlcb.h"
 extern const Transport * transport;
-# 448 "../../VLCBlib_PIC/vlcb.h"
+# 457 "../../VLCBlib_PIC/vlcb.h"
 extern ValidTime APP_isSuitableTimeToWriteFlash(void);
+
+
+
+
+
+
+
+extern void APP_earlyInit(void);
 # 54 "../../VLCBlib_PIC/event_teach_simple.c" 2
 
 # 1 "../../VLCBlib_PIC/mns.h" 1
+# 43 "../../VLCBlib_PIC/mns.h"
+# 1 "../../VLCBlib_PIC/ticktime.h" 1
+# 211 "../../VLCBlib_PIC/ticktime.h"
+typedef union _TickValue {
+
+    uint32_t val;
+
+    struct TickBytes
+    {
+        uint8_t b0;
+        uint8_t b1;
+        uint8_t b2;
+        uint8_t b3;
+    } byte;
+    uint8_t v[4];
+
+    struct TickWords
+    {
+        uint16_t w0;
+        uint16_t w1;
+    } word;
+} TickValue;
+
+
+
+
+
+
+extern TickValue tickNow;
+# 246 "../../VLCBlib_PIC/ticktime.h"
+void initTicker(uint8_t priority);
+
+
+
+
+
+uint32_t tickGet(void);
+
+
+
+
+
+
+
+extern volatile uint8_t timerExtension1;
+
+
+
+
+extern volatile uint8_t timerExtension2;
+# 44 "../../VLCBlib_PIC/mns.h" 2
 # 111 "../../VLCBlib_PIC/mns.h"
 extern const Service mnsService;
 # 126 "../../VLCBlib_PIC/mns.h"
@@ -39464,6 +39555,7 @@ static uint8_t tableIndexToEvtIdx(uint8_t tableIndex);
 uint8_t findEvent(uint16_t nodeNumber, uint16_t eventNumber);
 static uint8_t removeTableEntry(uint8_t tableIndex);
 uint8_t removeEvent(uint16_t nodeNumber, uint16_t eventNumber);
+static void clearTableEntry(uint8_t tableIndex);
 static void doNnclr(void);
 static void doNerd(void);
 static void doNnevn(void);
@@ -39490,10 +39582,17 @@ uint8_t eventChains[32][20];
 
 
 static uint8_t timedResponseOpcode;
-# 164 "../../VLCBlib_PIC/event_teach_simple.c"
+
+
+static uint16_t findCacheNN;
+static uint16_t findCacheEN;
+static uint16_t findCacheModuleNN;
+static uint8_t findCacheIndex = 0xff;
+static void invalidateFindEventCache(void);
+# 174 "../../VLCBlib_PIC/event_teach_simple.c"
 const Service eventTeachService = {
     SERVICE_ID_OLD_TEACH,
-    1,
+    3,
     teachFactoryReset,
     teachPowerUp,
     teachProcessMessage,
@@ -39509,7 +39608,7 @@ const Service eventTeachService = {
     teachGetDiagnostic,
 
 };
-# 190 "../../VLCBlib_PIC/event_teach_simple.c"
+# 200 "../../VLCBlib_PIC/event_teach_simple.c"
 static void teachFactoryReset(void) {
     clearAllEvents();
 }
@@ -39519,8 +39618,7 @@ static void teachFactoryReset(void) {
 
 static void teachPowerUp(void) {
     uint8_t i;
-
-
+# 231 "../../VLCBlib_PIC/event_teach_simple.c"
     rebuildHashtable();
 
 
@@ -39533,7 +39631,7 @@ static void teachPowerUp(void) {
     errno = 0;
     mode_flags &= ~1;
 }
-# 221 "../../VLCBlib_PIC/event_teach_simple.c"
+# 251 "../../VLCBlib_PIC/event_teach_simple.c"
 static Processed teachProcessMessage(Message* m) {
     switch(m->opc) {
 
@@ -39639,7 +39737,7 @@ static Processed teachProcessMessage(Message* m) {
     }
     return NOT_PROCESSED;
 }
-# 334 "../../VLCBlib_PIC/event_teach_simple.c"
+# 364 "../../VLCBlib_PIC/event_teach_simple.c"
 static Processed teachCheckLen(Message * m, uint8_t needed, uint8_t learn) {
     if (learn) {
 
@@ -39671,20 +39769,22 @@ static uint8_t teachGetESDdata(uint8_t id) {
         default: return 0;
     }
 }
-# 373 "../../VLCBlib_PIC/event_teach_simple.c"
+# 403 "../../VLCBlib_PIC/event_teach_simple.c"
 static DiagnosticVal * teachGetDiagnostic(uint8_t index) {
     if (index > 1) {
         return ((void*)0);
     }
     return &(teachDiagnostics[index]);
 }
-# 388 "../../VLCBlib_PIC/event_teach_simple.c"
+# 418 "../../VLCBlib_PIC/event_teach_simple.c"
 void clearAllEvents(void) {
     uint8_t tableIndex;
 
+
     for (tableIndex=0; tableIndex<254; tableIndex++) {
-        removeTableEntry(tableIndex);
+        clearTableEntry(tableIndex);
     }
+    flushFlashBlock();
 
     rebuildHashtable();
 
@@ -39716,7 +39816,7 @@ static void doNnevn(void) {
 static void doNerd(void) {
     startTimedResponse(2, findServiceIndex(SERVICE_ID_OLD_TEACH), nerdCallback);
 }
-# 433 "../../VLCBlib_PIC/event_teach_simple.c"
+# 465 "../../VLCBlib_PIC/event_teach_simple.c"
 TimedResponseResult nerdCallback(uint8_t type, uint8_t serviceIndex, uint8_t step){
     Word nodeNumber, eventNumber;
 
@@ -39754,7 +39854,7 @@ static void doNenrd(uint8_t index) {
     }
     nodeNumber = getNN(tableIndex);
     eventNumber = getEN(tableIndex);
-    sendMessage7(OPC_ENRSP, nn.bytes.hi, nn.bytes.lo, nodeNumber>>8, nodeNumber&0xFF, eventNumber>>8, eventNumber&0xFF, tableIndex);
+    sendMessage7(OPC_ENRSP, nn.bytes.hi, nn.bytes.lo, nodeNumber>>8, nodeNumber&0xFF, eventNumber>>8, eventNumber&0xFF, index);
 
 }
 
@@ -39787,7 +39887,7 @@ static void doNnclr(void) {
     sendMessage5(OPC_GRSP, nn.bytes.hi, nn.bytes.lo, OPC_NNCLR, SERVICE_ID_OLD_TEACH, GRSP_OK);
 
 }
-# 513 "../../VLCBlib_PIC/event_teach_simple.c"
+# 545 "../../VLCBlib_PIC/event_teach_simple.c"
 static void doEvlrn(uint16_t nodeNumber, uint16_t eventNumber, uint8_t evNum, uint8_t evVal) {
 
     evNum--;
@@ -39831,7 +39931,7 @@ static void doReval(uint8_t enNum, uint8_t evNum) {
     int evVal;
 
     if (tableIndex >= 254) {
-        sendMessage3(OPC_CMDERR, nn.bytes.hi, nn.bytes.lo, CMDERR_INV_EV_IDX);
+        sendMessage3(OPC_CMDERR, nn.bytes.hi, nn.bytes.lo, CMDERR_INV_EN_IDX);
         return;
     }
 
@@ -39957,12 +40057,12 @@ TimedResponseResult reqevCallback(uint8_t tableIndex, uint8_t serviceIndex, uint
         if (timedResponseOpcode == OPC_EVANS) {
             sendMessage6(OPC_EVANS, nodeNumber.bytes.hi, nodeNumber.bytes.lo, eventNumber.bytes.hi, eventNumber.bytes.lo, step+1, (uint8_t)ev);
         } else {
-            sendMessage5(OPC_NEVAL, nodeNumber.bytes.hi, nodeNumber.bytes.lo, tableIndexToEvtIdx(tableIndex), step+1, (uint8_t)ev);
+            sendMessage5(OPC_NEVAL, nn.bytes.hi, nn.bytes.lo, tableIndexToEvtIdx(tableIndex), step+1, (uint8_t)ev);
         }
     }
     return TIMED_RESPONSE_RESULT_NEXT;
 }
-# 696 "../../VLCBlib_PIC/event_teach_simple.c"
+# 728 "../../VLCBlib_PIC/event_teach_simple.c"
 uint8_t removeEvent(uint16_t nodeNumber, uint16_t eventNumber) {
 
     uint8_t tableIndex = findEvent(nodeNumber, eventNumber);
@@ -39976,34 +40076,45 @@ uint8_t removeEvent(uint16_t nodeNumber, uint16_t eventNumber) {
 
 
 
-static uint8_t removeTableEntry(uint8_t tableIndex) {
+
+static void clearTableEntry(uint8_t tableIndex) {
     uint8_t i;
 
+    uint24_t row = ((uint24_t)0x1E800 + (uint24_t)(sizeof(Event) + 1 + 13) * (tableIndex));
+    invalidateFindEventCache();
 
-
-
-    writeNVM(FLASH_NVM_TYPE, 0x1E800 + (sizeof(Event) + 1 + 13)*tableIndex + 0, 0x00);
-    writeNVM(FLASH_NVM_TYPE, 0x1E800 + (sizeof(Event) + 1 + 13)*tableIndex + 1, 0x00);
-    writeNVM(FLASH_NVM_TYPE, 0x1E800 + (sizeof(Event) + 1 + 13)*tableIndex + 2, 0x00);
-    writeNVM(FLASH_NVM_TYPE, 0x1E800 + (sizeof(Event) + 1 + 13)*tableIndex + 3, 0x00);
-    writeNVM(FLASH_NVM_TYPE, 0x1E800 + (sizeof(Event) + 1 + 13)*tableIndex + 4, 0x00);
-
-    for (i=0; i<13; i++) {
-        writeNVM(FLASH_NVM_TYPE, 0x1E800 + (sizeof(Event) + 1 + 13)*tableIndex + (5 + i), 0x00);
+    for (i=0; i<5 +13; i++) {
+        writeNVM(FLASH_NVM_TYPE, row + i, 0x00);
     }
+}
+
+static uint8_t removeTableEntry(uint8_t tableIndex) {
+
+
+
+    clearTableEntry(tableIndex);
     flushFlashBlock();
 
     rebuildHashtable();
 
     return 0;
 }
-# 745 "../../VLCBlib_PIC/event_teach_simple.c"
+# 779 "../../VLCBlib_PIC/event_teach_simple.c"
 uint8_t addEvent(uint16_t nodeNumber, uint16_t eventNumber, uint8_t evNum, uint8_t evVal, Boolean forceOwnNN) {
     uint8_t tableIndex;
 
+    errno = 0;
 
     tableIndex = findEvent(nodeNumber, eventNumber);
     if (tableIndex == 0xff) {
+
+
+
+        if (eventChains[getHash(nodeNumber, eventNumber)][20 -1] != 0xff) {
+            errno = CMDERR_TOO_MANY_EVENTS;
+            return 0xff;
+        }
+
         errno = CMDERR_TOO_MANY_EVENTS;
 
         for (tableIndex=0; tableIndex<254; tableIndex++) {
@@ -40039,30 +40150,51 @@ uint8_t addEvent(uint16_t nodeNumber, uint16_t eventNumber, uint8_t evNum, uint8
     }
 
     flushFlashBlock();
+    invalidateFindEventCache();
 
     rebuildHashtable();
 
     return tableIndex;
 }
-# 799 "../../VLCBlib_PIC/event_teach_simple.c"
+
+
+
+
+
+
+
+static void invalidateFindEventCache(void) {
+    findCacheIndex = 0xff;
+}
+
+
+
+
+
+
+
 uint8_t findEvent(uint16_t nodeNumber, uint16_t eventNumber) {
+    if ((findCacheIndex != 0xff) && (findCacheNN == nodeNumber) && (findCacheEN == eventNumber) && (findCacheModuleNN == nn.word)) {
+        return findCacheIndex;
+    }
 
     uint8_t hash = getHash(nodeNumber, eventNumber);
     uint8_t chainIdx;
     for (chainIdx=0; chainIdx<20; chainIdx++) {
         uint8_t tableIndex = eventChains[hash][chainIdx];
-        uint16_t nn, en;
+        uint16_t rowNN, rowEN;
         if (tableIndex == 0xff) return 0xff;
-        nn = getNN(tableIndex);
-        en = getEN(tableIndex);
-        if ((nn == nodeNumber) && (en == eventNumber)) {
+        rowNN = getNN(tableIndex);
+        rowEN = getEN(tableIndex);
+        if ((rowNN == nodeNumber) && (rowEN == eventNumber)) {
+            findCacheNN = nodeNumber; findCacheEN = eventNumber; findCacheModuleNN = nn.word; findCacheIndex = tableIndex;
             return tableIndex;
         }
     }
-# 825 "../../VLCBlib_PIC/event_teach_simple.c"
+# 883 "../../VLCBlib_PIC/event_teach_simple.c"
     return 0xff;
 }
-# 836 "../../VLCBlib_PIC/event_teach_simple.c"
+# 894 "../../VLCBlib_PIC/event_teach_simple.c"
 uint8_t writeEv(uint8_t tableIndex, uint8_t evNum, uint8_t evVal) {
     if (evNum >= 13) {
         return CMDERR_INV_EV_IDX;
@@ -40075,15 +40207,15 @@ uint8_t writeEv(uint8_t tableIndex, uint8_t evNum, uint8_t evVal) {
     writeNVM(FLASH_NVM_TYPE, 0x1E800 + (sizeof(Event) + 1 + 13)*tableIndex+5 +evNum, evVal);
     return 0;
 }
-# 856 "../../VLCBlib_PIC/event_teach_simple.c"
+# 914 "../../VLCBlib_PIC/event_teach_simple.c"
 int16_t getEv(uint8_t tableIndex, uint8_t evNum) {
     if (tableIndex >= 254) {
-        return CMDERR_INV_EN_IDX;
+        return -CMDERR_INV_EN_IDX;
     }
     if (evNum >= 13) {
         return -CMDERR_INV_EV_IDX;
     }
-    return (uint8_t)readNVM(FLASH_NVM_TYPE, 0x1E800 + (sizeof(Event) + 1 + 13)*tableIndex+5 +evNum);
+    return (uint8_t)readNVM(FLASH_NVM_TYPE, ((uint24_t)0x1E800 + (uint24_t)(sizeof(Event) + 1 + 13) * (tableIndex)) + 5 + evNum);
 }
 
 
@@ -40107,44 +40239,46 @@ uint8_t evs[13];
 
 
 uint8_t getEVs(uint8_t tableIndex) {
-
+    uint24_t addr = ((uint24_t)0x1E800 + (uint24_t)(sizeof(Event) + 1 + 13) * (tableIndex)) + 5;
     uint8_t evIdx;
     if (tableIndex >= 254) {
         return CMDERR_INV_EN_IDX;
     }
 
     for (evIdx=0; evIdx < 13; evIdx++) {
-        evs[evIdx] = (uint8_t)readNVM(FLASH_NVM_TYPE, 0x1E800 + (sizeof(Event) + 1 + 13)*tableIndex+5 +evIdx);
+        evs[evIdx] = (uint8_t)readNVM(FLASH_NVM_TYPE, addr++);
     }
     return 0;
 }
-# 906 "../../VLCBlib_PIC/event_teach_simple.c"
+# 964 "../../VLCBlib_PIC/event_teach_simple.c"
 uint16_t getNN(uint8_t tableIndex) {
     uint16_t hi;
     uint16_t lo;
     uint8_t flags;
+    uint24_t row = ((uint24_t)0x1E800 + (uint24_t)(sizeof(Event) + 1 + 13) * (tableIndex));
     if (tableIndex >= 254) {
         return CMDERR_INV_EN_IDX;
     }
 
-    flags = (uint8_t)readNVM(FLASH_NVM_TYPE, 0x1E800 + (sizeof(Event) + 1 + 13)*tableIndex+4);
+    flags = (uint8_t)readNVM(FLASH_NVM_TYPE, row + 4);
     if (flags & 1) {
         return nn.word;
     }
-    lo = (uint8_t)readNVM(FLASH_NVM_TYPE, 0x1E800 + (sizeof(Event) + 1 + 13)*tableIndex+1);
-    hi = (uint8_t)readNVM(FLASH_NVM_TYPE, 0x1E800 + (sizeof(Event) + 1 + 13)*tableIndex+0);
+    lo = (uint8_t)readNVM(FLASH_NVM_TYPE, row + 1);
+    hi = (uint8_t)readNVM(FLASH_NVM_TYPE, row + 0);
     return lo | (hi << 8);
 }
-# 930 "../../VLCBlib_PIC/event_teach_simple.c"
+# 989 "../../VLCBlib_PIC/event_teach_simple.c"
 uint16_t getEN(uint8_t tableIndex) {
     uint16_t hi;
     uint16_t lo;
+    uint24_t row = ((uint24_t)0x1E800 + (uint24_t)(sizeof(Event) + 1 + 13) * (tableIndex));
 
-    lo = (uint8_t)readNVM(FLASH_NVM_TYPE, 0x1E800 + (sizeof(Event) + 1 + 13)*tableIndex+3);
-    hi = (uint8_t)readNVM(FLASH_NVM_TYPE, 0x1E800 + (sizeof(Event) + 1 + 13)*tableIndex+2);
+    lo = (uint8_t)readNVM(FLASH_NVM_TYPE, row + 3);
+    hi = (uint8_t)readNVM(FLASH_NVM_TYPE, row + 2);
     return lo | (hi << 8);
 }
-# 952 "../../VLCBlib_PIC/event_teach_simple.c"
+# 1012 "../../VLCBlib_PIC/event_teach_simple.c"
 static uint8_t evtIdxToTableIndex(uint8_t evtIdx) {
     return evtIdx - 1;
 }
@@ -40158,7 +40292,7 @@ static uint8_t evtIdxToTableIndex(uint8_t evtIdx) {
 static uint8_t tableIndexToEvtIdx(uint8_t tableIndex) {
     return tableIndex + 1;
 }
-# 984 "../../VLCBlib_PIC/event_teach_simple.c"
+# 1044 "../../VLCBlib_PIC/event_teach_simple.c"
 uint8_t getHash(uint16_t nn, uint16_t en) {
     uint8_t hash;
 
@@ -40178,7 +40312,8 @@ void rebuildHashtable(void) {
     uint8_t hash;
     uint8_t chainIdx;
     uint8_t tableIndex;
-    int a;
+
+    invalidateFindEventCache();
 
     for (hash=0; hash<32; hash++) {
         for (chainIdx=0; chainIdx < 20; chainIdx++) {
@@ -40187,11 +40322,10 @@ void rebuildHashtable(void) {
     }
 
     for (tableIndex=0; tableIndex<254; tableIndex++) {
-        if (getEN(tableIndex) != 0) {
-            int16_t ev;
+        uint16_t en = getEN(tableIndex);
+        if (en != 0) {
 
-
-            hash = getHash(getNN(tableIndex), getEN(tableIndex));
+            hash = getHash(getNN(tableIndex), en);
             for (chainIdx=0; chainIdx<20; chainIdx++) {
                 if (eventChains[hash][chainIdx] == 0xff) {
 

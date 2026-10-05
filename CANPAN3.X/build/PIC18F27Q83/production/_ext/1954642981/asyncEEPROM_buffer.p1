@@ -1,16 +1,16 @@
 Version 4.0 HI-TECH Software Intermediate Code
-"60 ../EEPROMbuffer.c
-[; ;../EEPROMbuffer.c: 60:         eeValue[currentMemory] = (uint8_t)readNVM(EEPROM_NVM_TYPE, 0x0000 +currentMemory);
-[c E22746 0 1 .. ]
-[n E22746 . EEPROM_NVM_TYPE FLASH_NVM_TYPE  ]
-"160 ../../VLCBlib_PIC/nvm.h
-[; ;../../VLCBlib_PIC/nvm.h: 160: extern int16_t readNVM(NVMtype type, uint24_t index);
-[v _readNVM `(s ~T0 @X0 0 ef2`E22746`um ]
+"60 ../../VLCBlib_PIC/asyncEEPROM_buffer.c
+[; ;../../VLCBlib_PIC/asyncEEPROM_buffer.c: 60:         eeValue[currentMemory] = (uint8_t)readNVM(EEPROM_NVM_TYPE, 0x0000 +currentMemory);
+[c E22752 0 1 .. ]
+[n E22752 . EEPROM_NVM_TYPE FLASH_NVM_TYPE  ]
+"169 ../../VLCBlib_PIC/nvm.h
+[; ;../../VLCBlib_PIC/nvm.h: 169: extern int16_t readNVM(NVMtype type, uint24_t index);
+[v _readNVM `(s ~T0 @X0 0 ef2`E22752`um ]
 "524 C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-Q_DFP/1.28.451/xc8\pic\include\proc/pic18f27q83.h
 [; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-Q_DFP/1.28.451/xc8\pic\include\proc/pic18f27q83.h: 524: extern volatile unsigned char NVMCON0 __attribute__((address(0x040)));
 [v _NVMCON0 `Vuc ~T0 @X0 0 e@64 ]
-"180 ../../VLCBlib_PIC/nvm.h
-[; ;../../VLCBlib_PIC/nvm.h: 180: extern uint8_t EEPROM_WriteNoVerify(eeprom_address_t index, eeprom_data_t value);
+"189 ../../VLCBlib_PIC/nvm.h
+[; ;../../VLCBlib_PIC/nvm.h: 189: extern uint8_t EEPROM_WriteNoVerify(eeprom_address_t index, eeprom_data_t value);
 [v _EEPROM_WriteNoVerify `(uc ~T0 @X0 0 ef2`um`uc ]
 "306 C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-Q_DFP/1.28.451/xc8\pic\include\proc/pic18f27q83.h
 [; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-Q_DFP/1.28.451/xc8\pic\include\proc/pic18f27q83.h: 306: __asm("BOOTREG equ 038h");
@@ -3531,151 +3531,204 @@ Version 4.0 HI-TECH Software Intermediate Code
 "69598
 [; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-Q_DFP/1.28.451/xc8\pic\include\proc/pic18f27q83.h: 69598: __asm("TOSU equ 04FFh");
 [; <" TOSU equ 04FFh ;# ">
-"50 ../EEPROMbuffer.c
-[; ;../EEPROMbuffer.c: 50: static uint8_t writeNeeded[((8*4) + (4*8))];
-[v _writeNeeded `uc ~T0 @X0 -> 64 `i s ]
-"51
-[; ;../EEPROMbuffer.c: 51: static uint8_t eeValue[((8*4) + (4*8))];
+"46 ../../VLCBlib_PIC/asyncEEPROM_buffer.c
+[; ;../../VLCBlib_PIC/asyncEEPROM_buffer.c: 46: static uint8_t writeNeeded[(((8*4) + (4*8))/8) + 1];
+[v _writeNeeded `uc ~T0 @X0 -> 9 `i s ]
+"47
+[; ;../../VLCBlib_PIC/asyncEEPROM_buffer.c: 47: static uint8_t eeValue[((8*4) + (4*8))];
 [v _eeValue `uc ~T0 @X0 -> 64 `i s ]
-"52
-[; ;../EEPROMbuffer.c: 52: static uint8_t currentMemory;
+"48
+[; ;../../VLCBlib_PIC/asyncEEPROM_buffer.c: 48: static uint8_t currentMemory;
 [v _currentMemory `uc ~T0 @X0 1 s ]
 "57
-[; ;../EEPROMbuffer.c: 57: void initEEPROMwriter(void) {
-[v _initEEPROMwriter `(v ~T0 @X0 1 ef ]
+[; ;../../VLCBlib_PIC/asyncEEPROM_buffer.c: 57: void initAsyncEEPROM(void) {
+[v _initAsyncEEPROM `(v ~T0 @X0 1 ef ]
 {
-[e :U _initEEPROMwriter ]
+[e :U _initAsyncEEPROM ]
 [f ]
 "58
-[; ;../EEPROMbuffer.c: 58:     for(currentMemory = 0; currentMemory < ((8*4) + (4*8)); currentMemory++) {
+[; ;../../VLCBlib_PIC/asyncEEPROM_buffer.c: 58:     for(currentMemory = 0; currentMemory < ((8*4) + (4*8)); currentMemory++) {
 {
 [e = _currentMemory -> -> 0 `i `uc ]
-[e $ < -> _currentMemory `i + * -> 8 `i -> 4 `i * -> 4 `i -> 8 `i 3302  ]
-[e $U 3303  ]
-[e :U 3302 ]
+[e $ < -> _currentMemory `i + * -> 8 `i -> 4 `i * -> 4 `i -> 8 `i 3292  ]
+[e $U 3293  ]
+[e :U 3292 ]
 {
 "59
-[; ;../EEPROMbuffer.c: 59:         writeNeeded[currentMemory] = 0;
-[e = *U + &U _writeNeeded * -> _currentMemory `ux -> -> # *U &U _writeNeeded `ui `ux -> -> 0 `i `uc ]
+[; ;../../VLCBlib_PIC/asyncEEPROM_buffer.c: 59:         (writeNeeded[currentMemory/8] &= ~(1<<(currentMemory%8)));
+[e =& *U + &U _writeNeeded * -> -> / -> _currentMemory `i -> 8 `i `ui `ux -> -> # *U &U _writeNeeded `ui `ux -> ~ << -> 1 `i % -> _currentMemory `i -> 8 `i `uc ]
 "60
-[; ;../EEPROMbuffer.c: 60:         eeValue[currentMemory] = (uint8_t)readNVM(EEPROM_NVM_TYPE, 0x0000 +currentMemory);
-[e = *U + &U _eeValue * -> _currentMemory `ux -> -> # *U &U _eeValue `ui `ux -> ( _readNVM (2 , . `E22746 0 -> -> + -> 0 `i -> _currentMemory `i `m `um `uc ]
+[; ;../../VLCBlib_PIC/asyncEEPROM_buffer.c: 60:         eeValue[currentMemory] = (uint8_t)readNVM(EEPROM_NVM_TYPE, 0x0000 +currentMemory);
+[e = *U + &U _eeValue * -> _currentMemory `ux -> -> # *U &U _eeValue `ui `ux -> ( _readNVM (2 , . `E22752 0 -> -> + -> 0 `i -> _currentMemory `i `m `um `uc ]
 "61
-[; ;../EEPROMbuffer.c: 61:     }
+[; ;../../VLCBlib_PIC/asyncEEPROM_buffer.c: 61:     }
 }
 [e ++ _currentMemory -> -> 1 `i `uc ]
-[e $ < -> _currentMemory `i + * -> 8 `i -> 4 `i * -> 4 `i -> 8 `i 3302  ]
-[e :U 3303 ]
+[e $ < -> _currentMemory `i + * -> 8 `i -> 4 `i * -> 4 `i -> 8 `i 3292  ]
+[e :U 3293 ]
 }
 "62
-[; ;../EEPROMbuffer.c: 62:     currentMemory = 0;
+[; ;../../VLCBlib_PIC/asyncEEPROM_buffer.c: 62:     currentMemory = 0;
 [e = _currentMemory -> -> 0 `i `uc ]
 "63
-[; ;../EEPROMbuffer.c: 63: }
-[e :UE 3301 ]
+[; ;../../VLCBlib_PIC/asyncEEPROM_buffer.c: 63: }
+[e :UE 3291 ]
 }
 "74
-[; ;../EEPROMbuffer.c: 74: void writeEEvalue(uint8_t address, uint8_t value) {
-[v _writeEEvalue `(v ~T0 @X0 1 ef2`uc`uc ]
+[; ;../../VLCBlib_PIC/asyncEEPROM_buffer.c: 74: void writeAsyncEEPROM(eeprom_address_t address, uint8_t value) {
+[v _writeAsyncEEPROM `(v ~T0 @X0 1 ef2`um`uc ]
 {
-[e :U _writeEEvalue ]
-[v _address `uc ~T0 @X0 1 r1 ]
+[e :U _writeAsyncEEPROM ]
+[v _address `um ~T0 @X0 1 r1 ]
 [v _value `uc ~T0 @X0 1 r2 ]
 [f ]
 "75
-[; ;../EEPROMbuffer.c: 75:     if (eeValue[address] != value) {
-[e $ ! != -> *U + &U _eeValue * -> _address `ux -> -> # *U &U _eeValue `ui `ux `i -> _value `i 3306  ]
-{
+[; ;../../VLCBlib_PIC/asyncEEPROM_buffer.c: 75:     if (address >= ((8*4) + (4*8))) return;
+[e $ ! >= _address -> -> + * -> 8 `i -> 4 `i * -> 4 `i -> 8 `i `m `um 3296  ]
+[e $UE 3295  ]
+[e :U 3296 ]
 "76
-[; ;../EEPROMbuffer.c: 76:         eeValue[address] = value;
-[e = *U + &U _eeValue * -> _address `ux -> -> # *U &U _eeValue `ui `ux _value ]
+[; ;../../VLCBlib_PIC/asyncEEPROM_buffer.c: 76:     if (eeValue[address] != value) {
+[e $ ! != -> *U + &U _eeValue * -> _address `ux -> -> # *U &U _eeValue `ui `ux `i -> _value `i 3297  ]
+{
 "77
-[; ;../EEPROMbuffer.c: 77:         writeNeeded[address] = 1;
-[e = *U + &U _writeNeeded * -> _address `ux -> -> # *U &U _writeNeeded `ui `ux -> -> 1 `i `uc ]
+[; ;../../VLCBlib_PIC/asyncEEPROM_buffer.c: 77:         eeValue[address] = value;
+[e = *U + &U _eeValue * -> _address `ux -> -> # *U &U _eeValue `ui `ux _value ]
 "78
-[; ;../EEPROMbuffer.c: 78:     }
-}
-[e :U 3306 ]
+[; ;../../VLCBlib_PIC/asyncEEPROM_buffer.c: 78:         (writeNeeded[address/8] |= (1<<(address%8)));
+[e =| *U + &U _writeNeeded * -> / _address -> -> -> 8 `i `m `um `ux -> -> # *U &U _writeNeeded `ui `ux -> << -> 1 `i % _address -> -> -> 8 `i `m `um `uc ]
 "79
-[; ;../EEPROMbuffer.c: 79: }
-[e :UE 3305 ]
+[; ;../../VLCBlib_PIC/asyncEEPROM_buffer.c: 79:     }
 }
-"86
-[; ;../EEPROMbuffer.c: 86: uint8_t readEEvalue(uint8_t address) {
-[v _readEEvalue `(uc ~T0 @X0 1 ef1`uc ]
-{
-[e :U _readEEvalue ]
-[v _address `uc ~T0 @X0 1 r1 ]
-[f ]
+[e :U 3297 ]
+"80
+[; ;../../VLCBlib_PIC/asyncEEPROM_buffer.c: 80: }
+[e :UE 3295 ]
+}
 "87
-[; ;../EEPROMbuffer.c: 87:     return eeValue[address];
-[e ) *U + &U _eeValue * -> _address `ux -> -> # *U &U _eeValue `ui `ux ]
-[e $UE 3307  ]
-"88
-[; ;../EEPROMbuffer.c: 88: }
-[e :UE 3307 ]
-}
-"94
-[; ;../EEPROMbuffer.c: 94: void pollEEPROMwriter(void) {
-[v _pollEEPROMwriter `(v ~T0 @X0 1 ef ]
+[; ;../../VLCBlib_PIC/asyncEEPROM_buffer.c: 87: uint8_t readAsyncEEPROM(eeprom_address_t address) {
+[v _readAsyncEEPROM `(uc ~T0 @X0 1 ef1`um ]
 {
-[e :U _pollEEPROMwriter ]
+[e :U _readAsyncEEPROM ]
+[v _address `um ~T0 @X0 1 r1 ]
 [f ]
-"95
-[; ;../EEPROMbuffer.c: 95:     uint8_t i;
-[v _i `uc ~T0 @X0 1 a ]
-"98
-[; ;../EEPROMbuffer.c: 98:     if (NVMCON0 == 0) {
-[e $ ! == -> _NVMCON0 `i -> 0 `i 3309  ]
+"88
+[; ;../../VLCBlib_PIC/asyncEEPROM_buffer.c: 88:     if (address >= ((8*4) + (4*8))) return 0;
+[e $ ! >= _address -> -> + * -> 8 `i -> 4 `i * -> 4 `i -> 8 `i `m `um 3299  ]
+[e ) -> -> 0 `i `uc ]
+[e $UE 3298  ]
+[e :U 3299 ]
+"89
+[; ;../../VLCBlib_PIC/asyncEEPROM_buffer.c: 89:     return eeValue[address];
+[e ) *U + &U _eeValue * -> _address `ux -> -> # *U &U _eeValue `ui `ux ]
+[e $UE 3298  ]
+"90
+[; ;../../VLCBlib_PIC/asyncEEPROM_buffer.c: 90: }
+[e :UE 3298 ]
+}
+"96
+[; ;../../VLCBlib_PIC/asyncEEPROM_buffer.c: 96: void pollAsyncEEPROM(void) {
+[v _pollAsyncEEPROM `(v ~T0 @X0 1 ef ]
 {
+[e :U _pollAsyncEEPROM ]
+[f ]
+"97
+[; ;../../VLCBlib_PIC/asyncEEPROM_buffer.c: 97:     uint8_t i;
+[v _i `uc ~T0 @X0 1 a ]
 "100
-[; ;../EEPROMbuffer.c: 100:         for (i=0; i < ((8*4) + (4*8)); i++) {
+[; ;../../VLCBlib_PIC/asyncEEPROM_buffer.c: 100:     if (NVMCON0 == 0) {
+[e $ ! == -> _NVMCON0 `i -> 0 `i 3301  ]
+{
+"102
+[; ;../../VLCBlib_PIC/asyncEEPROM_buffer.c: 102:         for (i=0; i < ((8*4) + (4*8)); i++) {
 {
 [e = _i -> -> 0 `i `uc ]
-[e $ < -> _i `i + * -> 8 `i -> 4 `i * -> 4 `i -> 8 `i 3310  ]
-[e $U 3311  ]
-[e :U 3310 ]
-{
-"101
-[; ;../EEPROMbuffer.c: 101:             currentMemory ++;
-[e ++ _currentMemory -> -> 1 `i `uc ]
-"102
-[; ;../EEPROMbuffer.c: 102:             if (currentMemory >= ((8*4) + (4*8))) {
-[e $ ! >= -> _currentMemory `i + * -> 8 `i -> 4 `i * -> 4 `i -> 8 `i 3313  ]
+[e $ < -> _i `i + * -> 8 `i -> 4 `i * -> 4 `i -> 8 `i 3302  ]
+[e $U 3303  ]
+[e :U 3302 ]
 {
 "103
-[; ;../EEPROMbuffer.c: 103:                 currentMemory = 0;
-[e = _currentMemory -> -> 0 `i `uc ]
+[; ;../../VLCBlib_PIC/asyncEEPROM_buffer.c: 103:             currentMemory ++;
+[e ++ _currentMemory -> -> 1 `i `uc ]
 "104
-[; ;../EEPROMbuffer.c: 104:             }
-}
-[e :U 3313 ]
-"105
-[; ;../EEPROMbuffer.c: 105:             if (writeNeeded[currentMemory] == 1) {
-[e $ ! == -> *U + &U _writeNeeded * -> _currentMemory `ux -> -> # *U &U _writeNeeded `ui `ux `i -> 1 `i 3314  ]
+[; ;../../VLCBlib_PIC/asyncEEPROM_buffer.c: 104:             if (currentMemory >= ((8*4) + (4*8))) {
+[e $ ! >= -> _currentMemory `i + * -> 8 `i -> 4 `i * -> 4 `i -> 8 `i 3305  ]
 {
-"107
-[; ;../EEPROMbuffer.c: 107:                 EEPROM_WriteNoVerify(0x0000 + currentMemory, eeValue[currentMemory]);
-[e ( _EEPROM_WriteNoVerify (2 , -> -> + -> 0 `i -> _currentMemory `i `m `um *U + &U _eeValue * -> _currentMemory `ux -> -> # *U &U _eeValue `ui `ux ]
-"108
-[; ;../EEPROMbuffer.c: 108:                 return;
-[e $UE 3308  ]
-"109
-[; ;../EEPROMbuffer.c: 109:             }
+"105
+[; ;../../VLCBlib_PIC/asyncEEPROM_buffer.c: 105:                 currentMemory = 0;
+[e = _currentMemory -> -> 0 `i `uc ]
+"106
+[; ;../../VLCBlib_PIC/asyncEEPROM_buffer.c: 106:             }
 }
-[e :U 3314 ]
+[e :U 3305 ]
+"107
+[; ;../../VLCBlib_PIC/asyncEEPROM_buffer.c: 107:             if (((writeNeeded[currentMemory/8] & (1<<(currentMemory%8))) != 0)) {
+[e $ ! != & -> *U + &U _writeNeeded * -> -> / -> _currentMemory `i -> 8 `i `ui `ux -> -> # *U &U _writeNeeded `ui `ux `i << -> 1 `i % -> _currentMemory `i -> 8 `i -> 0 `i 3306  ]
+{
+"109
+[; ;../../VLCBlib_PIC/asyncEEPROM_buffer.c: 109:                 EEPROM_WriteNoVerify(0x0000 + currentMemory, eeValue[currentMemory]);
+[e ( _EEPROM_WriteNoVerify (2 , -> -> + -> 0 `i -> _currentMemory `i `m `um *U + &U _eeValue * -> _currentMemory `ux -> -> # *U &U _eeValue `ui `ux ]
 "110
-[; ;../EEPROMbuffer.c: 110:         }
+[; ;../../VLCBlib_PIC/asyncEEPROM_buffer.c: 110:                 return;
+[e $UE 3300  ]
+"111
+[; ;../../VLCBlib_PIC/asyncEEPROM_buffer.c: 111:             }
+}
+[e :U 3306 ]
+"112
+[; ;../../VLCBlib_PIC/asyncEEPROM_buffer.c: 112:         }
 }
 [e ++ _i -> -> 1 `i `uc ]
-[e $ < -> _i `i + * -> 8 `i -> 4 `i * -> 4 `i -> 8 `i 3310  ]
+[e $ < -> _i `i + * -> 8 `i -> 4 `i * -> 4 `i -> 8 `i 3302  ]
+[e :U 3303 ]
+}
+"114
+[; ;../../VLCBlib_PIC/asyncEEPROM_buffer.c: 114:     }
+}
+[e :U 3301 ]
+"115
+[; ;../../VLCBlib_PIC/asyncEEPROM_buffer.c: 115: }
+[e :UE 3300 ]
+}
+"120
+[; ;../../VLCBlib_PIC/asyncEEPROM_buffer.c: 120: void flushAsyncEEPROM(void) {
+[v _flushAsyncEEPROM `(v ~T0 @X0 1 ef ]
+{
+[e :U _flushAsyncEEPROM ]
+[f ]
+"121
+[; ;../../VLCBlib_PIC/asyncEEPROM_buffer.c: 121:     uint8_t i;
+[v _i `uc ~T0 @X0 1 a ]
+"122
+[; ;../../VLCBlib_PIC/asyncEEPROM_buffer.c: 122:  for (i=0; i < ((8*4) + (4*8)); i++) {
+{
+[e = _i -> -> 0 `i `uc ]
+[e $ < -> _i `i + * -> 8 `i -> 4 `i * -> 4 `i -> 8 `i 3308  ]
+[e $U 3309  ]
+[e :U 3308 ]
+{
+"123
+[; ;../../VLCBlib_PIC/asyncEEPROM_buffer.c: 123:         if (((writeNeeded[i/8] & (1<<(i%8))) != 0)) {
+[e $ ! != & -> *U + &U _writeNeeded * -> -> / -> _i `i -> 8 `i `ui `ux -> -> # *U &U _writeNeeded `ui `ux `i << -> 1 `i % -> _i `i -> 8 `i -> 0 `i 3311  ]
+{
+"125
+[; ;../../VLCBlib_PIC/asyncEEPROM_buffer.c: 125:             EEPROM_WriteNoVerify(0x0000 + i, eeValue[i]);
+[e ( _EEPROM_WriteNoVerify (2 , -> -> + -> 0 `i -> _i `i `m `um *U + &U _eeValue * -> _i `ux -> -> # *U &U _eeValue `ui `ux ]
+"126
+[; ;../../VLCBlib_PIC/asyncEEPROM_buffer.c: 126:             return;
+[e $UE 3307  ]
+"127
+[; ;../../VLCBlib_PIC/asyncEEPROM_buffer.c: 127:         }
+}
 [e :U 3311 ]
+"128
+[; ;../../VLCBlib_PIC/asyncEEPROM_buffer.c: 128:     }
 }
-"112
-[; ;../EEPROMbuffer.c: 112:     }
-}
+[e ++ _i -> -> 1 `i `uc ]
+[e $ < -> _i `i + * -> 8 `i -> 4 `i * -> 4 `i -> 8 `i 3308  ]
 [e :U 3309 ]
-"113
-[; ;../EEPROMbuffer.c: 113: }
-[e :UE 3308 ]
+}
+"129
+[; ;../../VLCBlib_PIC/asyncEEPROM_buffer.c: 129: }
+[e :UE 3307 ]
 }

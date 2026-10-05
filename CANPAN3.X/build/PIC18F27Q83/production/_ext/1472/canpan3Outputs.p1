@@ -1,43 +1,47 @@
 Version 4.0 HI-TECH Software Intermediate Code
-"2516 C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-Q_DFP/1.28.451/xc8\pic\include\proc/pic18f27q83.h
-[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-Q_DFP/1.28.451/xc8\pic\include\proc/pic18f27q83.h: 2516:         unsigned C2OUT :1;
+"68052 C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-Q_DFP/1.28.451/xc8\pic\include\proc/pic18f27q83.h
+[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-Q_DFP/1.28.451/xc8\pic\include\proc/pic18f27q83.h: 68052:     struct {
 [s S3116 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S3116 . TRISC0 TRISC1 TRISC2 TRISC3 TRISC4 TRISC5 TRISC6 TRISC7 ]
-"2515
-[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-Q_DFP/1.28.451/xc8\pic\include\proc/pic18f27q83.h: 2515:         unsigned :1;
+"68051
+[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-Q_DFP/1.28.451/xc8\pic\include\proc/pic18f27q83.h: 68051: typedef union {
 [u S3115 `S3116 1 ]
 [n S3115 . . ]
-"2527
+"68063
+[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-Q_DFP/1.28.451/xc8\pic\include\proc/pic18f27q83.h: 68063: extern volatile TRISCbits_t TRISCbits __attribute__((address(0x4C8)));
 [v _TRISCbits `VS3115 ~T0 @X0 0 e@1224 ]
-"2454
-[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-Q_DFP/1.28.451/xc8\pic\include\proc/pic18f27q83.h: 2454: } CM1PCHbits_t;
+"67990
+[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-Q_DFP/1.28.451/xc8\pic\include\proc/pic18f27q83.h: 67990:     struct {
 [s S3114 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S3114 . TRISB0 TRISB1 TRISB2 TRISB3 TRISB4 TRISB5 TRISB6 TRISB7 ]
-"2453
-[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-Q_DFP/1.28.451/xc8\pic\include\proc/pic18f27q83.h: 2453:     };
+"67989
+[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-Q_DFP/1.28.451/xc8\pic\include\proc/pic18f27q83.h: 67989: typedef union {
 [u S3113 `S3114 1 ]
 [n S3113 . . ]
-"2465
+"68001
+[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-Q_DFP/1.28.451/xc8\pic\include\proc/pic18f27q83.h: 68001: extern volatile TRISBbits_t TRISBbits __attribute__((address(0x4C7)));
 [v _TRISBbits `VS3113 ~T0 @X0 0 e@1223 ]
-"2268
-[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-Q_DFP/1.28.451/xc8\pic\include\proc/pic18f27q83.h: 2268:         unsigned EN :1;
+"67804
+[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-Q_DFP/1.28.451/xc8\pic\include\proc/pic18f27q83.h: 67804:     struct {
 [s S3108 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S3108 . LATB0 LATB1 LATB2 LATB3 LATB4 LATB5 LATB6 LATB7 ]
-"2267
-[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-Q_DFP/1.28.451/xc8\pic\include\proc/pic18f27q83.h: 2267:         unsigned OUT :1;
+"67803
+[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-Q_DFP/1.28.451/xc8\pic\include\proc/pic18f27q83.h: 67803: typedef union {
 [u S3107 `S3108 1 ]
 [n S3107 . . ]
-"2279
-[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-Q_DFP/1.28.451/xc8\pic\include\proc/pic18f27q83.h: 2279: } CM1CON0bits_t;
+"67815
+[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-Q_DFP/1.28.451/xc8\pic\include\proc/pic18f27q83.h: 67815: extern volatile LATBbits_t LATBbits __attribute__((address(0x4BF)));
 [v _LATBbits `VS3107 ~T0 @X0 0 e@1215 ]
-"2330
+"67866
+[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-Q_DFP/1.28.451/xc8\pic\include\proc/pic18f27q83.h: 67866:     struct {
 [s S3110 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S3110 . LATC0 LATC1 LATC2 LATC3 LATC4 LATC5 LATC6 LATC7 ]
-"2329
+"67865
+[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-Q_DFP/1.28.451/xc8\pic\include\proc/pic18f27q83.h: 67865: typedef union {
 [u S3109 `S3110 1 ]
 [n S3109 . . ]
-"2341
-[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-Q_DFP/1.28.451/xc8\pic\include\proc/pic18f27q83.h: 2341:     struct {
+"67877
+[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-Q_DFP/1.28.451/xc8\pic\include\proc/pic18f27q83.h: 67877: extern volatile LATCbits_t LATCbits __attribute__((address(0x4C0)));
 [v _LATCbits `VS3109 ~T0 @X0 0 e@1216 ]
 "3623
 [; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-Q_DFP/1.28.451/xc8\pic\include\proc/pic18f27q83.h: 3623: extern volatile unsigned char SPI1CON0 __attribute__((address(0x084)));
@@ -3658,9 +3662,9 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;../canpan3Outputs.c: 69:     for (i=0; i< 4; i++) {
 {
 [e = _i -> -> 0 `i `uc ]
-[e $ < -> _i `i -> 4 `i 3302  ]
-[e $U 3303  ]
-[e :U 3302 ]
+[e $ < -> _i `i -> 4 `i 3299  ]
+[e $U 3300  ]
+[e :U 3299 ]
 {
 "70
 [; ;../canpan3Outputs.c: 70:         ledMatrix[i] = 0;
@@ -3669,8 +3673,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;../canpan3Outputs.c: 71:     }
 }
 [e ++ _i -> -> 1 `i `uc ]
-[e $ < -> _i `i -> 4 `i 3302  ]
-[e :U 3303 ]
+[e $ < -> _i `i -> 4 `i 3299  ]
+[e :U 3300 ]
 }
 "72
 [; ;../canpan3Outputs.c: 72:     TRISCbits.TRISC6 = 0;
@@ -3758,7 +3762,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e = . . _SPI1CON0bits 0 4 -> -> 1 `i `uc ]
 "114
 [; ;../canpan3Outputs.c: 114: }
-[e :UE 3301 ]
+[e :UE 3298 ]
 }
 "130
 [; ;../canpan3Outputs.c: 130: void pollOutputs(void)
@@ -3776,7 +3780,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 [v _offset `uc ~T0 @X0 1 a ]
 "135
 [; ;../canpan3Outputs.c: 135:     if (brightness == 0) {
-[e $ ! == -> _brightness `i -> 0 `i 3306  ]
+[e $ ! == -> _brightness `i -> 0 `i 3303  ]
 {
 "137
 [; ;../canpan3Outputs.c: 137:         current_row++;
@@ -3816,74 +3820,74 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e = _SPI1TXB _cathodes ]
 "158
 [; ;../canpan3Outputs.c: 158:         while (! SPI1STATUSbits.TXBE)
-[e $U 3307  ]
-[e :U 3308 ]
+[e $U 3304  ]
+[e :U 3305 ]
 "159
 [; ;../canpan3Outputs.c: 159:             ;
-[e :U 3307 ]
+[e :U 3304 ]
 "158
 [; ;../canpan3Outputs.c: 158:         while (! SPI1STATUSbits.TXBE)
-[e $ ! != -> . . _SPI1STATUSbits 0 5 `i -> 0 `i 3308  ]
-[e :U 3309 ]
+[e $ ! != -> . . _SPI1STATUSbits 0 5 `i -> 0 `i 3305  ]
+[e :U 3306 ]
 "165
 [; ;../canpan3Outputs.c: 165:         switch (current_row) {
-[e $U 3311  ]
+[e $U 3308  ]
 {
 "166
 [; ;../canpan3Outputs.c: 166:             case 0:
-[e :U 3312 ]
+[e :U 3309 ]
 "167
 [; ;../canpan3Outputs.c: 167:                 LATBbits.LATB4 = 1;
 [e = . . _LATBbits 0 4 -> -> 1 `i `uc ]
 "168
 [; ;../canpan3Outputs.c: 168:                 break;
-[e $U 3310  ]
+[e $U 3307  ]
 "169
 [; ;../canpan3Outputs.c: 169:             case 1:
-[e :U 3313 ]
+[e :U 3310 ]
 "170
 [; ;../canpan3Outputs.c: 170:                 LATBbits.LATB5 = 1;
 [e = . . _LATBbits 0 5 -> -> 1 `i `uc ]
 "171
 [; ;../canpan3Outputs.c: 171:                 break;
-[e $U 3310  ]
+[e $U 3307  ]
 "172
 [; ;../canpan3Outputs.c: 172:             case 2:
-[e :U 3314 ]
+[e :U 3311 ]
 "173
 [; ;../canpan3Outputs.c: 173:                 LATCbits.LATC6 = 1;
 [e = . . _LATCbits 0 6 -> -> 1 `i `uc ]
 "174
 [; ;../canpan3Outputs.c: 174:                 break;
-[e $U 3310  ]
+[e $U 3307  ]
 "175
 [; ;../canpan3Outputs.c: 175:             case 3:
-[e :U 3315 ]
+[e :U 3312 ]
 "176
 [; ;../canpan3Outputs.c: 176:                 LATCbits.LATC7 = 1;
 [e = . . _LATCbits 0 7 -> -> 1 `i `uc ]
 "177
 [; ;../canpan3Outputs.c: 177:                 break;
-[e $U 3310  ]
+[e $U 3307  ]
 "178
 [; ;../canpan3Outputs.c: 178:         }
 }
-[e $U 3310  ]
-[e :U 3311 ]
-[e [\ _current_row , $ -> 0 `i 3312
- , $ -> 1 `i 3313
- , $ -> 2 `i 3314
- , $ -> 3 `i 3315
- 3310 ]
-[e :U 3310 ]
+[e $U 3307  ]
+[e :U 3308 ]
+[e [\ _current_row , $ -> 0 `i 3309
+ , $ -> 1 `i 3310
+ , $ -> 2 `i 3311
+ , $ -> 3 `i 3312
+ 3307 ]
+[e :U 3307 ]
 "181
 [; ;../canpan3Outputs.c: 181:         LATCbits.LATC2 = 0;
 [e = . . _LATCbits 0 2 -> -> 0 `i `uc ]
 "182
 [; ;../canpan3Outputs.c: 182:     } else {
 }
-[e $U 3316  ]
-[e :U 3306 ]
+[e $U 3313  ]
+[e :U 3303 ]
 {
 "187
 [; ;../canpan3Outputs.c: 187:         LATCbits.LATC2 = 1;
@@ -3895,13 +3899,13 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;../canpan3Outputs.c: 191:         for (i=0; i<8; i++) {
 {
 [e = _i -> -> 0 `i `uc ]
-[e $ < -> _i `i -> 8 `i 3317  ]
-[e $U 3318  ]
-[e :U 3317 ]
+[e $ < -> _i `i -> 8 `i 3314  ]
+[e $U 3315  ]
+[e :U 3314 ]
 {
 "192
 [; ;../canpan3Outputs.c: 192:             if (brightness > getNV(offset + i)) {
-[e $ ! > -> _brightness `i -> ( _getNV (1 -> + -> _offset `i -> _i `i `uc `i 3320  ]
+[e $ ! > -> _brightness `i -> ( _getNV (1 -> + -> _offset `i -> _i `i `uc `i 3317  ]
 {
 "193
 [; ;../canpan3Outputs.c: 193:                 cathodes &= ~(1 << i);
@@ -3909,41 +3913,41 @@ Version 4.0 HI-TECH Software Intermediate Code
 "194
 [; ;../canpan3Outputs.c: 194:             }
 }
-[e :U 3320 ]
+[e :U 3317 ]
 "195
 [; ;../canpan3Outputs.c: 195:         }
 }
 [e ++ _i -> -> 1 `i `uc ]
-[e $ < -> _i `i -> 8 `i 3317  ]
-[e :U 3318 ]
+[e $ < -> _i `i -> 8 `i 3314  ]
+[e :U 3315 ]
 }
 "197
 [; ;../canpan3Outputs.c: 197:         SPI1TXB = cathodes;
 [e = _SPI1TXB _cathodes ]
 "200
 [; ;../canpan3Outputs.c: 200:         while (! SPI1STATUSbits.TXBE)
-[e $U 3321  ]
-[e :U 3322 ]
+[e $U 3318  ]
+[e :U 3319 ]
 "201
 [; ;../canpan3Outputs.c: 201:             ;
-[e :U 3321 ]
+[e :U 3318 ]
 "200
 [; ;../canpan3Outputs.c: 200:         while (! SPI1STATUSbits.TXBE)
-[e $ ! != -> . . _SPI1STATUSbits 0 5 `i -> 0 `i 3322  ]
-[e :U 3323 ]
+[e $ ! != -> . . _SPI1STATUSbits 0 5 `i -> 0 `i 3319  ]
+[e :U 3320 ]
 "203
 [; ;../canpan3Outputs.c: 203:         LATCbits.LATC2 = 0;
 [e = . . _LATCbits 0 2 -> -> 0 `i `uc ]
 "204
 [; ;../canpan3Outputs.c: 204:     }
 }
-[e :U 3316 ]
+[e :U 3313 ]
 "205
 [; ;../canpan3Outputs.c: 205:     brightness += 2;
 [e =+ _brightness -> -> 2 `i `uc ]
 "206
 [; ;../canpan3Outputs.c: 206:     if (brightness >= 32) {
-[e $ ! >= -> _brightness `i -> 32 `i 3324  ]
+[e $ ! >= -> _brightness `i -> 32 `i 3321  ]
 {
 "207
 [; ;../canpan3Outputs.c: 207:         brightness = 0;
@@ -3951,10 +3955,10 @@ Version 4.0 HI-TECH Software Intermediate Code
 "208
 [; ;../canpan3Outputs.c: 208:     }
 }
-[e :U 3324 ]
+[e :U 3321 ]
 "209
 [; ;../canpan3Outputs.c: 209: }
-[e :UE 3305 ]
+[e :UE 3302 ]
 }
 "216
 [; ;../canpan3Outputs.c: 216: void setLed(uint8_t no) {
@@ -3968,7 +3972,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e =| *U + &U _ledMatrix * -> -> / -> _no `i -> 8 `i `ui `ux -> -> # *U &U _ledMatrix `ui `ux -> << -> 1 `i % -> _no `i -> 8 `i `uc ]
 "218
 [; ;../canpan3Outputs.c: 218: }
-[e :UE 3325 ]
+[e :UE 3322 ]
 }
 "223
 [; ;../canpan3Outputs.c: 223: void clearLed(uint8_t no) {
@@ -3982,7 +3986,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e =& *U + &U _ledMatrix * -> -> / -> _no `i -> 8 `i `ui `ux -> -> # *U &U _ledMatrix `ui `ux -> ~ << -> 1 `i % -> _no `i -> 8 `i `uc ]
 "225
 [; ;../canpan3Outputs.c: 225: }
-[e :UE 3326 ]
+[e :UE 3323 ]
 }
 "232
 [; ;../canpan3Outputs.c: 232: uint8_t testLed(uint8_t no) {
@@ -3994,8 +3998,8 @@ Version 4.0 HI-TECH Software Intermediate Code
 "233
 [; ;../canpan3Outputs.c: 233:     return ledMatrix[no/8] & (1 << (no%8));
 [e ) -> & -> *U + &U _ledMatrix * -> -> / -> _no `i -> 8 `i `ui `ux -> -> # *U &U _ledMatrix `ui `ux `i << -> 1 `i % -> _no `i -> 8 `i `uc ]
-[e $UE 3327  ]
+[e $UE 3324  ]
 "234
 [; ;../canpan3Outputs.c: 234: }
-[e :UE 3327 ]
+[e :UE 3324 ]
 }

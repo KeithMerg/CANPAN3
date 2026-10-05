@@ -1,9 +1,9 @@
 
 18F27Q83 Memory Summary:
-    Program space        used  6DE8h ( 28136) of 1D801h bytes   ( 23.3%)
-    Data space           used   57Dh (  1405) of  3200h bytes   ( 11.0%)
+    Program space        used  83FBh ( 33787) of 1D801h bytes   ( 28.0%)
+    Data space           used   4DCh (  1244) of  3200h bytes   (  9.7%)
     Configuration bits   used    11h (    17) of    12h words   ( 94.4%)
     EEPROM space         used   400h (  1024) of   400h bytes   (100.0%)
     ID Location space    used     0h (     0) of    40h bytes   (  0.0%)
-    Data stack space     used  2C38h ( 11320) of  2C38h bytes   (100.0%)
+    Data stack space     used  2CF4h ( 11508) of  2CF4h bytes   (100.0%)
 

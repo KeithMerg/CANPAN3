@@ -37,14 +37,14 @@
  * 
  */ 
 
-#import <xc.h>
-#import "nvm.h"
-#import "module.h"
+#include <xc.h>
+#include "nvm.h"
+#include "module.h"
 /**
  * Maintains a list of EEPROM changes required and will submit these to the NVM 
  * peripheral so that the CPU does not need to wait. A wait would occurr if 
  * overlapping writes to the NVM are requested so this code waits until the NVM
- * is available, buffering requets. 
+ * is available, buffering requests. 
  */
 
 static uint8_t writeNeeded[NUMBER_EEPROM];
@@ -72,6 +72,7 @@ void initEEPROMwriter(void) {
  * @param value the value to be written
  */
 void writeEEvalue(uint8_t address, uint8_t value) {
+    if (address >= NUMBER_EEPROM) return;    // KeithB b33: bounds check
     if (eeValue[address] != value) {
         eeValue[address] = value;
         writeNeeded[address] = 1;
@@ -84,6 +85,7 @@ void writeEEvalue(uint8_t address, uint8_t value) {
  * @return 
  */
 uint8_t readEEvalue(uint8_t address) {
+    if (address >= NUMBER_EEPROM) return 0;  // KeithB b33: bounds check
     return eeValue[address];
 }
 
@@ -111,3 +113,4 @@ void pollEEPROMwriter(void) {
         // No writes needed
     }
 }
+

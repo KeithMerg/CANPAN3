@@ -101,7 +101,7 @@ void initInputs(void) {
     startNv = (uint8_t)getNV(NV_STARTUP);
     for (i=0; i<NUM_BUTTONS; i++) {
         if (!(startNv & NV_STARTUP_RESTORESWITCHES)) {
-            outputState[i] = readEEvalue(EE_ADDR_SWITCHES+i);
+            outputState[i] = (uint8_t)readNVM(EEPROM_NVM_TYPE,EE_ADDR_SWITCHES+i);
         } else {
             outputState[i] = 0;     // default 0 but maybe loaded from EEPROM later
         }
@@ -255,7 +255,7 @@ void inputScan(void) {
  */
 void saveSwitchState(uint8_t buttonNo, uint8_t onOff) {
     if ((getNV(NV_STARTUP) & NV_STARTUP_RESTORESWITCHES) == 0) {
-        writeEEvalue(buttonNo, onOff);
+        writeNVM(EEPROM_NVM_TYPE, buttonNo, onOff);
     }
 }
 
@@ -351,7 +351,7 @@ TimedResponseResult sodTRCallback(uint8_t type, uint8_t serviceIndex, uint8_t ta
     EventState value;
     uint8_t sv;
 
-    if (tableIndex >= NUM_EVENTS) {
+    if (tableIndex >= PARAM_NUM_EVENTS) {
         return TIMED_RESPONSE_RESULT_FINISHED;
     }
     // The step is used to index through the events 

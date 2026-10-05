@@ -134,7 +134,7 @@ void rebuildLookupTable(void) {
         switch2Event[sw] = NO_INDEX;
     }
     // Add in the events
-    for (i=0; i<NUM_EVENTS; i++) {
+    for (i=0; i<PARAM_NUM_EVENTS; i++) {
         swNo = getEv(i, EV_SWITCHNO);
         if ((swNo >0) && ( swNo <= NUM_PRODUCED_EVENTS)) {
             switch2Event[swNo-1] = i;

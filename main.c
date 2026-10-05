@@ -39,7 +39,6 @@ It may become a feature :)
 #include "canpan3Events.h"
 #include "canpan3Outputs.h"
 #include "canpan3Leds.h"
-#include "EEPROMbuffer.h"
 
 /*
   This work is licensed under the:
@@ -128,7 +127,9 @@ static uint8_t     started;
 static TickValue   lastInputScanTime;
 static TickValue   flashTime;
 static TickValue   outputPollTime;
+#ifdef ASYNC_EEPROM
 static TickValue   eepromWriterTime;
+#endif
 
 const Service * const services[] = {
     &canService,
@@ -178,13 +179,19 @@ void APP_testMode(void) {
 }
 
 /**
+ * Early init not required.
+ */
+void APP_earlyInit(void) {
+    
+}
+
+/**
  * Called upon power up.
  */
 void setup(void) {
 #if defined(_18FXXQ83_FAMILY_)
     uint8_t pu;
 #endif
-    uint8_t nv;
     
     // use CAN as the module's transport
     transport = &canTransport;
@@ -210,7 +217,6 @@ void setup(void) {
     TRISAbits.TRISA5 = 0; LATAbits.LATA5 = 0;   // Unused
 #endif
     
-    initEEPROMwriter();
     initOutputs();
     initLeds();
     initInputs();
@@ -228,12 +234,12 @@ void setup(void) {
     lastInputScanTime.val = startTime.val;
     flashTime.val = startTime.val;
     outputPollTime.val = startTime.val;
+#ifdef ASYNC_EEPROM
     eepromWriterTime.val = startTime.val;
+#endif
 
     started = FALSE;
     canpanScanReady = 0;
-    
-    nv = (uint8_t)getNV(NV_STARTUP);
 }
 
 /**
@@ -267,9 +273,11 @@ void loop(void) {
     // Check to see if there are any EEPROM writes waiting to be done. 
     // A write takes max 11 ms but CPU isn't blocked unless there is already 
     // a write in progress. 
+#ifdef ASYNC_EEPROM
     if (tickTimeSince(eepromWriterTime) > ONE_MILI_SECOND) {
-        pollEEPROMwriter();
+        pollAsyncEEPROM();
     }
+#endif
 }
 
 // Application functions required by MERGLCB library

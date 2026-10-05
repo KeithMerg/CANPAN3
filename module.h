@@ -14,6 +14,7 @@
 // The data version stored at NV#0
 #define APP_NVM_VERSION 1
 #define NUM_SERVICES 8
+#define ASYNC_EEPROM    BUFFER
 
 
 #if defined(_18FXXQ83_FAMILY_)
@@ -26,7 +27,6 @@
 //
 // NV service
 //
-#define NV_NUM          67
 #define NV_ADDRESS      0x200
 #define NV_NVM_TYPE     EEPROM_NVM_TYPE
 
@@ -58,13 +58,6 @@
 // EVENT TEACH SERVICE
 //
 //
-#define EVENT_TABLE_WIDTH   13  // This the the width of the table - not the 
-                                // number of EVs per event as multiple rows in
-                                // the table can be used to store an event
-#define NUM_EVENTS          254 // The number of rows in the event table. The
-                                // actual number of events may be less than this
-                                // if any events use more the 1 row.
-#define EVperEVT            13  // number of EVs per event
 #define EV_FILL             0
 #define NO_ACTION           0
 #define EVENT_HASH_TABLE
@@ -123,8 +116,8 @@
 // Module name - must be 7 characters
 #define NAME    "PAN    "
 
-#define PARAM_NUM_NV            NV_NUM
-#define PARAM_NUM_EVENTS        NUM_EVENTS
+#define PARAM_NUM_NV            67
+#define PARAM_NUM_EVENTS        254
 #define PARAM_NUM_EV_EVENT      13
 
 // LEDs and PB                                 // GREEN is 0 YELLOW is 1
@@ -137,7 +130,7 @@
 #define APP_writeLED1(state)   (LATBbits.LATB7=state)   // GREEN true is on
 #define APP_writeLED2(state)   (LATBbits.LATB6=state)   // YELLOW true is on 
 #define APP_pbPressed()        (!(PORTAbits.RA3))       // where the push button is connected. True when pressed
-
+#define VLCB_VDD_GUARD  0x0B
 
 // enable this for additional validation checks
 //#define SAFETY

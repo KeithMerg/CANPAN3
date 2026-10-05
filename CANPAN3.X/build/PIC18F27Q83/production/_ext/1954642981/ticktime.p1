@@ -51,14 +51,14 @@ Version 4.0 HI-TECH Software Intermediate Code
 "38047
 [; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-Q_DFP/1.28.451/xc8\pic\include\proc/pic18f27q83.h: 38047: extern volatile unsigned char TMR0L __attribute__((address(0x318)));
 [v _TMR0L `Vuc ~T0 @X0 0 e@792 ]
-"15853
-[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-Q_DFP/1.28.451/xc8\pic\include\proc/pic18f27q83.h: 15853:         unsigned F1BP3 :1;
+"81389
+[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-Q_DFP/1.28.451/xc8\pic\include\proc/pic18f27q83.h: 81389: extern volatile __bit TMR0IP __attribute__((address(0x1B2F)));
 [v _TMR0IP `Vb ~T0 @X0 0 e@6959 ]
-"15850
-[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-Q_DFP/1.28.451/xc8\pic\include\proc/pic18f27q83.h: 15850:         unsigned F1BP0 :1;
+"81386
+[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-Q_DFP/1.28.451/xc8\pic\include\proc/pic18f27q83.h: 81386: extern volatile __bit TMR0IF __attribute__((address(0x258F)));
 [v _TMR0IF `Vb ~T0 @X0 0 e@9615 ]
-"15847
-[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-Q_DFP/1.28.451/xc8\pic\include\proc/pic18f27q83.h: 15847:         unsigned FLTEN1 :1;
+"81383
+[; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-Q_DFP/1.28.451/xc8\pic\include\proc/pic18f27q83.h: 81383: extern volatile __bit TMR0IE __attribute__((address(0x250F)));
 [v _TMR0IE `Vb ~T0 @X0 0 e@9487 ]
 "216 ../../VLCBlib_PIC/ticktime.h
 [; ;../../VLCBlib_PIC/ticktime.h: 216:     {
@@ -73,7 +73,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 [u S3291 `ul 1 `S3292 1 `uc -> 4 `i `S3293 1 ]
 [n S3291 _TickValue val byte v word ]
 [t ~ __interrupt . k ]
-[t T1 __interrupt irq ( TMR0 ) base ( 2304 ) ]
+[t T1 __interrupt irq ( TMR0 ) base ( 2304 ) low_priority ]
 "306 C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-Q_DFP/1.28.451/xc8\pic\include\proc/pic18f27q83.h
 [; ;C:/Users/ianwh/.mchp_packs/Microchip/PIC18F-Q_DFP/1.28.451/xc8\pic\include\proc/pic18f27q83.h: 306: __asm("BOOTREG equ 038h");
 [; <" BOOTREG equ 038h ;# ">
@@ -3615,15 +3615,15 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;../../VLCBlib_PIC/ticktime.c: 105:     for (i=64;i>0;i>>=1)
 {
 [e = _i -> -> 64 `i `uc ]
-[e $ > -> _i `i -> 0 `i 3302  ]
-[e $U 3303  ]
-[e :U 3302 ]
+[e $ > -> _i `i -> 0 `i 3295  ]
+[e $U 3296  ]
+[e :U 3295 ]
 "106
 [; ;../../VLCBlib_PIC/ticktime.c: 106:         divider++;
 [e ++ _divider -> -> 1 `i `uc ]
 [e =>> _i -> -> 1 `i `uc ]
-[e $ > -> _i `i -> 0 `i 3302  ]
-[e :U 3303 ]
+[e $ > -> _i `i -> 0 `i 3295  ]
+[e :U 3296 ]
 }
 "122
 [; ;../../VLCBlib_PIC/ticktime.c: 122:     T0CON1bits.CKPS = (uint8_t)(0b00000000 | (divider+1));
@@ -3660,7 +3660,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e = _timerExtension2 -> -> 0 `i `uc ]
 "147
 [; ;../../VLCBlib_PIC/ticktime.c: 147: }
-[e :UE 3301 ]
+[e :UE 3294 ]
 }
 "158
 [; ;../../VLCBlib_PIC/ticktime.c: 158: uint32_t tickGet(void) {
@@ -3688,7 +3688,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e = _TMR0IE -> -> 0 `i `b ]
 "170
 [; ;../../VLCBlib_PIC/ticktime.c: 170:     do {
-[e :U 3308 ]
+[e :U 3301 ]
 {
 "171
 [; ;../../VLCBlib_PIC/ticktime.c: 171:         IntFlag1 = TMR0IF;
@@ -3705,11 +3705,11 @@ Version 4.0 HI-TECH Software Intermediate Code
 "175
 [; ;../../VLCBlib_PIC/ticktime.c: 175:     } while(IntFlag1 != IntFlag2);
 }
-[e $ != -> _IntFlag1 `i -> _IntFlag2 `i 3308  ]
-[e :U 3307 ]
+[e $ != -> _IntFlag1 `i -> _IntFlag2 `i 3301  ]
+[e :U 3300 ]
 "177
 [; ;../../VLCBlib_PIC/ticktime.c: 177:     if( IntFlag1 > 0 ) {
-[e $ ! > -> _IntFlag1 `i -> 0 `i 3309  ]
+[e $ ! > -> _IntFlag1 `i -> 0 `i 3302  ]
 {
 "178
 [; ;../../VLCBlib_PIC/ticktime.c: 178:         TMR0IF = 0;
@@ -3719,7 +3719,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e ++ _timerExtension1 -> -> 1 `i `Vuc ]
 "180
 [; ;../../VLCBlib_PIC/ticktime.c: 180:         if(timerExtension1 == 0)
-[e $ ! == -> _timerExtension1 `i -> 0 `i 3310  ]
+[e $ ! == -> _timerExtension1 `i -> 0 `i 3303  ]
 "181
 [; ;../../VLCBlib_PIC/ticktime.c: 181:         {
 {
@@ -3729,11 +3729,11 @@ Version 4.0 HI-TECH Software Intermediate Code
 "183
 [; ;../../VLCBlib_PIC/ticktime.c: 183:         }
 }
-[e :U 3310 ]
+[e :U 3303 ]
 "184
 [; ;../../VLCBlib_PIC/ticktime.c: 184:     }
 }
-[e :U 3309 ]
+[e :U 3302 ]
 "187
 [; ;../../VLCBlib_PIC/ticktime.c: 187:     currentTime.byte.b2 += timerExtension1;
 [e =+ . . _currentTime 1 2 -> _timerExtension1 `uc ]
@@ -3746,14 +3746,14 @@ Version 4.0 HI-TECH Software Intermediate Code
 "193
 [; ;../../VLCBlib_PIC/ticktime.c: 193:     return currentTime.val;
 [e ) . _currentTime 0 ]
-[e $UE 3305  ]
+[e $UE 3298  ]
 "194
 [; ;../../VLCBlib_PIC/ticktime.c: 194: }
-[e :UE 3305 ]
+[e :UE 3298 ]
 }
 [v $root$_TMR0_ISR `(v ~T0 @X0 0 e ]
 "201
-[; ;../../VLCBlib_PIC/ticktime.c: 201: void __attribute__((picinterrupt(("irq(TMR0), base(0x900)")))) TMR0_ISR(void)
+[; ;../../VLCBlib_PIC/ticktime.c: 201: void __attribute__((picinterrupt(("irq(TMR0), base(0x900), low_priority")))) TMR0_ISR(void)
 [v _TMR0_ISR `(v ~T1 @X0 1 ef ]
 "202
 [; ;../../VLCBlib_PIC/ticktime.c: 202: {
@@ -3762,7 +3762,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 [f ]
 "205
 [; ;../../VLCBlib_PIC/ticktime.c: 205:     if(TMR0IF) {
-[e $ ! _TMR0IF 3312  ]
+[e $ ! _TMR0IF 3305  ]
 {
 "207
 [; ;../../VLCBlib_PIC/ticktime.c: 207:         TMR0IF = 0;
@@ -3772,7 +3772,7 @@ Version 4.0 HI-TECH Software Intermediate Code
 [e ++ _timerExtension1 -> -> 1 `i `Vuc ]
 "209
 [; ;../../VLCBlib_PIC/ticktime.c: 209:         if(timerExtension1 == 0) {
-[e $ ! == -> _timerExtension1 `i -> 0 `i 3313  ]
+[e $ ! == -> _timerExtension1 `i -> 0 `i 3306  ]
 {
 "210
 [; ;../../VLCBlib_PIC/ticktime.c: 210:             timerExtension2++;
@@ -3780,15 +3780,15 @@ Version 4.0 HI-TECH Software Intermediate Code
 "211
 [; ;../../VLCBlib_PIC/ticktime.c: 211:         }
 }
-[e :U 3313 ]
+[e :U 3306 ]
 "212
 [; ;../../VLCBlib_PIC/ticktime.c: 212:     }
 }
-[e :U 3312 ]
+[e :U 3305 ]
 "213
 [; ;../../VLCBlib_PIC/ticktime.c: 213:     return;
-[e $UE 3311  ]
+[e $UE 3304  ]
 "214
 [; ;../../VLCBlib_PIC/ticktime.c: 214: }
-[e :UE 3311 ]
+[e :UE 3304 ]
 }

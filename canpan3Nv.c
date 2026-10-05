@@ -39,6 +39,7 @@
 
 #include <xc.h>
 #include "module.h"
+#include "ticktime.h"
 #include "canpan3Nv.h"
 #include "nv.h"
         
@@ -46,7 +47,7 @@
  * The Application specific NV defaults are defined here.
  */
 uint8_t APP_nvDefault(uint8_t index) {
-    if (index < NV_NUM) {
+    if (index < PARAM_NUM_NV) {
         // Global NVs
         if (index == NV_STARTUP)
                 return 0; // Restore switches

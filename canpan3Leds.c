@@ -62,7 +62,7 @@ void initLeds(void) {
     
     for (ledNo=0; ledNo<NUM_LEDS; ledNo++) {
         if (startupNv & NV_STARTUP_RESTORELEDS) {
-            uint8_t state = readEEvalue(EE_ADDR_LEDS+ledNo);
+            uint8_t state = (uint8_t)readNVM(EEPROM_NVM_TYPE, EE_ADDR_LEDS+ledNo);
             setLedStateNoSave(ledNo, (enum canpan3LedState)state);
         } else {
             ledStates[ledNo] = CANPANLED_OFF;
@@ -100,7 +100,7 @@ void setLedStateNoSave(uint8_t ledNo, enum canpan3LedState state) {
 void setLedState(uint8_t ledNo, enum canpan3LedState state) {
     setLedStateNoSave(ledNo, state);
     if (startupNv & NV_STARTUP_RESTORELEDS) {
-        writeEEvalue(EE_ADDR_LEDS+ledNo, (uint8_t)state);
+        writeNVM(EEPROM_NVM_TYPE, EE_ADDR_LEDS+ledNo, (uint8_t)state);
     }
 }
 
