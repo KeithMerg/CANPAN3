@@ -50,3 +50,33 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# MPLAB X build output
+**/build/
+**/dist/
+**/debug/
+**/disassembly/
+**/queuelogs/
+**/.generated_files/
+**/.ca/
+defmplabxtrace.log*
+
+# Compiler intermediate and output files
+*.i
+*.p1
+*.pre
+*.lst
+*.sym
+*.cmf
+*.hxl
+*.sdb
+*.rlf
+*.elf
+*.map
+*.hex
+*.mum
+
+# Editor / OS clutter
+*.bak
+*~
+Thumbs.db
