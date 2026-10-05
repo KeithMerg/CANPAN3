@@ -49,6 +49,7 @@
 #include "EEPROMbuffer.h"
 
 static uint8_t buttonState[NUM_BUTTON_COLUMNS];
+static uint8_t rawState[NUM_BUTTON_COLUMNS];    // last raw read of each column, for debounce
 uint8_t outputState[NUM_BUTTONS];
 
 static uint8_t column;  // Column number
@@ -108,12 +109,15 @@ void initInputs(void) {
     }
     for (i=0; i<NUM_BUTTON_COLUMNS; i++) {
         buttonState[i] = 0;
+        rawState[i] = 0;
     }
 }
 
 /**
  * Scan the input buttons. Gets called every 2ms from the main loop. Each scan handles 1 row of 4 switches.
  * 8 scans are needed for a scan of all buttons taking 16ms.
+ * A change is only acted on once it has been read the same on two consecutive
+ * scans of the column (16ms apart), which filters out contact bounce.
  * For switches/buttons EV#1 must be set to 1. EV#2 is switch number. EV#3 is the switch mode
  */
 void inputScan(void) {
@@ -133,6 +137,14 @@ void inputScan(void) {
     // read the row
     row = (uint8_t)((PORTC & 0x03) << 2);
     row |= (PORTB & 0x03);  // get the row value
+    // debounce: a change must be seen on two consecutive scans of this column
+    // (except on the first scan after power-up, which only records the state)
+    if (row != rawState[column]) {
+        rawState[column] = row;
+        if (canpanScanReady) {
+            row = buttonState[column];  // not confirmed yet, treat as unchanged
+        }
+    }
     diff = row ^ buttonState[column];   // has the row changed since last read?
     
     // work out what has changed since last read.
