@@ -40,9 +40,9 @@
 // The possible NVs
 #define NV_STARTUP              1
 #define NV_FLASHRATE            2
-#define NV_BRIGHTNESS           3                             // 32 entries 3..34
-#define NV_SWITCHMODE           (NV_BRIGHTNESS+NUM_LEDS)      // 32 entries 35..66
-#define NV_STARTUP_EVENT_DELAY  (NV_SWITCHMODE + NUM_BUTTONS) // 67
+#define NV_BRIGHTNESS           3                             // NUM_LEDS entries, 3..34 on CANPAN3
+#define NV_SWITCHMODE           (NV_BRIGHTNESS+NUM_LEDS)      // NUM_BUTTONS entries, 35..66 on CANPAN3
+#define NV_STARTUP_EVENT_DELAY  (NV_SWITCHMODE + NUM_BUTTONS) // 67 on CANPAN3 and CANDISP, 131 on CANSCAN
 
 // The possible NV_STARTUP values
 //#define NV_STARTUP_RESTORE  0

@@ -138,8 +138,10 @@ const Service * const services[] = {
     &bootService,
     &eventTeachService,
     &eventConsumerService,
+#if NUM_BUTTONS > 0
     &eventProducerService,
     &eventCoeService
+#endif
 };
 
 
@@ -155,14 +157,18 @@ void APP_factoryReset(void) {
 
     flushFlashBlock();
     
+#if NUM_BUTTONS > 0
     // Write the EEPROM for the toggle switch inputs
     for (sw=0; sw < NUM_BUTTONS; sw++) {
         writeNVM(EEPROM_NVM_TYPE, EE_ADDR_SWITCHES+sw, 0);
     }
+#endif
+#if NUM_LEDS > 0
     // and the saved LED states
     for (sw=0; sw < NUM_LEDS; sw++) {
         writeNVM(EEPROM_NVM_TYPE, EE_ADDR_LEDS+sw, 0);
     }
+#endif
 }
 
 /**
@@ -177,9 +183,11 @@ void APP_testMode(void) {
     
     clearAllEvents();
     
+#if NUM_BUTTONS > 0
     for (sw=0; sw<NUM_BUTTONS; sw++) {
         addTestEvent(sw+1);
     }
+#endif
 }
 
 /**
@@ -210,20 +218,32 @@ void setup(void) {
     ANCON1 = 0x00;
 #endif
 #if defined(_18FXXQ83_FAMILY_)
-    WPUA = 0b00001000;  // ensure the pushbutton pullup is still enabled
+#if HARDWARE==HW_CANSCAN
+    WPUA = 0b00100000;  // ensure the pushbutton (RA5) pullup is still enabled
+#elif HARDWARE==HW_CANDISP
+    WPUA = 0b00100100;  // pushbutton (RA2), and RA5, as APP_setPortDirections()
+#else
+    WPUA = 0b00001000;  // ensure the pushbutton (RA3) pullup is still enabled
+#endif
     WPUB = 0;
     WPUC = 0;
     ANSELA = 0x00;
     ANSELB = 0x00;
     ANSELC = 0x00;
     
-    TRISAbits.TRISA4 = 0; LATAbits.LATA4 = 0;   // Unused
-    TRISAbits.TRISA5 = 0; LATAbits.LATA5 = 0;   // Unused
+    TRISAbits.TRISA4 = 0; LATAbits.LATA4 = 0;   // Unused on all three boards
+#if HARDWARE==HW_CANPAN3
+    TRISAbits.TRISA5 = 0; LATAbits.LATA5 = 0;   // Unused (the push button on CANSCAN)
+#endif
 #endif
     
+#if NUM_LEDS > 0
     initOutputs();
     initLeds();
+#endif
+#if NUM_BUTTONS > 0
     initInputs();
+#endif
     initEvents();
     
     // Lock the PPS
@@ -240,31 +260,44 @@ void setup(void) {
 #ifndef LED_MATRIX_ISR
     outputPollTime.val = startTime.val;
 #endif
+#if NUM_LEDS > 0
     flashPeriod = ((uint32_t)getNV(NV_FLASHRATE) + 1) * 1000;
+#endif
 
     started = FALSE;
+#if NUM_BUTTONS > 0
     canpanScanReady = 0;
+#endif
 }
 
 /**
  * The loop code call repeatedly from VLCB.
  */
 void loop(void) {
+#if NUM_BUTTONS > 0
     uint8_t tableIndex;
+#endif
     
     // Startup delay for CBUS about 2 seconds to let other modules get powered up - ISR will be running so incoming packets processed
     if (started == FALSE) {
         if (tickTimeSinceNow(startTime) >  (TWO_SECOND+getNV(NV_STARTUP_EVENT_DELAY)*ONE_SECOND)) {
             started = TRUE;
+#if NUM_BUTTONS > 0
             tableIndex = switch2Event[SOD_PSEUDO_SWITCH-1];
             if (tableIndex != NO_INDEX) canpanSendProducedEvent(tableIndex, TRUE);
+#endif
         }
+#if NUM_BUTTONS > 0
     } else {
-        if (tickTimeSinceNow(lastInputScanTime) > 2*ONE_MILI_SECOND) {
+        // one column per scan, every 2ms (CANPAN3, 4 rows) or 1ms (CANSCAN, 8
+        // rows), so a full scan takes 16ms on both
+        if (tickTimeSinceNow(lastInputScanTime) > (8/NUM_BUTTON_ROWS)*ONE_MILI_SECOND) {
             inputScan();    // Strobe inputs for changes
             lastInputScanTime.val = tickNowGet();
         }
+#endif
     }
+#if NUM_LEDS > 0
     // flashPeriod saves a 32 bit divide on every pass; it is refreshed each
     // time the LEDs are flashed so a change to NV_FLASHRATE is picked up
     if (tickTimeSinceNow(flashTime) >= flashPeriod) {
@@ -278,6 +311,7 @@ void loop(void) {
         pollOutputs();
         outputPollTime.val = tickNowGet();
     }
+#endif
 #endif
     // EEPROM writes are done by the library: vlcb.c calls pollAsyncEEPROM()
     // on every pass of the main loop.

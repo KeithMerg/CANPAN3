@@ -44,6 +44,8 @@
 #include "canpan3Nv.h"
 #include "nv.h"
 
+#if NUM_LEDS > 0    // the whole file: CANSCAN has no LEDs
+
 //forward references
 void setLedStateNoSave(uint8_t ledNo, enum canpan3LedState state);
 
@@ -133,3 +135,5 @@ void doFlash(void) {
     }
     flashToggle = !flashToggle;
 }
+
+#endif  // NUM_LEDS > 0

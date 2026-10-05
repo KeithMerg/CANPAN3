@@ -50,12 +50,17 @@ void rebuildLookupTable(void);
 extern void clearAllEvents(void);
 extern uint8_t removeEvent(uint16_t nodeNumber, uint16_t eventNumber);
 uint8_t APP_isProducedEvent(uint8_t tableIndex);
+#if NUM_BUTTONS > 0
 uint8_t switch2Event[NUM_PRODUCED_EVENTS]; // Quick access from a switch number to an event
+#endif
 
 void factoryResetGlobalEvents(void) {
+#if HARDWARE==HW_CANPAN3
     uint8_t sw;
+#endif
     // No default switch/button events
     clearAllEvents();
+#if HARDWARE==HW_CANPAN3
     // Now add default Long switch events
     for (sw=1; sw <= NUM_BUTTONS; sw++) {
         addEvent(nn.word, sw, EV_TYPE, CANPAN_PRODUCED, TRUE);
@@ -72,6 +77,7 @@ void factoryResetGlobalEvents(void) {
         addEvent(nn.word, sw, EV_LEDPOLARITY3, 0, TRUE);
         addEvent(nn.word, sw, EV_LEDPOLARITY4, 0, TRUE);
     }
+#endif
 }
 
 /***************************** copied from event_teach_simple.c ***************/
@@ -104,9 +110,11 @@ void initEvents(void) {
  * @param sw switch number 1..32
  * @return event table index
  */
+#if NUM_BUTTONS > 0
 uint8_t addTestEvent(uint8_t sw) {
     addEvent(nn.word, sw, EV_TYPE, CANPAN_PRODUCED, TRUE);
     addEvent(nn.word, sw, EV_SWITCHNO, sw, TRUE);
+#if NUM_LEDS > 0
     addEvent(nn.word, sw, EV_SWITCHSV, SV_TOGGLE | SV_COE, TRUE);
     // write the EVs so that these default events also turn on an LED for testing.
     // Work out the byte and bit rather than shifting by (sw-9) etc., which is a
@@ -125,13 +133,18 @@ uint8_t addTestEvent(uint8_t sw) {
     addEvent(nn.word, sw, EV_LEDPOLARITY3, 0, TRUE);
     addEvent(nn.word, sw, EV_LEDPOLARITY4, 0, TRUE);
     return addEvent(nn.word, sw, EV_LEDMODE, LM_ONOFF, TRUE);
+#else
+    return addEvent(nn.word, sw, EV_SWITCHSV, SV_TOGGLE | SV_COE, TRUE);
+#endif
 }
+#endif
 
 /**
  * Check that each switch has an event and create one if not present.
  * Also update the quick access lookup table.
  */
 void rebuildLookupTable(void) {
+#if NUM_BUTTONS > 0
     uint8_t sw;
     int16_t swNo;
     uint8_t i;
@@ -147,6 +160,7 @@ void rebuildLookupTable(void) {
             switch2Event[swNo-1] = i;
         }
     }
+#endif
 }
 
 /**
@@ -182,12 +196,14 @@ uint8_t APP_isConsumedEvent(uint8_t tableIndex) {
  * @return 
  */
 uint8_t APP_isProducedEvent(uint8_t tableIndex) {
+#if NUM_BUTTONS > 0
     int16_t ev;
     
     ev = getEv(tableIndex, EV_SWITCHNO);
     if ((ev > 0) && (ev <= NUM_PRODUCED_EVENTS)) {
         return 1;
     }
+#endif
     return 0;
 }
 
@@ -261,6 +277,7 @@ Processed APP_preProcessMessage(Message * m) {
     // events only here
     tableIndex = findEvent(enn, ((uint16_t)m->bytes[2])*256+m->bytes[3]);
     if (tableIndex == NO_INDEX) return NOT_PROCESSED;
+#if NUM_BUTTONS > 0
     if (APP_isProducedEvent(tableIndex)) { // can we produce this event?
         // If receive an event for a Toggle switch then update our outputState[]
         ev = (uint8_t)getEv(tableIndex, EV_SWITCHSV);
@@ -272,16 +289,18 @@ Processed APP_preProcessMessage(Message * m) {
             return NOT_PROCESSED;   // Not processed as we want service to handle the event
         }
     }
+#endif
     return NOT_PROCESSED;
 }
 
 
 uint8_t APP_addEvent(uint16_t nodeNumber, uint16_t eventNumber, uint8_t evNum, uint8_t evVal, Boolean forceOwnNN) {
+#if NUM_BUTTONS > 0
     uint8_t tableIndex;
     uint8_t oti;
     uint8_t switchNo;
-    uint8_t prevSwitchNo;
     uint8_t leds;
+    uint8_t i;
     
     if (evNum == EV_SWITCHNO) {
         switchNo = evVal;
@@ -296,7 +315,10 @@ uint8_t APP_addEvent(uint16_t nodeNumber, uint16_t eventNumber, uint8_t evNum, u
                 getEVs(oti);
                 
                 // Any LEDs associated with this event?
-                leds = evs[EV_LEDFLAGS1] | evs[EV_LEDFLAGS2] | evs[EV_LEDFLAGS3] | evs[EV_LEDFLAGS4];
+                leds = 0;
+                for (i=0; i<NUM_LED_BYTES; i++) {
+                    leds |= evs[EV_LEDFLAGS1 + i];
+                }
                 if (leds == 0) {
                     // this is an invalid event with no switches and no LEDs
                     // remove it, through the library so that the event hash
@@ -312,6 +334,7 @@ uint8_t APP_addEvent(uint16_t nodeNumber, uint16_t eventNumber, uint8_t evNum, u
             evVal = 0;
         }
     }
+#endif
     return addEvent(nodeNumber, eventNumber, evNum, evVal, forceOwnNN);
 }
 
@@ -325,20 +348,25 @@ uint8_t APP_addEvent(uint16_t nodeNumber, uint16_t eventNumber, uint8_t evNum, u
  */
 Processed APP_processConsumedEvent(uint8_t tableIndex, Message *m) {
     uint8_t onOff;
+#if NUM_LEDS > 0
     uint8_t ledMode;
     uint8_t ledNo;
     uint8_t byteNo;
     uint8_t flags;
     uint8_t polarity;
+#endif
     
     onOff = !(m->opc & 1);
     if (getEVs(tableIndex)) {   
         // something went wrong
         return PROCESSED;
     }
+#if NUM_BUTTONS > 0
     if (onOff && ((evs[EV_TYPE] & CANPAN_SOD) == CANPAN_SOD)) {
         doSoD();
     }
+#endif
+#if NUM_LEDS > 0
     // using the EVs and the event on/off state we work out the new LED state
     // Walk the flag/polarity bytes with a rolling mask rather than rebuilding the
     // evs[] index and doing a variable shift for every LED. A flags byte that
@@ -412,6 +440,7 @@ Processed APP_processConsumedEvent(uint8_t tableIndex, Message *m) {
             }
         }
     }
+#endif
     return PROCESSED;
 }
 
@@ -422,6 +451,7 @@ Processed APP_processConsumedEvent(uint8_t tableIndex, Message *m) {
  * @return 
  */
 EventState APP_GetEventIndexState(uint8_t tableIndex) {
+#if NUM_BUTTONS > 0
     uint8_t switchNo;
     
     // check this is a produced event
@@ -436,4 +466,7 @@ EventState APP_GetEventIndexState(uint8_t tableIndex) {
     }
     // look at the state
     return outputState[switchNo-1] ? EVENT_ON : EVENT_OFF;
+#else
+    return EVENT_UNKNOWN;   // no produced events
+#endif
 }

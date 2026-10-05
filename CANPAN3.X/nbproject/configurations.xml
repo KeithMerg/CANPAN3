@@ -172,7 +172,7 @@
         <property key="call-prologues" value="false"/>
         <property key="default-bitfield-type" value="true"/>
         <property key="default-char-type" value="true"/>
-        <property key="define-macros" value="HARDWARE=MTYP_CANPanel"/>
+        <property key="define-macros" value="HARDWARE=HW_CANPAN3"/>
         <property key="disable-optimizations" value="false"/>
         <property key="extra-include-directories"
                   value="..\..\VLCB-defs;..\..\VLCBlib_PIC;..\"/>
@@ -465,7 +465,7 @@
         <property key="call-prologues" value="false"/>
         <property key="default-bitfield-type" value="true"/>
         <property key="default-char-type" value="true"/>
-        <property key="define-macros" value="HARDWARE=MTYP_CANPanel"/>
+        <property key="define-macros" value="HARDWARE=HW_CANPAN3"/>
         <property key="disable-optimizations" value="false"/>
         <property key="extra-include-directories"
                   value="..\..\VLCB-defs;..\..\VLCBlib_PIC;..\"/>
