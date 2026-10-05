@@ -107,11 +107,17 @@ uint8_t addTestEvent(uint8_t sw) {
     addEvent(nn.word, sw, EV_TYPE, CANPAN_PRODUCED, TRUE);
     addEvent(nn.word, sw, EV_SWITCHNO, sw, TRUE);
     addEvent(nn.word, sw, EV_SWITCHSV, SV_TOGGLE | SV_COE, TRUE);
-    // write the EVs so that these default events also turn on an LED for testing
-    addEvent(nn.word, sw, EV_LEDFLAGS1, ((uint16_t)1<<(sw-1))&0xFF, TRUE);
-    addEvent(nn.word, sw, EV_LEDFLAGS2, ((uint16_t)1<<(sw-9))&0xFF, TRUE);
-    addEvent(nn.word, sw, EV_LEDFLAGS3, ((uint16_t)1<<(sw-17))&0xFF, TRUE);
-    addEvent(nn.word, sw, EV_LEDFLAGS4, ((uint16_t)1<<(sw-25))&0xFF, TRUE);
+    // write the EVs so that these default events also turn on an LED for testing.
+    // Work out the byte and bit rather than shifting by (sw-9) etc., which is a
+    // negative shift count (undefined behaviour) for the lower switch numbers.
+    {
+        uint8_t ledByte = (uint8_t)((sw - 1) / 8);
+        uint8_t ledBit  = (uint8_t)(1U << ((sw - 1) % 8));
+        addEvent(nn.word, sw, EV_LEDFLAGS1, (ledByte == 0) ? ledBit : 0, TRUE);
+        addEvent(nn.word, sw, EV_LEDFLAGS2, (ledByte == 1) ? ledBit : 0, TRUE);
+        addEvent(nn.word, sw, EV_LEDFLAGS3, (ledByte == 2) ? ledBit : 0, TRUE);
+        addEvent(nn.word, sw, EV_LEDFLAGS4, (ledByte == 3) ? ledBit : 0, TRUE);
+    }
     // The following settings to 0 are probably not required as 0 should be the default.
     addEvent(nn.word, sw, EV_LEDPOLARITY1, 0, TRUE);
     addEvent(nn.word, sw, EV_LEDPOLARITY2, 0, TRUE);

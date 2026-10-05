@@ -159,6 +159,10 @@ void APP_factoryReset(void) {
     for (sw=0; sw < NUM_BUTTONS; sw++) {
         writeNVM(EEPROM_NVM_TYPE, EE_ADDR_SWITCHES+sw, 0);
     }
+    // and the saved LED states
+    for (sw=0; sw < NUM_LEDS; sw++) {
+        writeNVM(EEPROM_NVM_TYPE, EE_ADDR_LEDS+sw, 0);
+    }
 }
 
 /**

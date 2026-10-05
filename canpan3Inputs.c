@@ -221,7 +221,7 @@ void inputScan(void) {
                                 }
                                 onOff = 0;  // force off
                                 outputState[buttonNo&0xFE] = 0;
-                                saveSwitchState(buttonNo, 0);
+                                saveSwitchState(buttonNo&0xFE, 0);  // the pair's state is kept in the even switch's slot
                                 break;
                         }
                         
@@ -255,7 +255,7 @@ void inputScan(void) {
  */
 void saveSwitchState(uint8_t buttonNo, uint8_t onOff) {
     if ((getNV(NV_STARTUP) & NV_STARTUP_RESTORESWITCHES) == 0) {
-        writeNVM(EEPROM_NVM_TYPE, buttonNo, onOff);
+        writeNVM(EEPROM_NVM_TYPE, EE_ADDR_SWITCHES + buttonNo, onOff);
     }
 }
 
