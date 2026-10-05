@@ -149,6 +149,7 @@
 #define NUM_LED_ROWS        4
 #define NUM_LED_COLUMNS     8
 #define NUM_LEDS            (NUM_LED_ROWS*NUM_LED_COLUMNS)
+#define NUM_LED_BYTES       (NUM_LEDS/8)
 
 #if defined(_18FXXQ83_FAMILY_)
 // Drive pollOutputs() from a TMR2 interrupt every LED_MATRIX_ISR_PERIOD_US

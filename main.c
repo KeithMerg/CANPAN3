@@ -129,6 +129,7 @@ static TickValue   flashTime;
 #ifndef LED_MATRIX_ISR
 static TickValue   outputPollTime;
 #endif
+static uint32_t    flashPeriod;     // flash period in ticks, from NV_FLASHRATE
 
 const Service * const services[] = {
     &canService,
@@ -235,6 +236,7 @@ void setup(void) {
 #ifndef LED_MATRIX_ISR
     outputPollTime.val = startTime.val;
 #endif
+    flashPeriod = ((uint32_t)getNV(NV_FLASHRATE) + 1) * 1000;
 
     started = FALSE;
     canpanScanReady = 0;
@@ -248,26 +250,29 @@ void loop(void) {
     
     // Startup delay for CBUS about 2 seconds to let other modules get powered up - ISR will be running so incoming packets processed
     if (started == FALSE) {
-        if (tickTimeSince(startTime) >  (TWO_SECOND+getNV(NV_STARTUP_EVENT_DELAY)*ONE_SECOND)) {
+        if (tickTimeSinceNow(startTime) >  (TWO_SECOND+getNV(NV_STARTUP_EVENT_DELAY)*ONE_SECOND)) {
             started = TRUE;
             tableIndex = switch2Event[SOD_PSEUDO_SWITCH-1];
             if (tableIndex != NO_INDEX) canpanSendProducedEvent(tableIndex, TRUE);
         }
     } else {
-        if (tickTimeSince(lastInputScanTime) > 2*ONE_MILI_SECOND) {
+        if (tickTimeSinceNow(lastInputScanTime) > 2*ONE_MILI_SECOND) {
             inputScan();    // Strobe inputs for changes
-            lastInputScanTime.val = tickGet();
+            lastInputScanTime.val = tickNowGet();
         }
     }
-    if (tickTimeSince(flashTime)/1000 > getNV(NV_FLASHRATE)) {
+    // flashPeriod saves a 32 bit divide on every pass; it is refreshed each
+    // time the LEDs are flashed so a change to NV_FLASHRATE is picked up
+    if (tickTimeSinceNow(flashTime) >= flashPeriod) {
         doFlash();    // update flashing LEDs
-        flashTime.val = tickGet();
+        flashTime.val = tickNowGet();
+        flashPeriod = ((uint32_t)getNV(NV_FLASHRATE) + 1) * 1000;
     }
 #ifndef LED_MATRIX_ISR
     // poll the LED display quickly.
-    if (tickTimeSince(outputPollTime) > HUNDRED_MICRO_SECOND) {
+    if (tickTimeSinceNow(outputPollTime) > HUNDRED_MICRO_SECOND) {
         pollOutputs();
-        outputPollTime.val = tickGet();
+        outputPollTime.val = tickNowGet();
     }
 #endif
     // EEPROM writes are done by the library: vlcb.c calls pollAsyncEEPROM()
