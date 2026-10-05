@@ -47,6 +47,9 @@
 #if defined(_18FXXQ83_FAMILY_)
 #define CAN_NUM_RXBUFFERS   8
 #endif
+// After a factory reset (CANID 0) enumerate before the first transmission instead
+// of transmitting straight away as CANID 1, and never send a frame as CANID 0.
+#define CAN_ADDITIONAL_CANID_CHECKS
 //
 // BOOT service
 //
@@ -77,6 +80,9 @@
 #endif
 
 #define EVENT_TABLE_NVM_TYPE    FLASH_NVM_TYPE
+// At power-up clear any event row left erased (flags and EN all 0xFF) by a power
+// cut between a flash page erase and its write.
+#define EVENT_TABLE_HEAL_ERASED
 #define CONSUMED_EVENTS
 //
 // EVENT PRODUCER SERVICE
