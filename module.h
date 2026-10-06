@@ -7,10 +7,8 @@
 // Enable FCU compatibility
 #define FCU_COMPAT
 
-// KeithB b40: read the tick counter once per main-loop pass instead of ~7 times (see ticktime.h).
-// KeithB b42: must be defined BEFORE the statusLeds.h include below, which pulls in ticktime.h;
-// in b40/b41 it sat further down and ticktime.h never saw it (status LEDs stopped flashing).
-#define TICK_ONCE_PER_PASS
+// KeithB b57: TICK_ONCE_PER_PASS removed - the keithb library always reads the tick once per
+// main-loop pass (tickNow), so the option no longer exists.
 
 #include "statusLeds.h"
 
@@ -19,6 +17,15 @@
 //
 // The data version stored at NV#0
 #define APP_NVM_VERSION 1
+// KeithB b57: switch and LED states are buffered in RAM and written to EEPROM in the
+// background by the library (as upstream keithb), replacing CANPAN3's own EEPROMbuffer.c.
+// The buffer covers EEPROM_BASE_ADDRESS..+NUMBER_EEPROM (below); other EEPROM is written directly.
+#define ASYNC_EEPROM    BUFFER
+// KeithB b57: wait for Vdd at power-up instead of a fixed ~1 s (as upstream keithb).
+// 0x0B = HLVD 3.64/4.00/4.36 V min/typ/max on the Q83.
+#define VLCB_VDD_GUARD  0x0B
+// Also refuse EEPROM/flash writes while Vdd is below that level (keithb 4b2c3eb).
+//#define VLCB_VDD_WRITE_GUARD
 
 #if defined(_18FXXQ83_FAMILY_)
 #define IVT_BASE      0x900
@@ -436,7 +443,7 @@
 
 #define PARAM_MAJOR_VERSION     5
 #define PARAM_MINOR_VERSION     'a'
-#define PARAM_BUILD_VERSION     56
+#define PARAM_BUILD_VERSION     57
 
 #define PARAM_NUM_NV            NV_NUM
 #define PARAM_NUM_EVENTS        NUM_EVENTS

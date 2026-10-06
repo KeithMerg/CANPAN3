@@ -39,6 +39,7 @@
 
 #include <xc.h>
 #include "module.h"
+#include "ticktime.h"   // KeithB b57: HALF_SECOND (as upstream keithb)
 #include "canpan3Nv.h"
 #include "canpan3Outputs.h"   // KeithB b40
 #include "nv.h"

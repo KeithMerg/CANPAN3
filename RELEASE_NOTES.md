@@ -17,6 +17,42 @@ reference point when comparing against whatever upstream publishes next.
 
 ---
 
+## 5a57 — 6 Oct 2026 — KeithB — in line with Ian's keithb library
+
+Built against the `keithb-v13` branch of github.com/KeithMerg/VLCBlib_PIC: Ian's `keithb` at
+4b2c3eb, which has taken follow-up patches 0001 (asyncEEPROM build fix, f4a0669) and 0002
+(`VLCB_VDD_WRITE_GUARD`, 4b2c3eb) from `github\VLCBlib_PIC-keithb-60e677e-followups.zip`, plus
+0003, which fixes the `EVENT_TABLE_HEAL_ERASED` loop (`NUM_EVENTS`, renamed
+`PARAM_NUM_EVENTS`); offered to Ian as a pull request from that branch. Without 0003 this
+build does not compile. The changes below follow the way Ian's CANPAN3 `keithb` (1b83d7f)
+handles the new library; the CANPAN3 PRs to Ian are unaffected.
+
+- **EEPROM.** Switch and LED states now go through the library's buffered writer
+  (`ASYNC_EEPROM BUFFER` in `module.h`): `readNVM()`/`writeNVM()` replace `readEEvalue()`/
+  `writeEEvalue()`, and `EEPROMbuffer.c`/`.h` are out of the project (`asyncEEPROM_buffer.c` in).
+  The library version has the 5a14–5a25 fix (write, verify on the next poll, clear the flag only
+  if it matches) and is polled every main-loop pass, so `loop()` no longer calls the writer.
+  Bytes outside the buffer (NVs, NN, CANID, boot flag) are written directly as before. The
+  factory-reset clearing in `main.c`, which wrote straight to EEPROM behind the old buffer's
+  back, now goes through the buffer, so its RAM copy can no longer go stale.
+- **Configuration words.** `main.c` no longer includes `vlcb_config_q83.h`/`_k80.h`: Ian's
+  `vlcb.c` includes the template itself, and a second copy would set the words twice. His
+  templates differ from the bootloader's `hwsettings.c` in `WDTE` (OFF, was SWDTEN) on the Q83,
+  and `BORPWR` (MEDIUM) and `BBSIZ` (BB2K) on the K80. CANPAN3 does not use the watchdog.
+- **`TICK_ONCE_PER_PASS` removed.** The library now always reads the tick once per pass.
+- **`APP_earlyInit()`** added (empty): the library calls it first thing in `main()`.
+- **`VLCB_VDD_GUARD 0x0B`** defined, as in Ian's CANPAN3: power-up waits for Vdd above the HLVD
+  level (typ. 4.00 V) instead of a fixed ~1 s. `VLCB_VDD_WRITE_GUARD` (refuse NVM writes while
+  Vdd is low, keithb 4b2c3eb) is in `module.h` commented out.
+- `canpan3Nv.c` includes `ticktime.h` (for `HALF_SECOND`), as upstream.
+
+Checked with gcc against stubbed XC8 headers for CANPAN3, CANDISP and CANSCAN; not yet built
+with XC8.
+
+To test: switch and LED states restored after a power cycle (with the startup NV set to restore them);
+power-up time (should be ~50 ms on a good supply); the build's configuration words; plus the
+5a49–5a56 items.
+
 ## 5a56 — 5 Oct 2026 — KeithB — library moved to the keithb-v12 branch
 
 No application code change; `PARAM_BUILD_VERSION` only, so a module reports which library it

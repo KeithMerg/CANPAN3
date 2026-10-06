@@ -46,7 +46,6 @@
 #include "canpan3Inputs.h"
 #include "canpan3Nv.h"
 #include "nv.h"
-#include "EEPROMbuffer.h"
 
 // KeithB b14-25: sizes guarded for hardware with no buttons
 static uint8_t buttonState[NUM_BUTTON_COLUMNS ? NUM_BUTTON_COLUMNS : 1];
@@ -115,7 +114,7 @@ void initInputs(void) {
     for (i=0; i<NUM_BUTTONS; i++) {
         // KeithB b33: test the NV value, not its index.
         if (NV_STARTUP_RESTORESWITCHES & ~startupNv) {
-            outputState[i] = readEEvalue(EE_ADDR_SWITCHES+i);
+            outputState[i] = (uint8_t)readNVM(EEPROM_NVM_TYPE, EE_ADDR_SWITCHES+i);   // KeithB b57: library EEPROM buffer
         } else {
             outputState[i] = 0;     // default 0 but maybe loaded from EEPROM later
         }
@@ -289,7 +288,7 @@ void inputScan(void) {
 void saveSwitchState(uint8_t buttonNo, uint8_t onOff) {
     if (NV_STARTUP_RESTORESWITCHES & ~startupNv) {   // KeithB b14-25: cached NV
 //    if ((getNV(NV_STARTUP) & NV_STARTUP_RESTORESWITCHES) == 0) {
-        writeEEvalue(EE_ADDR_SWITCHES + buttonNo, onOff);
+        writeNVM(EEPROM_NVM_TYPE, EE_ADDR_SWITCHES + buttonNo, onOff);   // KeithB b57: library EEPROM buffer
     }
 }
 

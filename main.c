@@ -35,18 +35,12 @@ It may become a feature :)
 #include "timedResponse.h"
 // module specific
 #include "canpan3Nv.h"
-// KeithB b55: the library no longer sets the configuration words. CANPAN3 takes the templates,
-// which match the bootloader's hwsettings.c. Included here and nowhere else.
-#if defined(_18FXXQ83_FAMILY_)
-#include "vlcb_config_q83.h"
-#elif defined(_18F66K80_FAMILY_)
-#include "vlcb_config_k80.h"
-#endif
+// KeithB b57: configuration words now come from the library (vlcb.c includes the template);
+// including it here as well would set them twice.
 #include "canpan3Inputs.h"
 #include "canpan3Events.h"
 #include "canpan3Outputs.h"
 #include "canpan3Leds.h"
-#include "EEPROMbuffer.h"
 
 /*
   This work is licensed under the:
@@ -137,7 +131,6 @@ static TickValue   flashTime;
 #ifndef LED_MATRIX_ISR   // KeithB b26
 static TickValue   outputPollTime;
 #endif
-static TickValue   eepromWriterTime;
 static uint8_t     flashRateNV;   // KeithB b14-25: flash rate NV cached
 static uint32_t    flashPeriod;    // KeithB b33: flash period in ticks
             
@@ -202,6 +195,12 @@ void APP_testMode(void) {
 }
 
 /**
+ * Called first thing in main(), before the power-up delay. Nothing needed.
+ */
+void APP_earlyInit(void) {   // KeithB b57: required by the library (as upstream keithb)
+}
+
+/**
  * Called upon power up.
  */
 void setup(void) {
@@ -245,7 +244,6 @@ void setup(void) {
     LATAbits.LATA5 = 0; TRISAbits.TRISA5 = 0;   // Unused. KeithB b34: as upstream 5a13
 #endif
 #endif
-    initEEPROMwriter();
 #if HARDWARE==HW_CANPAN3 || HARDWARE==HW_CANDISP   // KeithB b14-25
     initOutputs();
     initLeds();
@@ -271,7 +269,6 @@ void setup(void) {
 #ifndef LED_MATRIX_ISR   // KeithB b26
     outputPollTime.val = startTime.val;
 #endif
-    eepromWriterTime.val = startTime.val;
 
     started = FALSE;
     canpanScanReady = 0;
@@ -322,15 +319,8 @@ void loop(void) {   // KeithB b40: tick value read once per pass (tickNowGet / t
     }
 #endif
 #endif
-    // Check to see if there are any EEPROM writes waiting to be done. 
-    // A write takes max 11 ms but CPU isn't blocked unless there is already 
-    // a write in progress. 
-    if (tickTimeSinceNow(eepromWriterTime) > ONE_MILI_SECOND) {
-        pollEEPROMwriter();
-        // KeithB b14-25: EEPROM writer throttled to 1ms
-        // Keith Bruce - Added to reinstate the intended throttling.
-        eepromWriterTime.val = tickNowGet();
-    }
+    // KeithB b57: EEPROM writes are done by the library (ASYNC_EEPROM BUFFER): vlcb.c calls
+    // pollAsyncEEPROM() on every pass of the main loop.
 
 // KeithB b14-25: alternative loop structure, kept for reference
 //    // Startup delay for CBUS about 2 seconds to let other modules get powered up - ISR will be running so incoming packets processed
