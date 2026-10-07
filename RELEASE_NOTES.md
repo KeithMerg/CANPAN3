@@ -27,6 +27,12 @@ reference point when comparing against whatever upstream publishes next.
   `KeithB b58`.
 - Ian has also merged PR #1 (state saving) and PR #11 (build output not tracked); this tree
   already had both.
+- **Library, keithb-v13:** the Q83 configuration template has `WDTE = SWDTEN` again (Ian's
+  template had `OFF`). The unified hex build failed with hexmate "conflicts with existing data
+  at address 0x300004" (CONFIG5) because the bootloader's `hwsettings.c` has `SWDTEN`; the two
+  must be identical. No change in behaviour: the watchdog stays off unless software sets
+  `WDTCON0.SEN`, which CANPAN3 never does. The K80 template also differs from the bootloader
+  (`BORPWR`, `BBSIZ`); not changed here, as no K80 unified build is made. Raised with Ian.
 
 To test: power up with some switches closed; no events should be sent for them, and toggling
 them afterwards should behave normally.
