@@ -48,6 +48,7 @@
 void rebuildLookupTable(void);
 
 extern void clearAllEvents(void);
+extern uint8_t removeEvent(uint16_t nodeNumber, uint16_t eventNumber);
 uint8_t APP_isProducedEvent(uint8_t tableIndex);
 uint8_t switch2Event[NUM_PRODUCED_EVENTS]; // Quick access from a switch number to an event
 
@@ -301,9 +302,9 @@ uint8_t APP_addEvent(uint16_t nodeNumber, uint16_t eventNumber, uint8_t evNum, u
                 leds = evs[EV_LEDFLAGS1] | evs[EV_LEDFLAGS2] | evs[EV_LEDFLAGS3] | evs[EV_LEDFLAGS4];
                 if (leds == 0) {
                     // this is an invalid event with no switches and no LEDs
-                    // remove it
-                    writeNVM(EVENT_TABLE_NVM_TYPE, EVENT_TABLE_ADDRESS + EVENTTABLE_WIDTH*oti+EVENTTABLE_OFFSET_ENL, 0);
-                    writeNVM(EVENT_TABLE_NVM_TYPE, EVENT_TABLE_ADDRESS + EVENTTABLE_WIDTH*oti+EVENTTABLE_OFFSET_ENH, 0);
+                    // remove it, through the library so that the event hash
+                    // table is kept up to date
+                    removeEvent(getNN(oti), getEN(oti));
                 }
             }
             switch2Event[switchNo-1] = tableIndex;
