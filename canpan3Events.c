@@ -157,25 +157,22 @@ void rebuildLookupTable(void) {
  * @return 
  */
 uint8_t APP_isConsumedEvent(uint8_t tableIndex) {
-    int16_t ev;
+    uint8_t i;
+    uint8_t leds;
     
-    ev = getEv(tableIndex, EV_TYPE);
-    if (ev < 0) {
+    // one row read rather than up to five getEv() calls
+    if (getEVs(tableIndex)) {
         // error
         return 0;
     }
-
-    if ((ev & CANPAN_SOD) == CANPAN_SOD) {    // SoD consumed event
+    if ((evs[EV_TYPE] & CANPAN_SOD) == CANPAN_SOD) {    // SoD consumed event
         return 1;
     }
-    ev = getEv(tableIndex, EV_LEDFLAGS1);
-    if (ev) return 1;
-    ev = getEv(tableIndex, EV_LEDFLAGS2);
-    if (ev) return 1;
-    ev = getEv(tableIndex, EV_LEDFLAGS3);
-    if (ev) return 1;
-    ev = getEv(tableIndex, EV_LEDFLAGS4);
-    return ev != 0;
+    leds = 0;
+    for (i=0; i<NUM_LED_BYTES; i++) {
+        leds |= evs[EV_LEDFLAGS1 + i];
+    }
+    return leds != 0;
 }
 
 /**
@@ -330,6 +327,7 @@ Processed APP_processConsumedEvent(uint8_t tableIndex, Message *m) {
     uint8_t onOff;
     uint8_t ledMode;
     uint8_t ledNo;
+    uint8_t byteNo;
     uint8_t flags;
     uint8_t polarity;
     
@@ -342,66 +340,76 @@ Processed APP_processConsumedEvent(uint8_t tableIndex, Message *m) {
         doSoD();
     }
     // using the EVs and the event on/off state we work out the new LED state
+    // Walk the flag/polarity bytes with a rolling mask rather than rebuilding the
+    // evs[] index and doing a variable shift for every LED. A flags byte that
+    // cannot affect any LED is skipped whole (most events touch one or two LEDs).
     ledMode = evs[EV_LEDMODE];
-    for (ledNo=0; ledNo<NUM_LEDS; ledNo++) {
-        flags = evs[EV_LEDFLAGS1 + ledNo/8] & (1 << (ledNo%8));
-        if (flags) {
-            // this LED is impacted
-            polarity = evs[EV_LEDPOLARITY1 + ledNo/8]& (1 << (ledNo%8));
-            switch(ledMode) {
-                case LM_ONOFF:
-                    if (polarity) {
-                        // inverted
+    for (byteNo=0; byteNo<NUM_LED_BYTES; byteNo++) {
+        uint8_t f = evs[EV_LEDFLAGS1 + byteNo];
+        uint8_t p = evs[EV_LEDPOLARITY1 + byteNo];
+        uint8_t mask;
+        if ((f == 0) && !((LM_FLASH == ledMode) && onOff && p)) {
+            continue;   // nothing in this byte can change an LED
+        }
+        ledNo = (uint8_t)(byteNo * 8);
+        for (mask = 1; mask != 0; mask <<= 1, ledNo++) {
+            flags = f & mask;
+            polarity = p & mask;
+            if (flags) {
+                // this LED is impacted
+                switch(ledMode) {
+                    case LM_ONOFF:
+                        if (polarity) {
+                            // inverted
+                            if (onOff) {
+                                setLedState(ledNo, CANPANLED_OFF);
+                            } else {
+                                setLedState(ledNo, CANPANLED_ON);
+                            }
+                        } else {
+                            // normal
+                            if (onOff) {
+                                setLedState(ledNo, CANPANLED_ON);
+                            } else {
+                                setLedState(ledNo, CANPANLED_OFF);
+                            }
+                        }
+                        break;
+                    case LM_ONONLY:
                         if (onOff) {
-                            setLedState(ledNo, CANPANLED_OFF);
-                        } else {
-                            setLedState(ledNo, CANPANLED_ON);
+                            if (polarity) {
+                                setLedState(ledNo, CANPANLED_OFF);
+                            } else {
+                                setLedState(ledNo, CANPANLED_ON);
+                            }
                         }
-                        
-                    } else {
-                        // normal
+                        break;
+                    case LM_OFFONLY:
+                        if (!onOff) {
+                            if (polarity) {
+                                setLedState(ledNo, CANPANLED_ON);
+                            } else {
+                                setLedState(ledNo, CANPANLED_OFF);
+                            }
+                        }
+                        break;
+                    case LM_FLASH:
                         if (onOff) {
-                            setLedState(ledNo, CANPANLED_ON);
+                            if (polarity) {
+                                setLedState(ledNo, CANPANLED_ANTIFLASH);
+                            } else {
+                                setLedState(ledNo, CANPANLED_FLASH);
+                            }
                         } else {
                             setLedState(ledNo, CANPANLED_OFF);
                         }
-                    }
-                    break;
-                case LM_ONONLY:
-                    if (onOff) {
-                        if (polarity) {
-                            setLedState(ledNo, CANPANLED_OFF);
-                        } else {
-                            setLedState(ledNo, CANPANLED_ON);
-                        }
-                    }
-                    break;
-                case LM_OFFONLY:
-                    if (!onOff) {
-                        if (polarity) {
-                            setLedState(ledNo, CANPANLED_ON);
-                        } else {
-                            setLedState(ledNo, CANPANLED_OFF);
-                        }
-                    }
-                    break;
-                case LM_FLASH:
-                    if (onOff) {
-                        if (polarity) {
-                            setLedState(ledNo, CANPANLED_ANTIFLASH);
-                        } else {
-                            setLedState(ledNo, CANPANLED_FLASH);
-                        }
-                    } else {
-                        setLedState(ledNo, CANPANLED_OFF);
-                    }
-                    break;
+                        break;
+                }
+            } else if ((LM_FLASH == ledMode) && onOff && polarity) {
+                // Keith Bruce 22 May 2026 - Allow flash to turn off other LEDs for use with signalling.
+                // Active false (unchecked), Flash On event and Invert is true (checked).
+                setLedState(ledNo, CANPANLED_OFF);
             }
-        } else if (LM_FLASH == ledMode && onOff && (polarity = evs[EV_LEDPOLARITY1 + ledNo/8]& (1 << (ledNo%8)))) {
-            // Keith Bruce 22 May 2026 - Allow flash to turn off other LEDs for use with signalling.
-            // Added else clause.
-            // Active false (unchecked), Flash On event and Invert is true (checked). 
-            setLedState(ledNo, CANPANLED_OFF);
         }
     }
     return PROCESSED;
