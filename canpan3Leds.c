@@ -43,7 +43,6 @@
 #include "canpan3Outputs.h"
 #include "canpan3Nv.h"
 #include "nv.h"
-#include "EEPROMbuffer.h"
 
 //forward references
 void setLedStateNoSave(uint8_t ledNo, enum canpan3LedState state);

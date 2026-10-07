@@ -127,9 +127,6 @@ static uint8_t     started;
 static TickValue   lastInputScanTime;
 static TickValue   flashTime;
 static TickValue   outputPollTime;
-#ifdef ASYNC_EEPROM
-static TickValue   eepromWriterTime;
-#endif
 
 const Service * const services[] = {
     &canService,
@@ -238,9 +235,6 @@ void setup(void) {
     lastInputScanTime.val = startTime.val;
     flashTime.val = startTime.val;
     outputPollTime.val = startTime.val;
-#ifdef ASYNC_EEPROM
-    eepromWriterTime.val = startTime.val;
-#endif
 
     started = FALSE;
     canpanScanReady = 0;
@@ -274,14 +268,8 @@ void loop(void) {
         pollOutputs();
         outputPollTime.val = tickGet();
     }
-    // Check to see if there are any EEPROM writes waiting to be done. 
-    // A write takes max 11 ms but CPU isn't blocked unless there is already 
-    // a write in progress. 
-#ifdef ASYNC_EEPROM
-    if (tickTimeSince(eepromWriterTime) > ONE_MILI_SECOND) {
-        pollAsyncEEPROM();
-    }
-#endif
+    // EEPROM writes are done by the library: vlcb.c calls pollAsyncEEPROM()
+    // on every pass of the main loop.
 }
 
 // Application functions required by MERGLCB library

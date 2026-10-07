@@ -46,7 +46,6 @@
 #include "canpan3Inputs.h"
 #include "canpan3Nv.h"
 #include "nv.h"
-#include "EEPROMbuffer.h"
 
 static uint8_t buttonState[NUM_BUTTON_COLUMNS];
 static uint8_t rawState[NUM_BUTTON_COLUMNS];    // last raw read of each column, for debounce
