@@ -157,9 +157,14 @@ void inputScan(void) {
 #endif
     // KeithB b35: debounce - a change must be seen on two consecutive scans of
     // the column (16ms apart) before it is acted on.
+    // KeithB b58: except on the first full scan after power-up, which takes the rows as
+    // read (as before b35), so switches already closed at power-up set their state
+    // without sending events (as upstream keithb 1cc9cab).
     if (row != rawState[column]) {
         rawState[column] = row;
-        row = buttonState[column];      // not yet confirmed, treat as unchanged
+        if (canpanScanReady) {
+            row = buttonState[column];  // not yet confirmed, treat as unchanged
+        }
     }
     diff = row ^ buttonState[column];   // has the row changed since last read?
     // KeithB b14-25: skip the scan when nothing changed

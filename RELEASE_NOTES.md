@@ -17,14 +17,32 @@ reference point when comparing against whatever upstream publishes next.
 
 ---
 
+## 5a58 — 7 Oct 2026 — KeithB — switches closed at power-up no longer send events
+
+- The b35 switch debounce (5a35) treated the first full scan after power-up like any other:
+  `rawState` starts at 0, so a switch already closed at power-up was ignored on the first scan
+  and acted on at the second, once `canpanScanReady` was set, sending its event. The first full
+  scan now takes the rows as read, as before 5a35, so those switches set their state without
+  sending events. Same change as Ian merged in his CANPAN3 `keithb` (PR #2, 1cc9cab). Tagged
+  `KeithB b58`.
+- Ian has also merged PR #1 (state saving) and PR #11 (build output not tracked); this tree
+  already had both.
+
+To test: power up with some switches closed; no events should be sent for them, and toggling
+them afterwards should behave normally.
+
 ## 5a57 — 6 Oct 2026 — KeithB — in line with Ian's keithb library
 
 Built against the `keithb-v13` branch of github.com/KeithMerg/VLCBlib_PIC: Ian's `keithb` at
 4b2c3eb, which has taken follow-up patches 0001 (asyncEEPROM build fix, f4a0669) and 0002
 (`VLCB_VDD_WRITE_GUARD`, 4b2c3eb) from `github\VLCBlib_PIC-keithb-60e677e-followups.zip`, plus
-0003, which fixes the `EVENT_TABLE_HEAL_ERASED` loop (`NUM_EVENTS`, renamed
-`PARAM_NUM_EVENTS`); offered to Ian as a pull request from that branch. Without 0003 this
-build does not compile. The changes below follow the way Ian's CANPAN3 `keithb` (1b83d7f)
+two commits Ian does not have yet:
+
+- 0003, which fixes the `EVENT_TABLE_HEAL_ERASED` loop (`NUM_EVENTS`, renamed
+  `PARAM_NUM_EVENTS`); sent to Ian by email. Without it this build does not compile.
+- `__reentrant` on every `processMessage()`, the workaround for the XC8 compiled-stack overlap
+  (Microchip case 01901775) that made NVRD/NVSET fail, carried over from keithb-v12 (5a56).
+  Ian's `keithb` does not have it, so without it the fault could come back. The changes below follow the way Ian's CANPAN3 `keithb` (1b83d7f)
 handles the new library; the CANPAN3 PRs to Ian are unaffected.
 
 - **EEPROM.** Switch and LED states now go through the library's buffered writer
