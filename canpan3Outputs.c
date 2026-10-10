@@ -162,6 +162,33 @@ void __interrupt(irq(TMR2), base(IVT_BASE), low_priority) TMR2_ISR(void) {
 #endif
 
 /**
+ * Send one byte of cathode data to the TLC5917.
+ * The transfer count is reloaded for every transfer: SS (the TLC5917 LE) is
+ * driven by the SPI from that count, so a byte sent with the count left at 0
+ * does not latch cleanly. After the byte has gone, wait a few cycles for the
+ * TLC5917 outputs to settle (LE to OUT is up to 365ns) before the caller turns
+ * OE back on.
+ */
+static void latchCathodes(uint8_t c) {
+    SPI1TCNTH = 0;
+    SPI1TCNTL = 1;      // 1 byte
+    SPI1TWIDTH = 0;     // 8 bits
+    SPI1TXB = c;
+    while (! SPI1STATUSbits.TXBE)
+        ;
+    // 9 cycles, the same delay as the tested CANPAN3 5a58 build
+    NOP();
+    NOP();
+    NOP();
+    NOP();
+    NOP();
+    NOP();
+    NOP();
+    NOP();
+    NOP();
+}
+
+/**
  * Each time this is called we increase the global brightness value. When brightness 
  * reaches max it is reset back to 0, this also moves to the next display row.
  * Starting with all enabled LEDs on then any LEDs which have a brightness setting 
@@ -196,20 +223,9 @@ void pollOutputs(void)
 
         cathodes = ledMatrix[current_row];
         rowBright = ledBright + current_row * NUM_LED_COLUMNS;
-        SPI1TCNTH=0;     // 1 byte
-        SPI1TCNTL=1;     // 1 byte
-        SPI1TWIDTH=0;   // 8 bits
-
-        SPI1TXB = cathodes; // do the write and send the data
-
-        // wait for data to be sent and latched to form the anode outputs
-        // This takes quite a few cycles but we have to ensure the cathodes have the
-        // right data before turning on the anodes otherwise we don't get a clean display.
-        while (! SPI1STATUSbits.TXBE)
-            ;
-        // It can take up to 365ns for the TLC5917 outputs to output correct data (LE to OUT)
-        // This is 5 instruction cycles (5 * 62.5 ns)
-        // following code before enabling the cathodes is more than 5 instructions
+        // send the row's cathode data and wait for it to be latched before
+        // turning the anode on, otherwise we don't get a clean display
+        latchCathodes(cathodes);
 
         // turn the relevant anode driver on
         switch (current_row) {
@@ -246,13 +262,9 @@ void pollOutputs(void)
         }
         if (newCathodes != cathodes) {
             cathodes = newCathodes;
-            // disable the cathode driver
+            // disable the cathode driver while the new data is latched
             LATCbits.LATC2 = 1; // OE
-            SPI1TXB = cathodes; // do the write and send the data
-            // This takes quite a few cycles but we have to ensure the cathodes have the
-            // right data before latching cathodes.
-            while (! SPI1STATUSbits.TXBE)
-                ;
+            latchCathodes(cathodes);
             // enable the cathode driver
             LATCbits.LATC2 = 0; //OE
         }
