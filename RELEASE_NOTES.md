@@ -17,6 +17,19 @@ reference point when comparing against whatever upstream publishes next.
 
 ---
 
+## 5a59 — 11 Oct 2026 — KeithB — push-button factory reset clears the saved switch and LED states
+
+- **Library, keithb-v13 (e0898ff):** `checkPowerOnPb()` in `vlcb.c` called `factoryReset()` and
+  then `RESET()` straight away. With `ASYNC_EEPROM BUFFER` the 64 saved switch and LED bytes
+  that `APP_factoryReset()` clears were still only in the RAM buffer, so the reset lost them and
+  the old states came back after a push-button factory reset. `flushNVM()` now writes them out
+  before the reset, as NNRST, NNRSM and BOOT already did. The factory reset done at power-up for
+  a version change is not affected (no reset follows it). Same patch sent to Ian on 10 Oct 2026.
+- No change to the CANPAN3 sources other than the build number.
+
+To test: set some LEDs on and some toggle switches to on, then do a push-button factory reset
+at power-up. After the restart all LEDs and toggle states should be off.
+
 ## 5a58 — 7 Oct 2026 — KeithB — switches closed at power-up no longer send events
 
 - The b35 switch debounce (5a35) treated the first full scan after power-up like any other:
