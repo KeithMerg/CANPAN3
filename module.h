@@ -14,7 +14,7 @@
 // The data version stored at NV#0
 #define APP_NVM_VERSION 1
 #define NUM_SERVICES 8
-#define ASYNC_EEPROM    QUEUE
+#define ASYNC_EEPROM    BUFFER
 
 
 #if defined(_18FXXQ83_FAMILY_)
@@ -29,7 +29,6 @@
 //
 #define NV_ADDRESS      0x200
 #define NV_NVM_TYPE     EEPROM_NVM_TYPE
-
 #define NV_CACHE
 
 //

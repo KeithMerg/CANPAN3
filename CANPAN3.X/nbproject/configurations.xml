@@ -37,9 +37,6 @@
         <itemPath>../../VLCBlib_PIC/timedResponse.h</itemPath>
         <itemPath>../../VLCBlib_PIC/vlcb.h</itemPath>
         <itemPath>../../VLCBlib_PIC/event_producer.h</itemPath>
-        <itemPath>../../VLCBlib_PIC/vlcb_config_k80.h</itemPath>
-        <itemPath>../../VLCBlib_PIC/vlcb_config_q83.h</itemPath>
-        <itemPath>../../VLCBlib_PIC/asyncEEPROM.h</itemPath>
       </logicalFolder>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
@@ -66,6 +63,7 @@
       </logicalFolder>
       <logicalFolder name="VLCBlib_PIC" displayName="VLCBlib_PIC" projectFiles="true">
         <itemPath>../../VLCBlib_PIC/boot.c</itemPath>
+        <itemPath>../../VLCBlib_PIC/can18_can_2.c</itemPath>
         <itemPath>../../VLCBlib_PIC/event_coe.c</itemPath>
         <itemPath>../../VLCBlib_PIC/event_consumer_simple.c</itemPath>
         <itemPath>../../VLCBlib_PIC/event_teach_simple.c</itemPath>
@@ -78,10 +76,7 @@
         <itemPath>../../VLCBlib_PIC/timedResponse.c</itemPath>
         <itemPath>../../VLCBlib_PIC/vlcb.c</itemPath>
         <itemPath>../../VLCBlib_PIC/event_producer_simple.c</itemPath>
-        <itemPath>../../VLCBlib_PIC/can18_ecan.c</itemPath>
-        <itemPath>../../VLCBlib_PIC/can18_can_2.c</itemPath>
         <itemPath>../../VLCBlib_PIC/asyncEEPROM_buffer.c</itemPath>
-        <itemPath>../../VLCBlib_PIC/asyncEEPROM_queue.c</itemPath>
       </logicalFolder>
     </logicalFolder>
   </logicalFolder>
@@ -148,9 +143,7 @@
         <makeCustomizationEnableLongLines>false</makeCustomizationEnableLongLines>
         <makeCustomizationNormalizeHexFile>false</makeCustomizationNormalizeHexFile>
       </makeCustomizationType>
-      <item path="../../VLCBlib_PIC/asyncEEPROM_queue.c" ex="true" overriding="false">
-      </item>
-      <item path="../../VLCBlib_PIC/can18_ecan.c" ex="true" overriding="false">
+      <item path="../../VLCBlib_PIC/can18_can_2.c" ex="false" overriding="false">
         <HI-TECH-COMP>
         </HI-TECH-COMP>
         <HI-TECH-LINK>
@@ -159,12 +152,6 @@
         </XC8-CO>
         <XC8-config-global>
         </XC8-config-global>
-      </item>
-      <item path="../../VLCBlib_PIC/vlcb_config_k80.h" ex="true" overriding="false">
-      </item>
-      <item path="../EEPROMbuffer.c" ex="true" overriding="false">
-      </item>
-      <item path="../EEPROMbuffer.h" ex="true" overriding="false">
       </item>
       <HI-TECH-COMP>
         <property key="additional-warnings" value="true"/>
@@ -398,7 +385,7 @@
         <property key="stack-size-high" value="auto"/>
         <property key="stack-size-low" value="auto"/>
         <property key="stack-size-main" value="auto"/>
-        <property key="stack-type" value="reentrant"/>
+        <property key="stack-type" value="compiled"/>
         <property key="user-pack-device-support" value=""/>
         <property key="wpo-lto" value="false"/>
       </XC8-config-global>
@@ -459,6 +446,16 @@
         <makeCustomizationEnableLongLines>false</makeCustomizationEnableLongLines>
         <makeCustomizationNormalizeHexFile>false</makeCustomizationNormalizeHexFile>
       </makeCustomizationType>
+      <item path="../../VLCBlib_PIC/can18_can_2.c" ex="true" overriding="false">
+        <HI-TECH-COMP>
+        </HI-TECH-COMP>
+        <HI-TECH-LINK>
+        </HI-TECH-LINK>
+        <XC8-CO>
+        </XC8-CO>
+        <XC8-config-global>
+        </XC8-config-global>
+      </item>
       <HI-TECH-COMP>
         <property key="additional-warnings" value="true"/>
         <property key="asmlist" value="true"/>
