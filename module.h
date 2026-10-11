@@ -443,7 +443,7 @@
 
 #define PARAM_MAJOR_VERSION     5
 #define PARAM_MINOR_VERSION     'a'
-#define PARAM_BUILD_VERSION     59
+#define PARAM_BUILD_VERSION     60
 
 #define PARAM_NUM_NV            NV_NUM
 #define PARAM_NUM_EVENTS        NUM_EVENTS

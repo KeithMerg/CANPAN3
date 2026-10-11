@@ -17,6 +17,24 @@ reference point when comparing against whatever upstream publishes next.
 
 ---
 
+## 5a60 — 11 Oct 2026 — KeithB — library moved to keithb-v14
+
+No application code change; `PARAM_BUILD_VERSION` only, so a module reports which library it
+was built with.
+
+- **Library.** `VLCBlib_PIC` is now the `keithb-v14` branch of github.com/KeithMerg/VLCBlib_PIC:
+  Ian's `keithb` at eae6b25 plus two commits he does not have, the Q83 `WDTE = SWDTEN`
+  template (dc524df, for the unified hex) and the flush before the push-button factory reset
+  (c9db4f6, 5a59). keithb-v13 is no longer used.
+- Ian's eae6b25 now has the `NUM_EVENTS` fix, `__reentrant` on the `processMessage()`
+  functions (all but `event_consumer_actionState.c`, which CANPAN3 does not use), his
+  merges of VLCBlib_PIC #3 and #4 (QUEUE writer status, `statusLeds1.c` includes; neither used
+  by CANPAN3), the VDD-guard defaults in `vlcb.h`, and Doxygen tidying. He removed the
+  `EEPROM_Read()` declaration from `nvm.h`, which CANPAN3 no longer uses.
+- Built with XC8 for CANPAN3; the CANCMD builds on the same branch.
+
+To test: as 5a59 (push-button factory reset clears the saved switch and LED states).
+
 ## 5a59 — 11 Oct 2026 — KeithB — push-button factory reset clears the saved switch and LED states
 
 - **Library, keithb-v13 (e0898ff):** `checkPowerOnPb()` in `vlcb.c` called `factoryReset()` and
