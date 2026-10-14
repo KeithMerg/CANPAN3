@@ -17,6 +17,27 @@ reference point when comparing against whatever upstream publishes next.
 
 ---
 
+## 5a61 — 14 Oct 2026 — KeithB — library is Ian's keithb (55040af), no local commits
+
+No application code change; `PARAM_BUILD_VERSION` only, so a module reports which library it
+was built with.
+
+- **Library.** `VLCBlib_PIC` is now Ian's `keithb` at 55040af (github.com/spikyian/VLCBlib_PIC)
+  with nothing added. keithb-v14 is retired; it is kept only as the tag `archive/keithb-v14` on
+  KeithMerg/VLCBlib_PIC, with `archive/keithb-v13` and `archive/keithb-v10-local`.
+- Ian's 55040af has everything keithb-v14 added: the Q83 `WDTE = SWDTEN` template (#5, so the
+  unified hex still merges with the bootloader), the flush before the push-button factory reset
+  (his own 5c4dff5 in place of c9db4f6), and the `VLCB_CLRWDT()` watchdog hook (#5; empty unless
+  `module.h` defines it, so no code for CANPAN3, which does not use the watchdog).
+- His e9de523 makes `ASYNC_EEPROM` select the writer as intended (`asyncEEPROM.h` is now included
+  by each writer and by `nvm.c`/`vlcb.c`, no longer by `nvm.h`). CANPAN3 sets BUFFER and its
+  buffer writer's code is unchanged.
+- The same source (still numbered 5a60) built with XC8 v4.00 on 55040af on kbr7560, 14 Oct 2026:
+  CANPAN3 0x6DEB, CANDISP 0x6437 and CANSCAN 0x62D3 bytes of program space, unified hex for each.
+
+To test: as 5a59 (push-button factory reset clears the saved switch and LED states); MMC shows
+5a61.
+
 ## 5a60 — 11 Oct 2026 — KeithB — library moved to keithb-v14
 
 No application code change; `PARAM_BUILD_VERSION` only, so a module reports which library it
