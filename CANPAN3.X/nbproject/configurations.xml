@@ -11,7 +11,6 @@
         <itemPath>../canpan3Inputs.h</itemPath>
         <itemPath>../canpan3Outputs.h</itemPath>
         <itemPath>../canpan3Leds.h</itemPath>
-        <itemPath>../EEPROMbuffer.h</itemPath>
       </logicalFolder>
       <logicalFolder name="VLCB-defs" displayName="VLCB-defs" projectFiles="true">
         <itemPath>../../VLCB-defs/vlcbdefs_enums.h</itemPath>
@@ -37,6 +36,7 @@
         <itemPath>../../VLCBlib_PIC/timedResponse.h</itemPath>
         <itemPath>../../VLCBlib_PIC/vlcb.h</itemPath>
         <itemPath>../../VLCBlib_PIC/event_producer.h</itemPath>
+        <itemPath>../../VLCBlib_PIC/asyncEEPROM.h</itemPath>
       </logicalFolder>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
