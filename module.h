@@ -14,15 +14,22 @@
 // The data version stored at NV#0
 #define APP_NVM_VERSION 1
 #define NUM_SERVICES 8
-#define ASYNC_EEPROM    BUFFER
 
-
+// Interrupts vector
 #if defined(_18FXXQ83_FAMILY_)
 #define IVT_BASE      0x900
 #define IVT_BASE_U    0x00
 #define IVT_BASE_H    0x09
 #define IVT_BASE_L    0x00
 #endif
+
+// NVM
+// Buffer EEPROM write to be done asynchronously
+#define ASYNC_EEPROM BUFFER
+// Ensure that supply has stabilised at power up
+#define VLCB_VDD_GUARD  0x0B
+// Check that supply is stable before doing a write
+#define VLCB_VDD_WRITE_GUARD
 
 //
 // NV service
@@ -49,6 +56,8 @@
 // After a factory reset (CANID 0) enumerate before the first transmission instead
 // of transmitting straight away as CANID 1, and never send a frame as CANID 0.
 #define CAN_ADDITIONAL_CANID_CHECKS
+// more checks waiting for TX queue to drain
+#define STRINGENT_TX_DRAIN_QUEUE_DRAIN
 //
 // BOOT service
 //
@@ -138,7 +147,6 @@
 #define APP_writeLED1(state)   do{ if (state) LATBbits.LATB7 = 1; else LATBbits.LATB7 = 0; }while(0)   // GREEN true is on
 #define APP_writeLED2(state)   do{ if (state) LATBbits.LATB6 = 1; else LATBbits.LATB6 = 0; }while(0)   // YELLOW true is on 
 #define APP_pbPressed()        (!(PORTAbits.RA3))       // where the push button is connected. True when pressed
-#define VLCB_VDD_GUARD  0x0B
 
 // enable this for additional validation checks
 //#define SAFETY

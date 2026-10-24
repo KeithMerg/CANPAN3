@@ -59,7 +59,6 @@
         <itemPath>../canpan3Nv.c</itemPath>
         <itemPath>../canpan3Outputs.c</itemPath>
         <itemPath>../canpan3Leds.c</itemPath>
-        <itemPath>../EEPROMbuffer.c</itemPath>
       </logicalFolder>
       <logicalFolder name="VLCBlib_PIC" displayName="VLCBlib_PIC" projectFiles="true">
         <itemPath>../../VLCBlib_PIC/boot.c</itemPath>
