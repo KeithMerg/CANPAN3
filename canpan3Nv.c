@@ -42,6 +42,7 @@
 #include "ticktime.h"
 #include "canpan3Nv.h"
 #include "canpan3Outputs.h"
+#include "canpan3Leds.h"
 #include "nv.h"
         
 /**
@@ -60,18 +61,44 @@ uint8_t APP_nvDefault(uint8_t index) {
                 return 0x00;
         if (index == NV_STARTUP_EVENT_DELAY)
             return 0;
+        // the LED logic rule NVs default to 0: every rule unused
     }
     return 0;
 }
 
 /**
  * We validate NV values here.
- * We currently only validate the TYPE.
+ * We validate the startup NV and the LED logic rule NVs.
  */
 NvValidation APP_nvValidate(uint8_t index, uint8_t value)  {
     if ((index == NV_STARTUP) &&(value > 3)) {
         return INVALID;
     }
+#if NUM_LOGIC_RULES > 0
+    if ((index >= NV_LOGIC) && (index < NV_LOGIC + NV_LOGIC_SIZE*NUM_LOGIC_RULES)) {
+        switch ((uint8_t)((index - NV_LOGIC) % NV_LOGIC_SIZE)) {
+            case NV_LOGIC_FUNCTION:
+                if (value & LOGIC_FN_RESERVED) {
+                    return INVALID;
+                }
+                break;
+            case NV_LOGIC_INPUT_A:
+            case NV_LOGIC_INPUT_B:
+                // an LED, or the result of a rule
+                if ((value > NUM_LEDS) &&
+                        ((value <= LOGIC_INPUT_RULE) || (value > LOGIC_INPUT_RULE + NUM_LOGIC_RULES))) {
+                    return INVALID;
+                }
+                break;
+            default:
+                // the true and false LEDs
+                if (value > NUM_LEDS) {
+                    return INVALID;
+                }
+                break;
+        }
+    }
+#endif
     return VALID;
 }
 
@@ -83,6 +110,12 @@ void APP_nvValueChanged(uint8_t index, uint8_t value, uint8_t oldValue) {
     // keep the LED driver's copy of the brightness NVs up to date
     if ((index >= NV_BRIGHTNESS) && (index < NV_BRIGHTNESS + NUM_LEDS)) {
         updateLedBrightness((uint8_t)(index - NV_BRIGHTNESS), value);
+    }
+#endif
+#if NUM_LOGIC_RULES > 0
+    // show the effect of a changed logic rule straight away
+    if ((index >= NV_LOGIC) && (index < NV_LOGIC + NV_LOGIC_SIZE*NUM_LOGIC_RULES)) {
+        evaluateLogic();
     }
 #endif
 }

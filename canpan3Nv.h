@@ -56,3 +56,46 @@
 // Possible NV_SWITCHMODE bit values
 #define NV_SWITCHMODE_PAIRED 1
 
+// LED logic rules (CANPAN3 and CANDISP)
+//
+// A rule lights one LED when a logic function of two other LEDs is true and,
+// optionally, another LED when it is false. For example a white "route set" LED
+// when the LEDs for both points of a section show them set, and a red LED
+// otherwise. The inputs are the LEDs' current states (on or flashing counts as
+// true), so the rule follows the LEDs whatever events set them.
+//
+// NUM_LOGIC_RULES rules (set per board in module.h) of NV_LOGIC_SIZE NVs each,
+// from NV_LOGIC. Rule n (1..NUM_LOGIC_RULES) starts at
+// NV_LOGIC + NV_LOGIC_SIZE*(n-1). All default to 0, which leaves the rule unused.
+#define NV_LOGIC                (NV_STARTUP_EVENT_DELAY + 1)  // 68 on CANPAN3 and CANDISP
+#define NV_LOGIC_SIZE           5
+// NV offsets within a rule
+#define NV_LOGIC_FUNCTION       0   // function and input inversion, see below
+#define NV_LOGIC_INPUT_A        1   // input value, see below
+#define NV_LOGIC_INPUT_B        2   // input value, see below; 0 = none, the result is input A
+#define NV_LOGIC_TRUE_LED       3   // LED 1..NUM_LEDS lit while the result is true, 0 = none
+#define NV_LOGIC_FALSE_LED      4   // LED 1..NUM_LEDS lit while the result is false, 0 = none
+// NV_LOGIC_FUNCTION bits
+#define LOGIC_FN_MASK           0x03
+#define LOGIC_FN_NONE           0   // rule unused
+#define LOGIC_FN_AND            1
+#define LOGIC_FN_OR             2
+#define LOGIC_FN_XOR            3
+#define LOGIC_INVERT_A          0x04
+#define LOGIC_INVERT_B          0x08
+#define LOGIC_FN_RESERVED       0xF0    // must be 0, so blank EEPROM (0xFF) reads as unused
+// Input values: 0 = none (false), 1..NUM_LEDS = that LED,
+// LOGIC_INPUT_RULE+n = the result of rule n, so rules can be chained. A rule
+// should only use the results of earlier rules: a later rule's result is the
+// one from the previous evaluation.
+#define LOGIC_INPUT_RULE        64
+
+#if NUM_LOGIC_RULES > 0
+#if NUM_LEDS > LOGIC_INPUT_RULE
+#error LED logic: LED numbers overlap the rule result input values
+#endif
+#if PARAM_NUM_NV != (NV_LOGIC + NV_LOGIC_SIZE*NUM_LOGIC_RULES - 1)
+#error LED logic: PARAM_NUM_NV does not match the logic rule NVs
+#endif
+#endif
+

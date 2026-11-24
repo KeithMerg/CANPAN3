@@ -48,6 +48,9 @@
 
 //forward references
 void setLedStateNoSave(uint8_t ledNo, enum canpan3LedState state);
+#if NUM_LOGIC_RULES > 0
+static void initLogic(void);
+#endif
 
 static enum canpan3LedState ledStates[NUM_LEDS];
 static uint8_t flashToggle;
@@ -70,6 +73,10 @@ void initLeds(void) {
         }
     }
     flashToggle = 0;
+#if NUM_LOGIC_RULES > 0
+    initLogic();
+    evaluateLogic();
+#endif
 }
 
 /**
@@ -135,5 +142,118 @@ void doFlash(void) {
     }
     flashToggle = !flashToggle;
 }
+
+#if NUM_LOGIC_RULES > 0
+// LED logic rules. The NV layout is described in canpan3Nv.h.
+
+static uint8_t ruleResult[NUM_LOGIC_RULES];
+
+/**
+ * Clear any logic rule whose function NV has its reserved bits set. That is
+ * blank EEPROM (0xFF) on a module upgraded from firmware with fewer NVs. Such a
+ * rule is already treated as unused, but a configuration tool that changes only
+ * the function bits would keep the reserved bits, so APP_nvValidate() would
+ * refuse every change to it. Done once, at power-up.
+ */
+static void initLogic(void) {
+    uint8_t rule;
+    uint8_t nv;
+    uint8_t i;
+
+    nv = NV_LOGIC;
+    for (rule=0; rule<NUM_LOGIC_RULES; rule++, nv += NV_LOGIC_SIZE) {
+        if ((uint8_t)getNV(nv + NV_LOGIC_FUNCTION) & LOGIC_FN_RESERVED) {
+            for (i=0; i<NV_LOGIC_SIZE; i++) {
+                saveNV(nv + i, 0);
+            }
+        }
+    }
+}
+
+/**
+ * Get the value of a logic rule input.
+ * @param input 0 none, 1..NUM_LEDS an LED, LOGIC_INPUT_RULE+n the result of rule n
+ * @return 1 if the LED is on or flashing or the rule result is true, otherwise 0
+ */
+static uint8_t logicInput(uint8_t input) {
+    if ((input >= 1) && (input <= NUM_LEDS)) {
+        return (ledStates[input-1] != CANPANLED_OFF);
+    }
+    if ((input > LOGIC_INPUT_RULE) && (input <= LOGIC_INPUT_RULE + NUM_LOGIC_RULES)) {
+        return ruleResult[input - LOGIC_INPUT_RULE - 1];
+    }
+    return 0;
+}
+
+/**
+ * Drive a logic rule output LED. The state is not saved in EEPROM: it is
+ * worked out again from the inputs at power-up.
+ * @param led 0 none, 1..NUM_LEDS the LED
+ * @param on the required state
+ */
+static void logicOutput(uint8_t led, uint8_t on) {
+    enum canpan3LedState state;
+
+    if ((led >= 1) && (led <= NUM_LEDS)) {
+        led--;
+        state = on ? CANPANLED_ON : CANPANLED_OFF;
+        if (ledStates[led] != state) {
+            setLedStateNoSave(led, state);
+        }
+    }
+}
+
+/**
+ * Work out every LED logic rule, in order, and set its output LEDs.
+ * Called after each consumed event, at power-up and when a rule NV changes.
+ */
+void evaluateLogic(void) {
+    uint8_t rule;
+    uint8_t nv;
+    uint8_t fn;
+    uint8_t inputB;
+    uint8_t a;
+    uint8_t b;
+    uint8_t result;
+
+    nv = NV_LOGIC;
+    for (rule=0; rule<NUM_LOGIC_RULES; rule++, nv += NV_LOGIC_SIZE) {
+        fn = (uint8_t)getNV(nv + NV_LOGIC_FUNCTION);
+        if ((fn & LOGIC_FN_RESERVED) || ((fn & LOGIC_FN_MASK) == LOGIC_FN_NONE)) {
+            // rule unused (or blank EEPROM)
+            ruleResult[rule] = 0;
+            continue;
+        }
+        a = logicInput((uint8_t)getNV(nv + NV_LOGIC_INPUT_A));
+        if (fn & LOGIC_INVERT_A) {
+            a = !a;
+        }
+        inputB = (uint8_t)getNV(nv + NV_LOGIC_INPUT_B);
+        if (inputB == 0) {
+            // single input: the result is input A
+            result = a;
+        } else {
+            b = logicInput(inputB);
+            if (fn & LOGIC_INVERT_B) {
+                b = !b;
+            }
+            switch (fn & LOGIC_FN_MASK) {
+                case LOGIC_FN_AND:
+                    result = a && b;
+                    break;
+                case LOGIC_FN_OR:
+                    result = a || b;
+                    break;
+                default:    // LOGIC_FN_XOR
+                    result = (a != b);
+                    break;
+            }
+        }
+        ruleResult[rule] = result;
+        logicOutput((uint8_t)getNV(nv + NV_LOGIC_TRUE_LED), result);
+        logicOutput((uint8_t)getNV(nv + NV_LOGIC_FALSE_LED), !result);
+    }
+}
+#endif  // NUM_LOGIC_RULES > 0
 
 #endif  // NUM_LEDS > 0
