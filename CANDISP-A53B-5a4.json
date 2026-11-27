@@ -495,6 +495,972 @@
           "max": 31
         }
       ]
+    },
+    {
+      "displayTitle": "LED Groups",
+      "type": "NodeVariableTabs",
+      "tabPanels": [
+        {
+          "displayTitle": "Group 1",
+          "displaySubTitle": "Inputs ${channel1} and ${channel2}, lit when true ${channel3}, lit when false ${channel4}",
+          "items": [
+            {
+              "displayTitle": "Function",
+              "type": "NodeVariableSelect",
+              "nodeVariableIndex": 68,
+              "bitMask": 3,
+              "options": [
+                {
+                  "value": 0,
+                  "label": "Unused (all four LEDs follow events)"
+                },
+                {
+                  "value": 1,
+                  "label": "${channel1} AND ${channel2}"
+                },
+                {
+                  "value": 2,
+                  "label": "${channel1} OR ${channel2}"
+                },
+                {
+                  "value": 3,
+                  "label": "${channel1} XOR ${channel2}"
+                }
+              ]
+            },
+            {
+              "displayTitle": "Invert ${channel1}",
+              "type": "NodeVariableBitSingle",
+              "nodeVariableIndex": 68,
+              "bit": 2,
+              "visibilityLogic": {
+                "nv": 68,
+                "greaterThan": 0
+              }
+            },
+            {
+              "displayTitle": "Invert ${channel2}",
+              "type": "NodeVariableBitSingle",
+              "nodeVariableIndex": 68,
+              "bit": 3,
+              "visibilityLogic": {
+                "nv": 68,
+                "greaterThan": 0
+              }
+            },
+            {
+              "displayTitle": "Leave ${channel4} to events (no false LED)",
+              "type": "NodeVariableBitSingle",
+              "nodeVariableIndex": 68,
+              "bit": 4,
+              "visibilityLogic": {
+                "nv": 68,
+                "greaterThan": 0
+              }
+            }
+          ]
+        },
+        {
+          "displayTitle": "Group 2",
+          "displaySubTitle": "Inputs ${channel5} and ${channel6}, lit when true ${channel7}, lit when false ${channel8}",
+          "items": [
+            {
+              "displayTitle": "Function",
+              "type": "NodeVariableSelect",
+              "nodeVariableIndex": 69,
+              "bitMask": 3,
+              "options": [
+                {
+                  "value": 0,
+                  "label": "Unused (all four LEDs follow events)"
+                },
+                {
+                  "value": 1,
+                  "label": "${channel5} AND ${channel6}"
+                },
+                {
+                  "value": 2,
+                  "label": "${channel5} OR ${channel6}"
+                },
+                {
+                  "value": 3,
+                  "label": "${channel5} XOR ${channel6}"
+                }
+              ]
+            },
+            {
+              "displayTitle": "Invert ${channel5}",
+              "type": "NodeVariableBitSingle",
+              "nodeVariableIndex": 69,
+              "bit": 2,
+              "visibilityLogic": {
+                "nv": 69,
+                "greaterThan": 0
+              }
+            },
+            {
+              "displayTitle": "Invert ${channel6}",
+              "type": "NodeVariableBitSingle",
+              "nodeVariableIndex": 69,
+              "bit": 3,
+              "visibilityLogic": {
+                "nv": 69,
+                "greaterThan": 0
+              }
+            },
+            {
+              "displayTitle": "Leave ${channel8} to events (no false LED)",
+              "type": "NodeVariableBitSingle",
+              "nodeVariableIndex": 69,
+              "bit": 4,
+              "visibilityLogic": {
+                "nv": 69,
+                "greaterThan": 0
+              }
+            }
+          ]
+        },
+        {
+          "displayTitle": "Group 3",
+          "displaySubTitle": "Inputs ${channel9} and ${channel10}, lit when true ${channel11}, lit when false ${channel12}",
+          "items": [
+            {
+              "displayTitle": "Function",
+              "type": "NodeVariableSelect",
+              "nodeVariableIndex": 70,
+              "bitMask": 3,
+              "options": [
+                {
+                  "value": 0,
+                  "label": "Unused (all four LEDs follow events)"
+                },
+                {
+                  "value": 1,
+                  "label": "${channel9} AND ${channel10}"
+                },
+                {
+                  "value": 2,
+                  "label": "${channel9} OR ${channel10}"
+                },
+                {
+                  "value": 3,
+                  "label": "${channel9} XOR ${channel10}"
+                }
+              ]
+            },
+            {
+              "displayTitle": "Invert ${channel9}",
+              "type": "NodeVariableBitSingle",
+              "nodeVariableIndex": 70,
+              "bit": 2,
+              "visibilityLogic": {
+                "nv": 70,
+                "greaterThan": 0
+              }
+            },
+            {
+              "displayTitle": "Invert ${channel10}",
+              "type": "NodeVariableBitSingle",
+              "nodeVariableIndex": 70,
+              "bit": 3,
+              "visibilityLogic": {
+                "nv": 70,
+                "greaterThan": 0
+              }
+            },
+            {
+              "displayTitle": "Leave ${channel12} to events (no false LED)",
+              "type": "NodeVariableBitSingle",
+              "nodeVariableIndex": 70,
+              "bit": 4,
+              "visibilityLogic": {
+                "nv": 70,
+                "greaterThan": 0
+              }
+            }
+          ]
+        },
+        {
+          "displayTitle": "Group 4",
+          "displaySubTitle": "Inputs ${channel13} and ${channel14}, lit when true ${channel15}, lit when false ${channel16}",
+          "items": [
+            {
+              "displayTitle": "Function",
+              "type": "NodeVariableSelect",
+              "nodeVariableIndex": 71,
+              "bitMask": 3,
+              "options": [
+                {
+                  "value": 0,
+                  "label": "Unused (all four LEDs follow events)"
+                },
+                {
+                  "value": 1,
+                  "label": "${channel13} AND ${channel14}"
+                },
+                {
+                  "value": 2,
+                  "label": "${channel13} OR ${channel14}"
+                },
+                {
+                  "value": 3,
+                  "label": "${channel13} XOR ${channel14}"
+                }
+              ]
+            },
+            {
+              "displayTitle": "Invert ${channel13}",
+              "type": "NodeVariableBitSingle",
+              "nodeVariableIndex": 71,
+              "bit": 2,
+              "visibilityLogic": {
+                "nv": 71,
+                "greaterThan": 0
+              }
+            },
+            {
+              "displayTitle": "Invert ${channel14}",
+              "type": "NodeVariableBitSingle",
+              "nodeVariableIndex": 71,
+              "bit": 3,
+              "visibilityLogic": {
+                "nv": 71,
+                "greaterThan": 0
+              }
+            },
+            {
+              "displayTitle": "Leave ${channel16} to events (no false LED)",
+              "type": "NodeVariableBitSingle",
+              "nodeVariableIndex": 71,
+              "bit": 4,
+              "visibilityLogic": {
+                "nv": 71,
+                "greaterThan": 0
+              }
+            }
+          ]
+        },
+        {
+          "displayTitle": "Group 5",
+          "displaySubTitle": "Inputs ${channel17} and ${channel18}, lit when true ${channel19}, lit when false ${channel20}",
+          "items": [
+            {
+              "displayTitle": "Function",
+              "type": "NodeVariableSelect",
+              "nodeVariableIndex": 72,
+              "bitMask": 3,
+              "options": [
+                {
+                  "value": 0,
+                  "label": "Unused (all four LEDs follow events)"
+                },
+                {
+                  "value": 1,
+                  "label": "${channel17} AND ${channel18}"
+                },
+                {
+                  "value": 2,
+                  "label": "${channel17} OR ${channel18}"
+                },
+                {
+                  "value": 3,
+                  "label": "${channel17} XOR ${channel18}"
+                }
+              ]
+            },
+            {
+              "displayTitle": "Invert ${channel17}",
+              "type": "NodeVariableBitSingle",
+              "nodeVariableIndex": 72,
+              "bit": 2,
+              "visibilityLogic": {
+                "nv": 72,
+                "greaterThan": 0
+              }
+            },
+            {
+              "displayTitle": "Invert ${channel18}",
+              "type": "NodeVariableBitSingle",
+              "nodeVariableIndex": 72,
+              "bit": 3,
+              "visibilityLogic": {
+                "nv": 72,
+                "greaterThan": 0
+              }
+            },
+            {
+              "displayTitle": "Leave ${channel20} to events (no false LED)",
+              "type": "NodeVariableBitSingle",
+              "nodeVariableIndex": 72,
+              "bit": 4,
+              "visibilityLogic": {
+                "nv": 72,
+                "greaterThan": 0
+              }
+            }
+          ]
+        },
+        {
+          "displayTitle": "Group 6",
+          "displaySubTitle": "Inputs ${channel21} and ${channel22}, lit when true ${channel23}, lit when false ${channel24}",
+          "items": [
+            {
+              "displayTitle": "Function",
+              "type": "NodeVariableSelect",
+              "nodeVariableIndex": 73,
+              "bitMask": 3,
+              "options": [
+                {
+                  "value": 0,
+                  "label": "Unused (all four LEDs follow events)"
+                },
+                {
+                  "value": 1,
+                  "label": "${channel21} AND ${channel22}"
+                },
+                {
+                  "value": 2,
+                  "label": "${channel21} OR ${channel22}"
+                },
+                {
+                  "value": 3,
+                  "label": "${channel21} XOR ${channel22}"
+                }
+              ]
+            },
+            {
+              "displayTitle": "Invert ${channel21}",
+              "type": "NodeVariableBitSingle",
+              "nodeVariableIndex": 73,
+              "bit": 2,
+              "visibilityLogic": {
+                "nv": 73,
+                "greaterThan": 0
+              }
+            },
+            {
+              "displayTitle": "Invert ${channel22}",
+              "type": "NodeVariableBitSingle",
+              "nodeVariableIndex": 73,
+              "bit": 3,
+              "visibilityLogic": {
+                "nv": 73,
+                "greaterThan": 0
+              }
+            },
+            {
+              "displayTitle": "Leave ${channel24} to events (no false LED)",
+              "type": "NodeVariableBitSingle",
+              "nodeVariableIndex": 73,
+              "bit": 4,
+              "visibilityLogic": {
+                "nv": 73,
+                "greaterThan": 0
+              }
+            }
+          ]
+        },
+        {
+          "displayTitle": "Group 7",
+          "displaySubTitle": "Inputs ${channel25} and ${channel26}, lit when true ${channel27}, lit when false ${channel28}",
+          "items": [
+            {
+              "displayTitle": "Function",
+              "type": "NodeVariableSelect",
+              "nodeVariableIndex": 74,
+              "bitMask": 3,
+              "options": [
+                {
+                  "value": 0,
+                  "label": "Unused (all four LEDs follow events)"
+                },
+                {
+                  "value": 1,
+                  "label": "${channel25} AND ${channel26}"
+                },
+                {
+                  "value": 2,
+                  "label": "${channel25} OR ${channel26}"
+                },
+                {
+                  "value": 3,
+                  "label": "${channel25} XOR ${channel26}"
+                }
+              ]
+            },
+            {
+              "displayTitle": "Invert ${channel25}",
+              "type": "NodeVariableBitSingle",
+              "nodeVariableIndex": 74,
+              "bit": 2,
+              "visibilityLogic": {
+                "nv": 74,
+                "greaterThan": 0
+              }
+            },
+            {
+              "displayTitle": "Invert ${channel26}",
+              "type": "NodeVariableBitSingle",
+              "nodeVariableIndex": 74,
+              "bit": 3,
+              "visibilityLogic": {
+                "nv": 74,
+                "greaterThan": 0
+              }
+            },
+            {
+              "displayTitle": "Leave ${channel28} to events (no false LED)",
+              "type": "NodeVariableBitSingle",
+              "nodeVariableIndex": 74,
+              "bit": 4,
+              "visibilityLogic": {
+                "nv": 74,
+                "greaterThan": 0
+              }
+            }
+          ]
+        },
+        {
+          "displayTitle": "Group 8",
+          "displaySubTitle": "Inputs ${channel29} and ${channel30}, lit when true ${channel31}, lit when false ${channel32}",
+          "items": [
+            {
+              "displayTitle": "Function",
+              "type": "NodeVariableSelect",
+              "nodeVariableIndex": 75,
+              "bitMask": 3,
+              "options": [
+                {
+                  "value": 0,
+                  "label": "Unused (all four LEDs follow events)"
+                },
+                {
+                  "value": 1,
+                  "label": "${channel29} AND ${channel30}"
+                },
+                {
+                  "value": 2,
+                  "label": "${channel29} OR ${channel30}"
+                },
+                {
+                  "value": 3,
+                  "label": "${channel29} XOR ${channel30}"
+                }
+              ]
+            },
+            {
+              "displayTitle": "Invert ${channel29}",
+              "type": "NodeVariableBitSingle",
+              "nodeVariableIndex": 75,
+              "bit": 2,
+              "visibilityLogic": {
+                "nv": 75,
+                "greaterThan": 0
+              }
+            },
+            {
+              "displayTitle": "Invert ${channel30}",
+              "type": "NodeVariableBitSingle",
+              "nodeVariableIndex": 75,
+              "bit": 3,
+              "visibilityLogic": {
+                "nv": 75,
+                "greaterThan": 0
+              }
+            },
+            {
+              "displayTitle": "Leave ${channel32} to events (no false LED)",
+              "type": "NodeVariableBitSingle",
+              "nodeVariableIndex": 75,
+              "bit": 4,
+              "visibilityLogic": {
+                "nv": 75,
+                "greaterThan": 0
+              }
+            }
+          ]
+        },
+        {
+          "displayTitle": "Group 9",
+          "displaySubTitle": "Inputs ${channel33} and ${channel34}, lit when true ${channel35}, lit when false ${channel36}",
+          "items": [
+            {
+              "displayTitle": "Function",
+              "type": "NodeVariableSelect",
+              "nodeVariableIndex": 76,
+              "bitMask": 3,
+              "options": [
+                {
+                  "value": 0,
+                  "label": "Unused (all four LEDs follow events)"
+                },
+                {
+                  "value": 1,
+                  "label": "${channel33} AND ${channel34}"
+                },
+                {
+                  "value": 2,
+                  "label": "${channel33} OR ${channel34}"
+                },
+                {
+                  "value": 3,
+                  "label": "${channel33} XOR ${channel34}"
+                }
+              ]
+            },
+            {
+              "displayTitle": "Invert ${channel33}",
+              "type": "NodeVariableBitSingle",
+              "nodeVariableIndex": 76,
+              "bit": 2,
+              "visibilityLogic": {
+                "nv": 76,
+                "greaterThan": 0
+              }
+            },
+            {
+              "displayTitle": "Invert ${channel34}",
+              "type": "NodeVariableBitSingle",
+              "nodeVariableIndex": 76,
+              "bit": 3,
+              "visibilityLogic": {
+                "nv": 76,
+                "greaterThan": 0
+              }
+            },
+            {
+              "displayTitle": "Leave ${channel36} to events (no false LED)",
+              "type": "NodeVariableBitSingle",
+              "nodeVariableIndex": 76,
+              "bit": 4,
+              "visibilityLogic": {
+                "nv": 76,
+                "greaterThan": 0
+              }
+            }
+          ]
+        },
+        {
+          "displayTitle": "Group 10",
+          "displaySubTitle": "Inputs ${channel37} and ${channel38}, lit when true ${channel39}, lit when false ${channel40}",
+          "items": [
+            {
+              "displayTitle": "Function",
+              "type": "NodeVariableSelect",
+              "nodeVariableIndex": 77,
+              "bitMask": 3,
+              "options": [
+                {
+                  "value": 0,
+                  "label": "Unused (all four LEDs follow events)"
+                },
+                {
+                  "value": 1,
+                  "label": "${channel37} AND ${channel38}"
+                },
+                {
+                  "value": 2,
+                  "label": "${channel37} OR ${channel38}"
+                },
+                {
+                  "value": 3,
+                  "label": "${channel37} XOR ${channel38}"
+                }
+              ]
+            },
+            {
+              "displayTitle": "Invert ${channel37}",
+              "type": "NodeVariableBitSingle",
+              "nodeVariableIndex": 77,
+              "bit": 2,
+              "visibilityLogic": {
+                "nv": 77,
+                "greaterThan": 0
+              }
+            },
+            {
+              "displayTitle": "Invert ${channel38}",
+              "type": "NodeVariableBitSingle",
+              "nodeVariableIndex": 77,
+              "bit": 3,
+              "visibilityLogic": {
+                "nv": 77,
+                "greaterThan": 0
+              }
+            },
+            {
+              "displayTitle": "Leave ${channel40} to events (no false LED)",
+              "type": "NodeVariableBitSingle",
+              "nodeVariableIndex": 77,
+              "bit": 4,
+              "visibilityLogic": {
+                "nv": 77,
+                "greaterThan": 0
+              }
+            }
+          ]
+        },
+        {
+          "displayTitle": "Group 11",
+          "displaySubTitle": "Inputs ${channel41} and ${channel42}, lit when true ${channel43}, lit when false ${channel44}",
+          "items": [
+            {
+              "displayTitle": "Function",
+              "type": "NodeVariableSelect",
+              "nodeVariableIndex": 78,
+              "bitMask": 3,
+              "options": [
+                {
+                  "value": 0,
+                  "label": "Unused (all four LEDs follow events)"
+                },
+                {
+                  "value": 1,
+                  "label": "${channel41} AND ${channel42}"
+                },
+                {
+                  "value": 2,
+                  "label": "${channel41} OR ${channel42}"
+                },
+                {
+                  "value": 3,
+                  "label": "${channel41} XOR ${channel42}"
+                }
+              ]
+            },
+            {
+              "displayTitle": "Invert ${channel41}",
+              "type": "NodeVariableBitSingle",
+              "nodeVariableIndex": 78,
+              "bit": 2,
+              "visibilityLogic": {
+                "nv": 78,
+                "greaterThan": 0
+              }
+            },
+            {
+              "displayTitle": "Invert ${channel42}",
+              "type": "NodeVariableBitSingle",
+              "nodeVariableIndex": 78,
+              "bit": 3,
+              "visibilityLogic": {
+                "nv": 78,
+                "greaterThan": 0
+              }
+            },
+            {
+              "displayTitle": "Leave ${channel44} to events (no false LED)",
+              "type": "NodeVariableBitSingle",
+              "nodeVariableIndex": 78,
+              "bit": 4,
+              "visibilityLogic": {
+                "nv": 78,
+                "greaterThan": 0
+              }
+            }
+          ]
+        },
+        {
+          "displayTitle": "Group 12",
+          "displaySubTitle": "Inputs ${channel45} and ${channel46}, lit when true ${channel47}, lit when false ${channel48}",
+          "items": [
+            {
+              "displayTitle": "Function",
+              "type": "NodeVariableSelect",
+              "nodeVariableIndex": 79,
+              "bitMask": 3,
+              "options": [
+                {
+                  "value": 0,
+                  "label": "Unused (all four LEDs follow events)"
+                },
+                {
+                  "value": 1,
+                  "label": "${channel45} AND ${channel46}"
+                },
+                {
+                  "value": 2,
+                  "label": "${channel45} OR ${channel46}"
+                },
+                {
+                  "value": 3,
+                  "label": "${channel45} XOR ${channel46}"
+                }
+              ]
+            },
+            {
+              "displayTitle": "Invert ${channel45}",
+              "type": "NodeVariableBitSingle",
+              "nodeVariableIndex": 79,
+              "bit": 2,
+              "visibilityLogic": {
+                "nv": 79,
+                "greaterThan": 0
+              }
+            },
+            {
+              "displayTitle": "Invert ${channel46}",
+              "type": "NodeVariableBitSingle",
+              "nodeVariableIndex": 79,
+              "bit": 3,
+              "visibilityLogic": {
+                "nv": 79,
+                "greaterThan": 0
+              }
+            },
+            {
+              "displayTitle": "Leave ${channel48} to events (no false LED)",
+              "type": "NodeVariableBitSingle",
+              "nodeVariableIndex": 79,
+              "bit": 4,
+              "visibilityLogic": {
+                "nv": 79,
+                "greaterThan": 0
+              }
+            }
+          ]
+        },
+        {
+          "displayTitle": "Group 13",
+          "displaySubTitle": "Inputs ${channel49} and ${channel50}, lit when true ${channel51}, lit when false ${channel52}",
+          "items": [
+            {
+              "displayTitle": "Function",
+              "type": "NodeVariableSelect",
+              "nodeVariableIndex": 80,
+              "bitMask": 3,
+              "options": [
+                {
+                  "value": 0,
+                  "label": "Unused (all four LEDs follow events)"
+                },
+                {
+                  "value": 1,
+                  "label": "${channel49} AND ${channel50}"
+                },
+                {
+                  "value": 2,
+                  "label": "${channel49} OR ${channel50}"
+                },
+                {
+                  "value": 3,
+                  "label": "${channel49} XOR ${channel50}"
+                }
+              ]
+            },
+            {
+              "displayTitle": "Invert ${channel49}",
+              "type": "NodeVariableBitSingle",
+              "nodeVariableIndex": 80,
+              "bit": 2,
+              "visibilityLogic": {
+                "nv": 80,
+                "greaterThan": 0
+              }
+            },
+            {
+              "displayTitle": "Invert ${channel50}",
+              "type": "NodeVariableBitSingle",
+              "nodeVariableIndex": 80,
+              "bit": 3,
+              "visibilityLogic": {
+                "nv": 80,
+                "greaterThan": 0
+              }
+            },
+            {
+              "displayTitle": "Leave ${channel52} to events (no false LED)",
+              "type": "NodeVariableBitSingle",
+              "nodeVariableIndex": 80,
+              "bit": 4,
+              "visibilityLogic": {
+                "nv": 80,
+                "greaterThan": 0
+              }
+            }
+          ]
+        },
+        {
+          "displayTitle": "Group 14",
+          "displaySubTitle": "Inputs ${channel53} and ${channel54}, lit when true ${channel55}, lit when false ${channel56}",
+          "items": [
+            {
+              "displayTitle": "Function",
+              "type": "NodeVariableSelect",
+              "nodeVariableIndex": 81,
+              "bitMask": 3,
+              "options": [
+                {
+                  "value": 0,
+                  "label": "Unused (all four LEDs follow events)"
+                },
+                {
+                  "value": 1,
+                  "label": "${channel53} AND ${channel54}"
+                },
+                {
+                  "value": 2,
+                  "label": "${channel53} OR ${channel54}"
+                },
+                {
+                  "value": 3,
+                  "label": "${channel53} XOR ${channel54}"
+                }
+              ]
+            },
+            {
+              "displayTitle": "Invert ${channel53}",
+              "type": "NodeVariableBitSingle",
+              "nodeVariableIndex": 81,
+              "bit": 2,
+              "visibilityLogic": {
+                "nv": 81,
+                "greaterThan": 0
+              }
+            },
+            {
+              "displayTitle": "Invert ${channel54}",
+              "type": "NodeVariableBitSingle",
+              "nodeVariableIndex": 81,
+              "bit": 3,
+              "visibilityLogic": {
+                "nv": 81,
+                "greaterThan": 0
+              }
+            },
+            {
+              "displayTitle": "Leave ${channel56} to events (no false LED)",
+              "type": "NodeVariableBitSingle",
+              "nodeVariableIndex": 81,
+              "bit": 4,
+              "visibilityLogic": {
+                "nv": 81,
+                "greaterThan": 0
+              }
+            }
+          ]
+        },
+        {
+          "displayTitle": "Group 15",
+          "displaySubTitle": "Inputs ${channel57} and ${channel58}, lit when true ${channel59}, lit when false ${channel60}",
+          "items": [
+            {
+              "displayTitle": "Function",
+              "type": "NodeVariableSelect",
+              "nodeVariableIndex": 82,
+              "bitMask": 3,
+              "options": [
+                {
+                  "value": 0,
+                  "label": "Unused (all four LEDs follow events)"
+                },
+                {
+                  "value": 1,
+                  "label": "${channel57} AND ${channel58}"
+                },
+                {
+                  "value": 2,
+                  "label": "${channel57} OR ${channel58}"
+                },
+                {
+                  "value": 3,
+                  "label": "${channel57} XOR ${channel58}"
+                }
+              ]
+            },
+            {
+              "displayTitle": "Invert ${channel57}",
+              "type": "NodeVariableBitSingle",
+              "nodeVariableIndex": 82,
+              "bit": 2,
+              "visibilityLogic": {
+                "nv": 82,
+                "greaterThan": 0
+              }
+            },
+            {
+              "displayTitle": "Invert ${channel58}",
+              "type": "NodeVariableBitSingle",
+              "nodeVariableIndex": 82,
+              "bit": 3,
+              "visibilityLogic": {
+                "nv": 82,
+                "greaterThan": 0
+              }
+            },
+            {
+              "displayTitle": "Leave ${channel60} to events (no false LED)",
+              "type": "NodeVariableBitSingle",
+              "nodeVariableIndex": 82,
+              "bit": 4,
+              "visibilityLogic": {
+                "nv": 82,
+                "greaterThan": 0
+              }
+            }
+          ]
+        },
+        {
+          "displayTitle": "Group 16",
+          "displaySubTitle": "Inputs ${channel61} and ${channel62}, lit when true ${channel63}, lit when false ${channel64}",
+          "items": [
+            {
+              "displayTitle": "Function",
+              "type": "NodeVariableSelect",
+              "nodeVariableIndex": 83,
+              "bitMask": 3,
+              "options": [
+                {
+                  "value": 0,
+                  "label": "Unused (all four LEDs follow events)"
+                },
+                {
+                  "value": 1,
+                  "label": "${channel61} AND ${channel62}"
+                },
+                {
+                  "value": 2,
+                  "label": "${channel61} OR ${channel62}"
+                },
+                {
+                  "value": 3,
+                  "label": "${channel61} XOR ${channel62}"
+                }
+              ]
+            },
+            {
+              "displayTitle": "Invert ${channel61}",
+              "type": "NodeVariableBitSingle",
+              "nodeVariableIndex": 83,
+              "bit": 2,
+              "visibilityLogic": {
+                "nv": 83,
+                "greaterThan": 0
+              }
+            },
+            {
+              "displayTitle": "Invert ${channel62}",
+              "type": "NodeVariableBitSingle",
+              "nodeVariableIndex": 83,
+              "bit": 3,
+              "visibilityLogic": {
+                "nv": 83,
+                "greaterThan": 0
+              }
+            },
+            {
+              "displayTitle": "Leave ${channel64} to events (no false LED)",
+              "type": "NodeVariableBitSingle",
+              "nodeVariableIndex": 83,
+              "bit": 4,
+              "visibilityLogic": {
+                "nv": 83,
+                "greaterThan": 0
+              }
+            }
+          ]
+        }
+      ]
     }
   ],
   "eventVariables": [

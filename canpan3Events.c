@@ -440,6 +440,10 @@ Processed APP_processConsumedEvent(uint8_t tableIndex, Message *m) {
             }
         }
     }
+#if NUM_LED_GROUPS > 0
+    // the LED logic groups follow the LEDs this event may have changed
+    evaluateLedGroups();
+#endif
 #endif
     return PROCESSED;
 }

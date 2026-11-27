@@ -56,3 +56,37 @@
 // Possible NV_SWITCHMODE bit values
 #define NV_SWITCHMODE_PAIRED 1
 
+// LED logic groups (CANPAN3 and CANDISP)
+//
+// The LEDs are taken in groups of four: LEDs 4k+1 to 4k+4 form group k+1.
+// When a group is in use, its first two LEDs are the inputs, its third LED is
+// lit while a logic function of them is true and its fourth LED while it is
+// false. For example a white "route set" LED when the LEDs for both points of
+// a section show them set, and a red LED otherwise. The inputs are the LEDs'
+// current states (on or flashing counts as true), so the group follows the
+// LEDs whatever events set them.
+//
+// One NV per group, NUM_LED_GROUPS of them (set per board in module.h) from
+// NV_LED_GROUP. All default to 0, which leaves the group's four LEDs to events.
+#define NV_LED_GROUP            (NV_STARTUP_EVENT_DELAY + 1)  // 68 on CANPAN3 and CANDISP
+#define LED_GROUP_SIZE          4
+// NV_LED_GROUP bits
+#define GROUP_FN_MASK           0x03
+#define GROUP_FN_NONE           0   // group unused
+#define GROUP_FN_AND            1
+#define GROUP_FN_OR             2
+#define GROUP_FN_XOR            3
+#define GROUP_INVERT_A          0x04    // invert the first LED before the function
+#define GROUP_INVERT_B          0x08    // invert the second LED before the function
+#define GROUP_NO_FALSE_LED      0x10    // leave the fourth LED to events
+#define GROUP_RESERVED          0xE0    // must be 0, so blank EEPROM (0xFF) reads as unused
+
+#if NUM_LED_GROUPS > 0
+#if NUM_LED_GROUPS*LED_GROUP_SIZE > NUM_LEDS
+#error LED logic: more groups than the LEDs allow
+#endif
+#if PARAM_NUM_NV != (NV_LED_GROUP + NUM_LED_GROUPS - 1)
+#error LED logic: PARAM_NUM_NV does not match the LED group NVs
+#endif
+#endif
+

@@ -42,6 +42,7 @@
 #include "ticktime.h"
 #include "canpan3Nv.h"
 #include "canpan3Outputs.h"
+#include "canpan3Leds.h"
 #include "nv.h"
         
 /**
@@ -60,18 +61,24 @@ uint8_t APP_nvDefault(uint8_t index) {
                 return 0x00;
         if (index == NV_STARTUP_EVENT_DELAY)
             return 0;
+        // the LED group NVs default to 0: every group unused
     }
     return 0;
 }
 
 /**
  * We validate NV values here.
- * We currently only validate the TYPE.
+ * We validate the startup NV and the LED group NVs.
  */
 NvValidation APP_nvValidate(uint8_t index, uint8_t value)  {
     if ((index == NV_STARTUP) &&(value > 3)) {
         return INVALID;
     }
+#if NUM_LED_GROUPS > 0
+    if ((index >= NV_LED_GROUP) && (index < NV_LED_GROUP + NUM_LED_GROUPS) && (value & GROUP_RESERVED)) {
+        return INVALID;
+    }
+#endif
     return VALID;
 }
 
@@ -83,6 +90,12 @@ void APP_nvValueChanged(uint8_t index, uint8_t value, uint8_t oldValue) {
     // keep the LED driver's copy of the brightness NVs up to date
     if ((index >= NV_BRIGHTNESS) && (index < NV_BRIGHTNESS + NUM_LEDS)) {
         updateLedBrightness((uint8_t)(index - NV_BRIGHTNESS), value);
+    }
+#endif
+#if NUM_LED_GROUPS > 0
+    // show the effect of a changed LED group straight away
+    if ((index >= NV_LED_GROUP) && (index < NV_LED_GROUP + NUM_LED_GROUPS)) {
+        evaluateLedGroups();
     }
 #endif
 }

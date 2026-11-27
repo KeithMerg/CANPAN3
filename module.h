@@ -83,7 +83,8 @@
 #define PARAM_MODULE_ID     MTYP_CANPAN
 #define NAME                "PAN    "   // Module name - must be 7 characters
 #define NUM_SERVICES        8
-#define PARAM_NUM_NV        67
+#define NUM_LED_GROUPS      8           // LED logic groups of 4 LEDs, one NV each from NV68 (0 removes the feature)
+#define PARAM_NUM_NV        (67 + NUM_LED_GROUPS)
 #define PARAM_NUM_EV_EVENT  13          // number of EVs per event
 #if defined(_18F66K80_FAMILY_)
     #define APP_setPortDirections(){ANCON0=ANCON1=0; TRISBbits.TRISB6=TRISBbits.TRISB7=0,TRISAbits.TRISA2=1;}
@@ -136,7 +137,8 @@
 #define PARAM_MODULE_ID     MTYP_CANDISP
 #define NAME                "DISP   "   // Module name - must be 7 characters
 #define NUM_SERVICES        6           // no producer or COE service
-#define PARAM_NUM_NV        67
+#define NUM_LED_GROUPS      16          // LED logic groups of 4 LEDs, one NV each from NV68 (0 removes the feature)
+#define PARAM_NUM_NV        (67 + NUM_LED_GROUPS)
 #define PARAM_NUM_EV_EVENT  21          // number of EVs per event
 #if defined(_18F66K80_FAMILY_)
     #define APP_setPortDirections(){ANCON0=ANCON1=0; TRISBbits.TRISB6=TRISBbits.TRISB7=0,TRISAbits.TRISA2=1;}
@@ -189,6 +191,7 @@
 #define PARAM_MODULE_ID     MTYP_CANSCAN
 #define NAME                "SCAN   "   // Module name - must be 7 characters
 #define NUM_SERVICES        8
+#define NUM_LED_GROUPS      0           // no LEDs, so no LED logic groups
 #define PARAM_NUM_NV        131
 #define PARAM_NUM_EV_EVENT  4           // number of EVs per event
 #if defined(_18F66K80_FAMILY_)
